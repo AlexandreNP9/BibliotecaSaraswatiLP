@@ -4,12 +4,12 @@
     <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
     <class>Entidades.Usuario</class>
     <class>Entidades.UsuarioExecutaObra</class>
-    <class>Entidades.Status</class>
-    <class>Entidades.TipoObra</class>
-    <class>Entidades.Autor</class>
     <class>Entidades.ModuloSistema</class>
-    <class>Entidades.Obra</class>
     <class>Entidades.TipoUsuario</class>
+    <class>Entidades.Obra</class>
+    <class>Entidades.TipoObra</class>
+    <class>Entidades.Status</class>
+    <class>Entidades.Autor</class>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/BibliotecaSaraswati?zeroDateTimeBehavior=convertToNull"/>
       <property name="javax.persistence.jdbc.user" value="root"/>

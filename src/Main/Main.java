@@ -5,7 +5,7 @@
  */
 package Main;
 
-import GUIs.CRUDTipoObra;
+import GUIs.GUIMenuPrincipal;
 
 
 /**
@@ -18,8 +18,8 @@ public class Main {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        new CRUDTipoObra();
-        //new GUIMenuPrincipal();
+        //new CRUDTipoObra();
+        new GUIMenuPrincipal();
 
     }
     

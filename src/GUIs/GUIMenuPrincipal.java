@@ -38,7 +38,8 @@ public class GUIMenuPrincipal extends JFrame {
     
     public GUIMenuPrincipal() {
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-        
+        setSize(800,600);
+        setLocationRelativeTo(null);
         setTitle("Biblioteca Saraswati");
 
         cp = getContentPane();
@@ -68,12 +69,12 @@ public class GUIMenuPrincipal extends JFrame {
                 CRUDAutor crudAutor1 = new CRUDAutor();
             }
         });
-        crudObra.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                CRUDObra crudObra1 = new CRUDObra();
-            }
-        });
+//        crudObra.addActionListener(new ActionListener() {
+//            @Override
+//            public void actionPerformed(ActionEvent e) {
+//                CRUDObra crudObra1 = new CRUDObra();
+//            }
+//        });
         
         crudObraHasAutor.addActionListener(new ActionListener() {
             @Override

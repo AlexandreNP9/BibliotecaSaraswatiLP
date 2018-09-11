@@ -2,6 +2,8 @@ package GUIs;
 
 import DAOs.DAOTipoObra;
 import Entidades.TipoObra;
+import static com.sun.glass.ui.Cursor.setVisible;
+import static com.sun.java.accessibility.util.AWTEventMonitor.addWindowListener;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Container;
@@ -12,10 +14,9 @@ import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.io.File;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JFrame;
+import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -23,7 +24,7 @@ import javax.swing.JTextField;
 import javax.swing.JToolBar;
 import javax.swing.WindowConstants;
 
-public class CRUDTipoObra extends JFrame {
+public class CRUDTipoObra extends JDialog {
 
     ImageIcon iconeCreate = new ImageIcon(getClass().getResource("/icones/create.png"));
     ImageIcon iconeRetrieve = new ImageIcon(getClass().getResource("/icones/retrieve.png"));
@@ -39,12 +40,12 @@ public class CRUDTipoObra extends JFrame {
     JButton btnSave = new JButton(iconeSave);
     JButton btnCancel = new JButton(iconeCancel);
     JButton btnList = new JButton(iconeListar);
-    
+
     JLabel labelId = new JLabel("Id");
     JTextField textFieldId = new JTextField(0);
     JLabel labelNome = new JLabel("Nome");
     JTextField textFieldNome = new JTextField(40);
-    
+
     JPanel aviso = new JPanel();
     JLabel labelAviso = new JLabel("");
     String acao = "";//variavel para facilitar insert e update
@@ -78,11 +79,11 @@ public class CRUDTipoObra extends JFrame {
         textFieldId.setEnabled(id);
         textFieldId.setEditable(id);
         textFieldNome.setEditable(nome);
-        }
+    }
 
     public void zerarAtributos() {
         textFieldNome.setText("");
-        
+
     }
 
     public CRUDTipoObra() {
@@ -119,7 +120,7 @@ public class CRUDTipoObra extends JFrame {
         centro.add(textFieldId);
         centro.add(labelNome);
         centro.add(textFieldNome);
-        
+
         aviso.add(labelAviso);
         aviso.setBackground(Color.yellow);
         cp.add(Toolbar1, BorderLayout.NORTH);
@@ -130,8 +131,6 @@ public class CRUDTipoObra extends JFrame {
         textFieldId.setBackground(Color.GREEN);
         labelAviso.setText("Digite uma placa e clic [Pesquisar]");
         // setLocationRelativeTo(null); // posiciona no centro da tela principal
-        setLocation(300, 200);
-        setVisible(true);//faz a janela ficar visível  
 
 // Listeners
         btnRetrieve.addActionListener(new ActionListener() {
@@ -149,7 +148,7 @@ public class CRUDTipoObra extends JFrame {
                     tipoObra = cl.obter(tipoObra.getIdtipoObra());
                     if (tipoObra != null) { //se encontrou na lista
                         textFieldNome.setText(tipoObra.getNometipoObra());
-                        
+
                         atvBotoes(false, true, true, true);
                         habilitarAtributos(true, false);
                         labelAviso.setText("Encontrou - clic [Pesquisar], [Alterar] ou [Excluir]");
@@ -182,7 +181,7 @@ public class CRUDTipoObra extends JFrame {
                     tipoObra = new TipoObra();
                     tipoObra.setIdtipoObra(Integer.valueOf(textFieldId.getText()));
                     tipoObra.setNometipoObra(textFieldNome.getText());
-                    
+
                     cl.inserir(tipoObra);
                     habilitarAtributos(true, false);
                     mostrarBotoes(true);
@@ -191,7 +190,7 @@ public class CRUDTipoObra extends JFrame {
                 } else {  //acao = update
                     tipoObra.setIdtipoObra(Integer.valueOf(textFieldId.getText()));
                     tipoObra.setNometipoObra(textFieldNome.getText());
-                   
+
                     cl.atualizar(tipoObra);
                     mostrarBotoes(true);
                     habilitarAtributos(true, false);
@@ -230,7 +229,7 @@ public class CRUDTipoObra extends JFrame {
             @Override
             public void actionPerformed(ActionEvent ae) {
                 if (JOptionPane.YES_OPTION == JOptionPane.showConfirmDialog(null,
-                        "Confirma a exclusão do registro <ID = " + tipoObra.getIdtipoObra()+ ">?", "Confirm",
+                        "Confirma a exclusão do registro <ID = " + tipoObra.getIdtipoObra() + ">?", "Confirm",
                         JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE)) {
                     labelAviso.setText("Registro excluído...");
                     cl.remover(tipoObra);
@@ -281,9 +280,12 @@ public class CRUDTipoObra extends JFrame {
             @Override
             public void windowClosing(WindowEvent e) {
                 // Sai do sistema  
-                System.exit(0);
+                dispose();
             }
         });
+        setModal(true);
+
+        setVisible(true);//faz a janela ficar visível  
     }
 
     public static void main(String[] args) {
