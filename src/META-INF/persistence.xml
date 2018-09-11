@@ -3,19 +3,18 @@
   <persistence-unit name="UP" transaction-type="RESOURCE_LOCAL">
     <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
     <class>Entidades.Usuario</class>
-    <class>Entidades.Status</class>
-    <class>Entidades.Obra</class>
-    <class>Entidades.TipoObra</class>
-    <class>Entidades.ModuloSistema</class>
-    <class>Entidades.Autor</class>
-    <class>Entidades.TipoUsuario</class>
     <class>Entidades.UsuarioExecutaObra</class>
+    <class>Entidades.Status</class>
+    <class>Entidades.TipoObra</class>
+    <class>Entidades.Autor</class>
+    <class>Entidades.ModuloSistema</class>
+    <class>Entidades.Obra</class>
+    <class>Entidades.TipoUsuario</class>
     <properties>
-      <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/bibliotecasaraswati?zeroDateTimeBehavior=convertToNull"/>
-      <property name="javax.persistence.jdbc.user" value="radames"/>
+      <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/BibliotecaSaraswati?zeroDateTimeBehavior=convertToNull"/>
+      <property name="javax.persistence.jdbc.user" value="root"/>
       <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>
-      <property name="javax.persistence.jdbc.password" value="lageado"/>
-      <property name="javax.persistence.schema-generation.database.action" value="create"/>
+      <property name="javax.persistence.jdbc.password" value=""/>
     </properties>
   </persistence-unit>
 </persistence>
