@@ -42,12 +42,12 @@ public class CRUDAutor extends JFrame {
     JButton btnSave = new JButton(iconeSave);
     JButton btnCancel = new JButton(iconeCancel);
     JButton btnList = new JButton(iconeListar);
-    
+
     JLabel labelId = new JLabel("Id");
     JTextField textFieldId = new JTextField(0);
-    JLabel labelSobrenome = new JLabel("Sobreome");
+    JLabel labelSobrenome = new JLabel("Sobrenome");
     JTextField textFieldSobrenome = new JTextField(40);
-    JLabel labelNome = new JLabel("Sobreome");
+    JLabel labelNome = new JLabel("Nome");
     JTextField textFieldNome = new JTextField(40);
     JLabel labelNascimento = new JLabel("Data de nascimento");
     JTextField textFieldNascimento = new JTextField(40);
@@ -55,9 +55,9 @@ public class CRUDAutor extends JFrame {
     JTextField textFieldFalecimento = new JTextField(40);
     JLabel labelImagem = new JLabel("Imagem");
     JTextField textFieldImagem = new JTextField(0);
-    
+
     SimpleDateFormat sdf = new SimpleDateFormat("yyyy");
-        
+
     JPanel aviso = new JPanel();
     JLabel labelAviso = new JLabel("");
     String acao = "";//variavel para facilitar insert e update
@@ -181,7 +181,7 @@ public class CRUDAutor extends JFrame {
                         textFieldNascimento.setText(sdf.format(autor.getNascimentoAutor()));
                         textFieldFalecimento.setText(sdf.format(autor.getFalecimentoAutor()));
                         textFieldImagem.setText(autor.getImagemAutor());
-                        
+
                         atvBotoes(false, true, true, true);
                         habilitarAtributos(true, false, false, false, false, false);
                         labelAviso.setText("Encontrou - clic [Pesquisar], [Alterar] ou [Excluir]");
@@ -226,7 +226,7 @@ public class CRUDAutor extends JFrame {
                         Logger.getLogger(CRUDAutor.class.getName()).log(Level.SEVERE, null, ex);
                     }
                     autor.setImagemAutor(textFieldImagem.getText());
-                    
+
                     cl.inserir(autor);
                     habilitarAtributos(true, false, false, false, false, false);
                     mostrarBotoes(true);
@@ -247,7 +247,7 @@ public class CRUDAutor extends JFrame {
                         Logger.getLogger(CRUDAutor.class.getName()).log(Level.SEVERE, null, ex);
                     }
                     autor.setImagemAutor(textFieldImagem.getText());
-                    
+
                     cl.atualizar(autor);
                     mostrarBotoes(true);
                     habilitarAtributos(true, false, false, false, false, false);
@@ -273,7 +273,6 @@ public class CRUDAutor extends JFrame {
                 ListagemAutor listagemAutor = new ListagemAutor(cl.list());
 //               ListagemAutor guilistagemAutor = new ListagemAutor(cl.list());
 
-                
             }
         });
         btnUpdate.addActionListener(new ActionListener() {
@@ -289,7 +288,7 @@ public class CRUDAutor extends JFrame {
             @Override
             public void actionPerformed(ActionEvent ae) {
                 if (JOptionPane.YES_OPTION == JOptionPane.showConfirmDialog(null,
-                        "Confirma a exclusão do registro <ID = " + autor.getIdAutor()+ ">?", "Confirm",
+                        "Confirma a exclusão do registro <ID = " + autor.getIdAutor() + ">?", "Confirm",
                         JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE)) {
                     labelAviso.setText("Registro excluído...");
                     cl.remover(autor);
@@ -379,7 +378,7 @@ public class CRUDAutor extends JFrame {
                 textFieldImagem.setBackground(Color.white);
             }
         });
-        
+
         setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE); //antes de sair do sistema, grava os dados da lista em disco
         addWindowListener(new WindowAdapter() {
             @Override

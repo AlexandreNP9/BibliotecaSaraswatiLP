@@ -45,7 +45,7 @@ public class DAOTipoObra extends DAOGenerico<TipoObra> {
 
         List<String> ls = new ArrayList<>();
         for (int i = 0; i < lf.size(); i++) {
-            ls.add(lf.get(i).getIdtipoObra()+ "-" + lf.get(i).getNometipoObra());
+            ls.add(lf.get(i).getIdtipoObra() + "-" + lf.get(i).getNometipoObra());
         }
         return ls;
     }

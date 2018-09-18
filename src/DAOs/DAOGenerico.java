@@ -38,7 +38,7 @@ public class DAOGenerico<T> {
     public T obter(Integer id) {
         return (T) em.find(clazz, id);
     }
-    
+
     public T obter(String id) {
         return (T) em.find(clazz, id);
     }

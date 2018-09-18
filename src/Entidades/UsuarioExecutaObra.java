@@ -115,5 +115,5 @@ public class UsuarioExecutaObra implements Serializable {
     public String toString() {
         return "Entidades.UsuarioExecutaObra[ usuarioExecutaObraPK=" + usuarioExecutaObraPK + " ]";
     }
-    
+
 }

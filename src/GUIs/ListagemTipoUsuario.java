@@ -21,6 +21,7 @@ import javax.swing.JToolBar;
  * @author alexa
  */
 public class ListagemTipoUsuario extends JDialog {
+
     JPanel painelTa = new JPanel();
     ScrollPane scroll = new ScrollPane();
     JTextArea ta = new JTextArea();
@@ -37,7 +38,7 @@ public class ListagemTipoUsuario extends JDialog {
         JToolBar toolBar = new JToolBar();
         ta.setText("");
         for (int i = 0; i < texto.size(); i++) {
-            ta.append(texto.get(i).toString()+"\n");
+            ta.append(texto.get(i).toString() + "\n");
         }
 
         scroll.add(ta);

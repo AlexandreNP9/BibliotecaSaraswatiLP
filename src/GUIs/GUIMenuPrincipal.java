@@ -35,10 +35,10 @@ public class GUIMenuPrincipal extends JFrame {
     private JMenuItem crudTipoObra = new JMenuItem("Tipo de Obra");
     private JMenuItem crudTipoUsuario = new JMenuItem("Tipo de Usuário");
     private JMenuItem crudUsuario = new JMenuItem("Usuário");
-    
+
     public GUIMenuPrincipal() {
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-        setSize(800,600);
+        setSize(800, 600);
         setLocationRelativeTo(null);
         setTitle("Biblioteca Saraswati");
 
@@ -62,7 +62,7 @@ public class GUIMenuPrincipal extends JFrame {
         menuCadastros.add(crudTipoObra);
         menuCadastros.add(crudTipoUsuario);
         menuCadastros.add(crudUsuario);
-        
+
         crudAutor.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -75,14 +75,14 @@ public class GUIMenuPrincipal extends JFrame {
 //                CRUDObra crudObra1 = new CRUDObra();
 //            }
 //        });
-        
+
         crudObraHasAutor.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 CRUDObraHasAutor crudObraHasAutor1 = new CRUDObraHasAutor();
             }
         });
-        
+
         crudStatus.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {

@@ -43,7 +43,7 @@ public class CRUDStatus extends JFrame {
     JTextField textFieldId = new JTextField(0);
     JLabel labelNome = new JLabel("Nome");
     JTextField textFieldNome = new JTextField(40);
-    
+
     JPanel aviso = new JPanel();
     JLabel labelAviso = new JLabel("");
     String acao = "";//variavel para facilitar insert e update
@@ -77,12 +77,12 @@ public class CRUDStatus extends JFrame {
         textFieldId.setEnabled(id);
         textFieldId.setEditable(id);
         textFieldNome.setEditable(nome);
-       
+
     }
 
     public void zerarAtributos() {
         textFieldNome.setText("");
-        
+
     }
 
     public CRUDStatus() {
@@ -119,7 +119,7 @@ public class CRUDStatus extends JFrame {
         centro.add(textFieldId);
         centro.add(labelNome);
         centro.add(textFieldNome);
-        
+
         aviso.add(labelAviso);
         aviso.setBackground(Color.yellow);
         cp.add(Toolbar1, BorderLayout.NORTH);
@@ -149,7 +149,7 @@ public class CRUDStatus extends JFrame {
                     status = cl.obter(status.getIdStatus());
                     if (status != null) { //se encontrou na lista
                         textFieldNome.setText(status.getNomeStatus());
-                        
+
                         atvBotoes(false, true, true, true);
                         habilitarAtributos(true, false);
                         labelAviso.setText("Encontrou - clic [Pesquisar], [Alterar] ou [Excluir]");
@@ -182,7 +182,7 @@ public class CRUDStatus extends JFrame {
                     status = new Status();
                     status.setIdStatus(Integer.valueOf(textFieldId.getText()));
                     status.setNomeStatus(textFieldNome.getText());
-                    
+
                     cl.inserir(status);
                     habilitarAtributos(true, false);
                     mostrarBotoes(true);
@@ -191,7 +191,7 @@ public class CRUDStatus extends JFrame {
                 } else {  //acao = update
                     status.setIdStatus(Integer.valueOf(textFieldId.getText()));
                     status.setNomeStatus(textFieldNome.getText());
-                    
+
                     cl.atualizar(status);
                     mostrarBotoes(true);
                     habilitarAtributos(true, false);
@@ -230,7 +230,7 @@ public class CRUDStatus extends JFrame {
             @Override
             public void actionPerformed(ActionEvent ae) {
                 if (JOptionPane.YES_OPTION == JOptionPane.showConfirmDialog(null,
-                        "Confirma a exclusão do registro <ID = " + status.getIdStatus()+ ">?", "Confirm",
+                        "Confirma a exclusão do registro <ID = " + status.getIdStatus() + ">?", "Confirm",
                         JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE)) {
                     labelAviso.setText("Registro excluído...");
                     cl.remover(status);
@@ -276,12 +276,12 @@ public class CRUDStatus extends JFrame {
                 textFieldNome.setBackground(Color.white);
             }
         });
-        
+
         setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE); //antes de sair do sistema, grava os dados da lista em disco
         addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
-                
+
                 // Sai do sistema  
                 System.exit(0);
             }

@@ -76,5 +76,5 @@ public class UsuarioExecutaObraPK implements Serializable {
     public String toString() {
         return "Entidades.UsuarioExecutaObraPK[ usuarioIdUsuario=" + usuarioIdUsuario + ", obraIdObra=" + obraIdObra + " ]";
     }
-    
+
 }

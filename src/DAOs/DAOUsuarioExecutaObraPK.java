@@ -6,7 +6,6 @@ import java.util.List;
 import Entidades.Usuario;
 import Entidades.Obra;
 
-
 public class DAOUsuarioExecutaObraPK extends DAOGenerico<UsuarioExecutaObraPK> {
 
     public DAOUsuarioExecutaObraPK() {
@@ -48,7 +47,7 @@ public class DAOUsuarioExecutaObraPK extends DAOGenerico<UsuarioExecutaObraPK> {
 
         List<String> ls = new ArrayList<>();
         for (int i = 0; i < lf.size(); i++) {
-            ls.add(lf.get(i).getUsuarioIdUsuario()+ "-" + lf.get(i).getObraIdObra());
+            ls.add(lf.get(i).getUsuarioIdUsuario() + "-" + lf.get(i).getObraIdObra());
         }
         return ls;
     }

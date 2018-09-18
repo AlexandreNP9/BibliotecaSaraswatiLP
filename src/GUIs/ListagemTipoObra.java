@@ -22,6 +22,7 @@ import static javax.swing.WindowConstants.DISPOSE_ON_CLOSE;
  * @author alexa
  */
 public class ListagemTipoObra extends JDialog {
+
     JPanel painelTa = new JPanel();
     ScrollPane scroll = new ScrollPane();
     JTextArea ta = new JTextArea();
@@ -38,7 +39,7 @@ public class ListagemTipoObra extends JDialog {
         JToolBar toolBar = new JToolBar();
         ta.setText("");
         for (int i = 0; i < texto.size(); i++) {
-            ta.append(texto.get(i).toString()+"\n");
+            ta.append(texto.get(i).toString() + "\n");
         }
 
         scroll.add(ta);
