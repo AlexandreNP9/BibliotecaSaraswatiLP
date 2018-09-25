@@ -28,6 +28,7 @@ public class GUIMenuPrincipal extends JFrame {
     private JMenuBar menuBar = new JMenuBar();
     private JMenu menuCadastros = new JMenu("Cadastros");
 //------------------------ Itens do Menu ----------------------------
+    private JMenuItem crudModulo = new JMenuItem("Módulo do Sistema");
     private JMenuItem crudAutor = new JMenuItem("Autor");
     private JMenuItem crudObra = new JMenuItem("Obra");
     private JMenuItem crudObraHasAutor = new JMenuItem("Obra Has Autor");
@@ -55,20 +56,29 @@ public class GUIMenuPrincipal extends JFrame {
 
         setJMenuBar(menuBar);
         menuBar.add(menuCadastros);
+        menuCadastros.add(crudModulo);
+        menuCadastros.add(crudTipoObra);
+        menuCadastros.add(crudStatus);
         menuCadastros.add(crudAutor);
         menuCadastros.add(crudObra);
-        menuCadastros.add(crudObraHasAutor);
-        menuCadastros.add(crudStatus);
-        menuCadastros.add(crudTipoObra);
-        menuCadastros.add(crudTipoUsuario);
         menuCadastros.add(crudUsuario);
-
+        menuCadastros.add(crudObraHasAutor);
+        menuCadastros.add(crudTipoUsuario);
+        
+        crudModulo.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                CRUDModuloSistema crudModuloSistema = new CRUDModuloSistema();
+            }
+        });
+        
         crudAutor.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 CRUDAutor crudAutor1 = new CRUDAutor();
             }
         });
+        
 //        crudObra.addActionListener(new ActionListener() {
 //            @Override
 //            public void actionPerformed(ActionEvent e) {

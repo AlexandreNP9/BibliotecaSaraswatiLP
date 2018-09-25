@@ -82,12 +82,13 @@ public class CRUDTipoObra extends JDialog {
     }
 
     public void zerarAtributos() {
+        textFieldId.setText("");
         textFieldNome.setText("");
 
     }
 
     public CRUDTipoObra() {
-        setTitle("TipoObra");
+        setTitle("MÓDULO DO SISTEMA");
         setSize(600, 400);//tamanho da janela
         setLayout(new BorderLayout());//informa qual gerenciador de layout será usado
         setBackground(Color.CYAN);//cor do fundo da janela
@@ -130,7 +131,8 @@ public class CRUDTipoObra extends JDialog {
         textFieldId.selectAll();
         textFieldId.setBackground(Color.GREEN);
         labelAviso.setText("Digite uma placa e clic [Pesquisar]");
-        // setLocationRelativeTo(null); // posiciona no centro da tela principal
+        setLocationRelativeTo(null); // posiciona no centro da tela principal
+        
 
 // Listeners
         btnRetrieve.addActionListener(new ActionListener() {
@@ -184,6 +186,7 @@ public class CRUDTipoObra extends JDialog {
 
                     cl.inserir(tipoObra);
                     habilitarAtributos(true, false);
+                    zerarAtributos();
                     mostrarBotoes(true);
                     atvBotoes(false, true, false, false);
                     labelAviso.setText("Registro inserido...");
@@ -195,6 +198,7 @@ public class CRUDTipoObra extends JDialog {
                     mostrarBotoes(true);
                     habilitarAtributos(true, false);
                     atvBotoes(false, true, false, false);
+                    zerarAtributos();
                     labelAviso.setText("Registro atualizado...");
                 }
             }
@@ -222,6 +226,7 @@ public class CRUDTipoObra extends JDialog {
                 acao = "update";
                 mostrarBotoes(false);
                 habilitarAtributos(false, true);
+                atvBotoes(false, true, false, false);
             }
         });
 //---------------------------------------------------------
@@ -229,13 +234,14 @@ public class CRUDTipoObra extends JDialog {
             @Override
             public void actionPerformed(ActionEvent ae) {
                 if (JOptionPane.YES_OPTION == JOptionPane.showConfirmDialog(null,
-                        "Confirma a exclusão do registro <ID = " + tipoObra.getIdtipoObra() + ">?", "Confirm",
+                        "Confirma a exclusão do registro <ID = " + tipoObra.getIdtipoObra()+ ">?", "Confirm",
                         JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE)) {
                     labelAviso.setText("Registro excluído...");
                     cl.remover(tipoObra);
                     zerarAtributos();
                     textFieldId.requestFocus();
                     textFieldId.selectAll();
+                    atvBotoes(false, true, false, false);
                 }
             }
         });

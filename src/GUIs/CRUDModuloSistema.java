@@ -1,7 +1,7 @@
 package GUIs;
 
-import DAOs.DAOAutor;
-import Entidades.Autor;
+import DAOs.DAOModuloSistema;
+import Entidades.ModuloSistema;
 import static com.sun.glass.ui.Cursor.setVisible;
 import static com.sun.java.accessibility.util.AWTEventMonitor.addWindowListener;
 import java.awt.BorderLayout;
@@ -14,10 +14,6 @@ import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -28,7 +24,7 @@ import javax.swing.JTextField;
 import javax.swing.JToolBar;
 import javax.swing.WindowConstants;
 
-public class CRUDAutor extends JDialog {
+public class CRUDModuloSistema extends JDialog {
 
     ImageIcon iconeCreate = new ImageIcon(getClass().getResource("/icones/create.png"));
     ImageIcon iconeRetrieve = new ImageIcon(getClass().getResource("/icones/retrieve.png"));
@@ -47,25 +43,15 @@ public class CRUDAutor extends JDialog {
 
     JLabel labelId = new JLabel("Id");
     JTextField textFieldId = new JTextField(0);
-    JLabel labelSobrenome = new JLabel("Sobrenome");
-    JTextField textFieldSobrenome = new JTextField(40);
     JLabel labelNome = new JLabel("Nome");
     JTextField textFieldNome = new JTextField(40);
-    JLabel labelNascimento = new JLabel("Data de nascimento");
-    JTextField textFieldNascimento = new JTextField(40);
-    JLabel labelFalecimento = new JLabel("Data de falecimento (se aplicável)");
-    JTextField textFieldFalecimento = new JTextField(40);
-    JLabel labelImagem = new JLabel("Imagem");
-    JTextField textFieldImagem = new JTextField(0);
-    
-    SimpleDateFormat sdf = new SimpleDateFormat("yyyy");
 
     JPanel aviso = new JPanel();
     JLabel labelAviso = new JLabel("");
     String acao = "";//variavel para facilitar insert e update
-    DAOAutor cl = new DAOAutor();
-    Autor autor;
-    Autor autorOriginal;
+    DAOModuloSistema cl = new DAOModuloSistema();
+    ModuloSistema moduloSistema;
+    ModuloSistema moduloSistemaOriginal;
 
     private void atvBotoes(boolean c, boolean r, boolean u, boolean d) {
         btnCreate.setEnabled(c);
@@ -85,39 +71,31 @@ public class CRUDAutor extends JDialog {
         btnCancel.setVisible(!visivel);
     }
 
-    private void habilitarAtributos(boolean id, boolean sobrenome, boolean nome, boolean nascimento, boolean falecimento, boolean imagem) {
+    private void habilitarAtributos(boolean id, boolean nome) {
         if (id) {
             textFieldId.requestFocus();
             textFieldId.selectAll();
         }
         textFieldId.setEnabled(id);
         textFieldId.setEditable(id);
-        textFieldSobrenome.setEditable(sobrenome);
         textFieldNome.setEditable(nome);
-        textFieldNascimento.setEditable(nascimento);
-        textFieldFalecimento.setEditable(falecimento);
-        textFieldImagem.setEditable(imagem);
     }
 
     public void zerarAtributos() {
         textFieldId.setText("");
-        textFieldSobrenome.setText("");
         textFieldNome.setText("");
-        textFieldNascimento.setText("");
-        textFieldFalecimento.setText("");
-        textFieldImagem.setText("");
 
     }
 
-    public CRUDAutor() {
-        setTitle("AUTOR");
+    public CRUDModuloSistema() {
+        setTitle("MÓDULO DO SISTEMA");
         setSize(600, 400);//tamanho da janela
         setLayout(new BorderLayout());//informa qual gerenciador de layout será usado
         setBackground(Color.CYAN);//cor do fundo da janela
         Container cp = getContentPane();//container principal, para adicionar nele os outros componentes
 
         atvBotoes(false, true, false, false);
-        habilitarAtributos(true, false, false, false, false, false);
+        habilitarAtributos(true, false);
         btnCreate.setToolTipText("Inserir novo registro");
         btnRetrieve.setToolTipText("Pesquisar por chave");
         btnUpdate.setToolTipText("Alterar");
@@ -138,18 +116,12 @@ public class CRUDAutor extends JDialog {
         btnSave.setVisible(false);
         btnCancel.setVisible(false);  //atributos
         JPanel centro = new JPanel();
+        centro.setLayout(new GridLayout(3, 2));
         centro.add(labelId);
         centro.add(textFieldId);
-        centro.add(labelSobrenome);
-        centro.add(textFieldSobrenome);
         centro.add(labelNome);
         centro.add(textFieldNome);
-        centro.add(labelNascimento);
-        centro.add(textFieldNascimento);
-        centro.add(labelFalecimento);
-        centro.add(textFieldFalecimento);
-        centro.add(labelImagem);
-        centro.add(textFieldImagem);
+
         aviso.add(labelAviso);
         aviso.setBackground(Color.yellow);
         cp.add(Toolbar1, BorderLayout.NORTH);
@@ -166,7 +138,7 @@ public class CRUDAutor extends JDialog {
         btnRetrieve.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent ae) {
-                autor = new Autor();
+                moduloSistema = new ModuloSistema();
                 textFieldId.setText(textFieldId.getText().trim());//caso tenham sido digitados espaços
 
                 if (textFieldId.getText().equals("")) {
@@ -174,19 +146,16 @@ public class CRUDAutor extends JDialog {
                     textFieldId.requestFocus();
                     textFieldId.selectAll();
                 } else {
-                    autor.setIdAutor(Integer.valueOf(textFieldId.getText()));
-                    autor = cl.obter(autor.getIdAutor());
-                    if (autor != null) { //se encontrou na lista
-                        textFieldSobrenome.setText(autor.getSobrenomeAutor());
-                        textFieldNome.setText(autor.getNomeAutor());
-                        textFieldNascimento.setText(sdf.format(autor.getNascimentoAutor()));
-                        textFieldFalecimento.setText(sdf.format(autor.getFalecimentoAutor()));
-                        textFieldImagem.setText(autor.getImagemAutor());
+                    moduloSistema.setIdModuloSistema(Integer.valueOf(textFieldId.getText()));
+                    moduloSistema = cl.obter(moduloSistema.getIdModuloSistema());
+                    if (moduloSistema != null) { //se encontrou na lista
+                        textFieldNome.setText(moduloSistema.getNomeModuloSistema());
+
                         atvBotoes(false, true, true, true);
-                        habilitarAtributos(true, false, false, false, false, false);
+                        habilitarAtributos(true, false);
                         labelAviso.setText("Encontrou - clic [Pesquisar], [Alterar] ou [Excluir]");
                         acao = "encontrou";
-                        autorOriginal = autor;
+                        moduloSistemaOriginal = moduloSistema;
                     } else {
                         atvBotoes(true, true, false, false);
                         zerarAtributos();
@@ -200,8 +169,8 @@ public class CRUDAutor extends JDialog {
             @Override
             public void actionPerformed(ActionEvent ae) {
                 zerarAtributos();
-                habilitarAtributos(false, true, true, true, true, true);
-                textFieldSobrenome.requestFocus();
+                habilitarAtributos(false, true);
+                textFieldNome.requestFocus();
                 mostrarBotoes(false);
                 labelAviso.setText("Preencha os campos e clic [Salvar] ou clic [Cancelar]");
                 acao = "insert";
@@ -211,47 +180,23 @@ public class CRUDAutor extends JDialog {
             @Override
             public void actionPerformed(ActionEvent ae) {
                 if (acao.equals("insert")) {
-                    autor = new Autor();
-                    autor.setIdAutor(Integer.valueOf(textFieldId.getText()));
-                    autor.setSobrenomeAutor(textFieldSobrenome.getText());
-                    autor.setNomeAutor(textFieldNome.getText());
-                    try {
-                        autor.setNascimentoAutor(sdf.parse(textFieldNascimento.getText()));
-                    } catch (ParseException ex) {
-                        Logger.getLogger(CRUDAutor.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                    try {
-                        autor.setFalecimentoAutor(sdf.parse(textFieldFalecimento.getText()));
-                    } catch (ParseException ex) {
-                        Logger.getLogger(CRUDAutor.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                    autor.setImagemAutor(textFieldImagem.getText());
+                    moduloSistema = new ModuloSistema();
+                    moduloSistema.setIdModuloSistema(Integer.valueOf(textFieldId.getText()));
+                    moduloSistema.setNomeModuloSistema(textFieldNome.getText());
 
-                    cl.inserir(autor);
-                    habilitarAtributos(true, false, false, false, false, false);
+                    cl.inserir(moduloSistema);
+                    habilitarAtributos(true, false);
                     zerarAtributos();
                     mostrarBotoes(true);
                     atvBotoes(false, true, false, false);
                     labelAviso.setText("Registro inserido...");
                 } else {  //acao = update
-                    autor.setIdAutor(Integer.valueOf(textFieldId.getText()));
-                    autor.setSobrenomeAutor(textFieldSobrenome.getText());
-                    autor.setNomeAutor(textFieldNome.getText());
-                    try {
-                        autor.setNascimentoAutor(sdf.parse(textFieldNascimento.getText()));
-                    } catch (ParseException ex) {
-                        Logger.getLogger(CRUDAutor.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                    try {
-                        autor.setFalecimentoAutor(sdf.parse(textFieldFalecimento.getText()));
-                    } catch (ParseException ex) {
-                        Logger.getLogger(CRUDAutor.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                    autor.setImagemAutor(textFieldImagem.getText());
+                    moduloSistema.setIdModuloSistema(Integer.valueOf(textFieldId.getText()));
+                    moduloSistema.setNomeModuloSistema(textFieldNome.getText());
 
-                    cl.atualizar(autor);
+                    cl.atualizar(moduloSistema);
                     mostrarBotoes(true);
-                    habilitarAtributos(true, false, false, false, false, false);
+                    habilitarAtributos(true, false);
                     atvBotoes(false, true, false, false);
                     zerarAtributos();
                     labelAviso.setText("Registro atualizado...");
@@ -263,7 +208,7 @@ public class CRUDAutor extends JDialog {
             public void actionPerformed(ActionEvent ae) {
                 zerarAtributos();
                 atvBotoes(false, true, false, false);
-                habilitarAtributos(true, false, false, false, false, false);
+                habilitarAtributos(true, false);
                 mostrarBotoes(true);
             }
         });
@@ -272,7 +217,7 @@ public class CRUDAutor extends JDialog {
             public void actionPerformed(ActionEvent ae) {
 
                 acao = "list";
-                ListagemAutor guiListagem = new ListagemAutor(cl.list());
+                ListagemModuloSistema guiListagem = new ListagemModuloSistema(cl.list());
             }
         });
         btnUpdate.addActionListener(new ActionListener() {
@@ -280,7 +225,7 @@ public class CRUDAutor extends JDialog {
             public void actionPerformed(ActionEvent ae) {
                 acao = "update";
                 mostrarBotoes(false);
-                habilitarAtributos(false, true, true, true, true, true);
+                habilitarAtributos(false, true);
                 atvBotoes(false, true, false, false);
             }
         });
@@ -289,10 +234,10 @@ public class CRUDAutor extends JDialog {
             @Override
             public void actionPerformed(ActionEvent ae) {
                 if (JOptionPane.YES_OPTION == JOptionPane.showConfirmDialog(null,
-                        "Confirma a exclusão do registro <ID = " + autor.getIdAutor()+ ">?", "Confirm",
+                        "Confirma a exclusão do registro <ID = " + moduloSistema.getIdModuloSistema()+ ">?", "Confirm",
                         JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE)) {
                     labelAviso.setText("Registro excluído...");
-                    cl.remover(autor);
+                    cl.remover(moduloSistema);
                     zerarAtributos();
                     textFieldId.requestFocus();
                     textFieldId.selectAll();
@@ -350,6 +295,6 @@ public class CRUDAutor extends JDialog {
     }
 
     public static void main(String[] args) {
-        new CRUDAutor();
+        new CRUDModuloSistema();
     }
 }

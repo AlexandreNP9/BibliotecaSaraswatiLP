@@ -98,5 +98,5 @@ public class TipoObra implements Serializable {
     public String toString() {
         return "Entidades.TipoObra[ idtipoObra=" + idtipoObra + " ]";
     }
-
+    
 }

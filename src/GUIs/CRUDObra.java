@@ -165,11 +165,11 @@
 //        textFieldId.selectAll();
 //        textFieldId.setBackground(Color.GREEN);
 //        labelAviso.setText("Digite uma placa e clic [Pesquisar]");
-//        // setLocationRelativeTo(null); // posiciona no centro da tela principal
+//         setLocationRelativeTo(null); // posiciona no centro da tela principal
 //        setLocation(300, 200);
 //        setVisible(true);//faz a janela ficar visível  
 //
-//// Listeners
+// Listeners
 //        btnRetrieve.addActionListener(new ActionListener() {
 //            @Override
 //            public void actionPerformed(ActionEvent ae) {
@@ -261,7 +261,7 @@
 //                habilitarAtributos(false, true, true, true);
 //            }
 //        });
-////---------------------------------------------------------
+//---------------------------------------------------------
 //        btnDelete.addActionListener(new ActionListener() {
 //            @Override
 //            public void actionPerformed(ActionEvent ae) {
@@ -338,9 +338,9 @@
 //        addWindowListener(new WindowAdapter() {
 //            @Override
 //            public void windowClosing(WindowEvent e) {
-//                //antes de sair, salvar a lista em disco
+//                antes de sair, salvar a lista em disco
 //                cl.salvarArquivo("Obra.dat");
-//                // Sai do sistema  
+//                 Sai do sistema  
 //                System.exit(0);
 //            }
 //        });
@@ -350,3 +350,4 @@
 //        new CRUDObra();
 //    }
 //}
+////

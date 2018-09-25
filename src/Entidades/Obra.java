@@ -171,5 +171,5 @@ public class Obra implements Serializable {
     public String toString() {
         return "Entidades.Obra[ idObra=" + idObra + " ]";
     }
-
+    
 }
