@@ -86,6 +86,10 @@ public class CRUDTipoObra extends JDialog {
         textFieldNome.setText("");
 
     }
+    public void zerarAtributos2() {
+        textFieldNome.setText("");
+        
+    }
 
     public CRUDTipoObra() {
         setTitle("MÓDULO DO SISTEMA");
@@ -158,7 +162,8 @@ public class CRUDTipoObra extends JDialog {
                         tipoObraOriginal = tipoObra;
                     } else {
                         atvBotoes(true, true, false, false);
-                        zerarAtributos();
+                        zerarAtributos2();
+                        
                         labelAviso.setText("Não cadastrado - clic [Inserir] ou digite outra id [Pesquisar]");
                     }
                 }
@@ -168,7 +173,7 @@ public class CRUDTipoObra extends JDialog {
         btnCreate.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent ae) {
-                zerarAtributos();
+                
                 habilitarAtributos(false, true);
                 textFieldNome.requestFocus();
                 mostrarBotoes(false);

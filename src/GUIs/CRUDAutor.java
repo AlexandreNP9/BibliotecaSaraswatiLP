@@ -108,6 +108,15 @@ public class CRUDAutor extends JDialog {
         textFieldImagem.setText("");
 
     }
+    public void zerarAtributos2() {
+        
+        textFieldSobrenome.setText("");
+        textFieldNome.setText("");
+        textFieldNascimento.setText("");
+        textFieldFalecimento.setText("");
+        textFieldImagem.setText("");
+
+    }
 
     public CRUDAutor() {
         setTitle("AUTOR");
@@ -138,6 +147,7 @@ public class CRUDAutor extends JDialog {
         btnSave.setVisible(false);
         btnCancel.setVisible(false);  //atributos
         JPanel centro = new JPanel();
+        centro.setLayout(new GridLayout(7, 2));
         centro.add(labelId);
         centro.add(textFieldId);
         centro.add(labelSobrenome);
@@ -189,7 +199,8 @@ public class CRUDAutor extends JDialog {
                         autorOriginal = autor;
                     } else {
                         atvBotoes(true, true, false, false);
-                        zerarAtributos();
+                        zerarAtributos2();
+                        
                         labelAviso.setText("Não cadastrado - clic [Inserir] ou digite outra id [Pesquisar]");
                     }
                 }
@@ -199,9 +210,11 @@ public class CRUDAutor extends JDialog {
         btnCreate.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent ae) {
-                zerarAtributos();
+                
                 habilitarAtributos(false, true, true, true, true, true);
                 textFieldSobrenome.requestFocus();
+                textFieldFalecimento.setText("0000");
+                textFieldImagem.setText("0");
                 mostrarBotoes(false);
                 labelAviso.setText("Preencha os campos e clic [Salvar] ou clic [Cancelar]");
                 acao = "insert";

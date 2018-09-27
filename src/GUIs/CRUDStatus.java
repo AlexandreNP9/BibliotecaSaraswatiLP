@@ -86,6 +86,10 @@ public class CRUDStatus extends JDialog {
         textFieldNome.setText("");
 
     }
+    public void zerarAtributos2() {
+        textFieldNome.setText("");
+        
+    }
 
     public CRUDStatus() {
         setTitle("MÓDULO DO SISTEMA");
@@ -158,7 +162,8 @@ public class CRUDStatus extends JDialog {
                         statusOriginal = status;
                     } else {
                         atvBotoes(true, true, false, false);
-                        zerarAtributos();
+                        zerarAtributos2();
+                        
                         labelAviso.setText("Não cadastrado - clic [Inserir] ou digite outra id [Pesquisar]");
                     }
                 }
@@ -168,7 +173,7 @@ public class CRUDStatus extends JDialog {
         btnCreate.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent ae) {
-                zerarAtributos();
+                
                 habilitarAtributos(false, true);
                 textFieldNome.requestFocus();
                 mostrarBotoes(false);
