@@ -7,7 +7,6 @@ package Main;
 
 import GUIs.GUIMenuPrincipal;
 
-
 /**
  *
  * @author alexa
@@ -22,5 +21,5 @@ public class Main {
         new GUIMenuPrincipal();
 
     }
-    
+
 }

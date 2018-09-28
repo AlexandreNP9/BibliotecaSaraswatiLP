@@ -16,7 +16,7 @@ import java.util.List;
  * @author alexa
  */
 public class CRUDObraHasAutor {
-    
+
     public static void main(String[] args) {
         Autor autor = new Autor();
         Obra obra = new Obra();
@@ -32,5 +32,4 @@ public class CRUDObraHasAutor {
         daoAutor.atualizar(autor);
     }
 
-    
 }

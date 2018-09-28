@@ -64,28 +64,27 @@ public class GUIMenuPrincipal extends JFrame {
         menuCadastros.add(crudUsuario);
         menuCadastros.add(crudObraHasAutor);
         menuCadastros.add(crudTipoUsuario);
-        
+
         crudModulo.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 CRUDModuloSistema crudModuloSistema = new CRUDModuloSistema();
             }
         });
-        
+
         crudAutor.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 CRUDAutor crudAutor1 = new CRUDAutor();
             }
         });
-        
+
 //        crudObra.addActionListener(new ActionListener() {
 //            @Override
 //            public void actionPerformed(ActionEvent e) {
 //                CRUDObra crudObra1 = new CRUDObra();
 //            }
 //        });
-
         crudObraHasAutor.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {

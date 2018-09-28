@@ -53,11 +53,11 @@ public class CRUDAutor extends JDialog {
     JTextField textFieldNome = new JTextField(40);
     JLabel labelNascimento = new JLabel("Data de nascimento");
     JTextField textFieldNascimento = new JTextField(40);
-    JLabel labelFalecimento = new JLabel("Data de falecimento (se aplicável)");
+    JLabel labelFalecimento = new JLabel("Data de falecimento (se aplicável ou VIVO)");
     JTextField textFieldFalecimento = new JTextField(40);
     JLabel labelImagem = new JLabel("Imagem");
     JTextField textFieldImagem = new JTextField(0);
-    
+
     SimpleDateFormat sdf = new SimpleDateFormat("yyyy");
 
     JPanel aviso = new JPanel();
@@ -108,8 +108,9 @@ public class CRUDAutor extends JDialog {
         textFieldImagem.setText("");
 
     }
+
     public void zerarAtributos2() {
-        
+
         textFieldSobrenome.setText("");
         textFieldNome.setText("");
         textFieldNascimento.setText("");
@@ -170,7 +171,6 @@ public class CRUDAutor extends JDialog {
         textFieldId.setBackground(Color.GREEN);
         labelAviso.setText("Digite uma placa e clic [Pesquisar]");
         setLocationRelativeTo(null); // posiciona no centro da tela principal
-        
 
 // Listeners
         btnRetrieve.addActionListener(new ActionListener() {
@@ -190,7 +190,11 @@ public class CRUDAutor extends JDialog {
                         textFieldSobrenome.setText(autor.getSobrenomeAutor());
                         textFieldNome.setText(autor.getNomeAutor());
                         textFieldNascimento.setText(sdf.format(autor.getNascimentoAutor()));
-                        textFieldFalecimento.setText(sdf.format(autor.getFalecimentoAutor()));
+                        if (sdf.format(autor.getFalecimentoAutor()).equals("9999")) {
+                            textFieldFalecimento.setText("VIVO");
+                        } else {
+                            textFieldFalecimento.setText(sdf.format(autor.getFalecimentoAutor()));
+                        }
                         textFieldImagem.setText(autor.getImagemAutor());
                         atvBotoes(false, true, true, true);
                         habilitarAtributos(true, false, false, false, false, false);
@@ -200,7 +204,7 @@ public class CRUDAutor extends JDialog {
                     } else {
                         atvBotoes(true, true, false, false);
                         zerarAtributos2();
-                        
+
                         labelAviso.setText("Não cadastrado - clic [Inserir] ou digite outra id [Pesquisar]");
                     }
                 }
@@ -210,10 +214,10 @@ public class CRUDAutor extends JDialog {
         btnCreate.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent ae) {
-                
+
                 habilitarAtributos(false, true, true, true, true, true);
                 textFieldSobrenome.requestFocus();
-                textFieldFalecimento.setText("0000");
+                textFieldFalecimento.setText("VIVO");
                 textFieldImagem.setText("0");
                 mostrarBotoes(false);
                 labelAviso.setText("Preencha os campos e clic [Salvar] ou clic [Cancelar]");
@@ -233,13 +237,18 @@ public class CRUDAutor extends JDialog {
                     } catch (ParseException ex) {
                         Logger.getLogger(CRUDAutor.class.getName()).log(Level.SEVERE, null, ex);
                     }
+                    String anoFalecimento;
+                    if (textFieldFalecimento.getText().equals("VIVO")){
+                            anoFalecimento = "9999";
+                        } else {
+                            anoFalecimento = textFieldFalecimento.getText();
+                        }
                     try {
-                        autor.setFalecimentoAutor(sdf.parse(textFieldFalecimento.getText()));
+                        autor.setFalecimentoAutor(sdf.parse(anoFalecimento));
                     } catch (ParseException ex) {
                         Logger.getLogger(CRUDAutor.class.getName()).log(Level.SEVERE, null, ex);
                     }
                     autor.setImagemAutor(textFieldImagem.getText());
-
                     cl.inserir(autor);
                     habilitarAtributos(true, false, false, false, false, false);
                     zerarAtributos();
@@ -255,8 +264,14 @@ public class CRUDAutor extends JDialog {
                     } catch (ParseException ex) {
                         Logger.getLogger(CRUDAutor.class.getName()).log(Level.SEVERE, null, ex);
                     }
+                    String anoFalecimento;
+                    if (textFieldFalecimento.getText().equals("VIVO")){
+                            anoFalecimento = "9999";
+                        } else {
+                            anoFalecimento = textFieldFalecimento.getText();
+                        }
                     try {
-                        autor.setFalecimentoAutor(sdf.parse(textFieldFalecimento.getText()));
+                        autor.setFalecimentoAutor(sdf.parse(anoFalecimento));
                     } catch (ParseException ex) {
                         Logger.getLogger(CRUDAutor.class.getName()).log(Level.SEVERE, null, ex);
                     }
@@ -302,7 +317,7 @@ public class CRUDAutor extends JDialog {
             @Override
             public void actionPerformed(ActionEvent ae) {
                 if (JOptionPane.YES_OPTION == JOptionPane.showConfirmDialog(null,
-                        "Confirma a exclusão do registro <ID = " + autor.getIdAutor()+ ">?", "Confirm",
+                        "Confirma a exclusão do registro <ID = " + autor.getIdAutor() + ">?", "Confirm",
                         JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE)) {
                     labelAviso.setText("Registro excluído...");
                     cl.remover(autor);

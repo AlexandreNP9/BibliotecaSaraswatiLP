@@ -86,9 +86,10 @@ public class CRUDTipoObra extends JDialog {
         textFieldNome.setText("");
 
     }
+
     public void zerarAtributos2() {
         textFieldNome.setText("");
-        
+
     }
 
     public CRUDTipoObra() {
@@ -136,7 +137,6 @@ public class CRUDTipoObra extends JDialog {
         textFieldId.setBackground(Color.GREEN);
         labelAviso.setText("Digite uma placa e clic [Pesquisar]");
         setLocationRelativeTo(null); // posiciona no centro da tela principal
-        
 
 // Listeners
         btnRetrieve.addActionListener(new ActionListener() {
@@ -163,7 +163,7 @@ public class CRUDTipoObra extends JDialog {
                     } else {
                         atvBotoes(true, true, false, false);
                         zerarAtributos2();
-                        
+
                         labelAviso.setText("Não cadastrado - clic [Inserir] ou digite outra id [Pesquisar]");
                     }
                 }
@@ -173,7 +173,7 @@ public class CRUDTipoObra extends JDialog {
         btnCreate.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent ae) {
-                
+
                 habilitarAtributos(false, true);
                 textFieldNome.requestFocus();
                 mostrarBotoes(false);
@@ -239,7 +239,7 @@ public class CRUDTipoObra extends JDialog {
             @Override
             public void actionPerformed(ActionEvent ae) {
                 if (JOptionPane.YES_OPTION == JOptionPane.showConfirmDialog(null,
-                        "Confirma a exclusão do registro <ID = " + tipoObra.getIdtipoObra()+ ">?", "Confirm",
+                        "Confirma a exclusão do registro <ID = " + tipoObra.getIdtipoObra() + ">?", "Confirm",
                         JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE)) {
                     labelAviso.setText("Registro excluído...");
                     cl.remover(tipoObra);
