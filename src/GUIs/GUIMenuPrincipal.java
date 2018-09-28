@@ -29,14 +29,18 @@ public class GUIMenuPrincipal extends JFrame {
     private JMenu menuCadastros = new JMenu("Cadastros");
 //------------------------ Itens do Menu ----------------------------
     private JMenuItem crudModulo = new JMenuItem("Módulo do Sistema");
-    private JMenuItem crudAutor = new JMenuItem("Autor");
-    private JMenuItem crudObra = new JMenuItem("Obra");
-    private JMenuItem crudObraHasAutor = new JMenuItem("Obra Has Autor");
-    private JMenuItem crudStatus = new JMenuItem("Status");
     private JMenuItem crudTipoObra = new JMenuItem("Tipo de Obra");
+    private JMenuItem crudStatus = new JMenuItem("Status");
+    private JMenuItem crudAutor = new JMenuItem("Autor");
     private JMenuItem crudTipoUsuario = new JMenuItem("Tipo de Usuário");
+    
+    private JMenuItem crudObra = new JMenuItem("Obra");
     private JMenuItem crudUsuario = new JMenuItem("Usuário");
-
+    
+    private JMenuItem crudTipoUsuarioHasModuloSistema = new JMenuItem("Tipo Usuario Has Modulo Sistema");
+    private JMenuItem crudObraHasAutor = new JMenuItem("Obra Has Autor");
+    private JMenuItem crudUsuarioExecutaObra = new JMenuItem("Usuario Executa Obra");
+    
     public GUIMenuPrincipal() {
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setSize(800, 600);
@@ -60,11 +64,13 @@ public class GUIMenuPrincipal extends JFrame {
         menuCadastros.add(crudTipoObra);
         menuCadastros.add(crudStatus);
         menuCadastros.add(crudAutor);
+        menuCadastros.add(crudTipoUsuario);
         menuCadastros.add(crudObra);
         menuCadastros.add(crudUsuario);
         menuCadastros.add(crudObraHasAutor);
-        menuCadastros.add(crudTipoUsuario);
-
+        menuCadastros.add(crudTipoUsuarioHasModuloSistema);
+        menuCadastros.add(crudUsuarioExecutaObra);
+        
         crudModulo.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -72,51 +78,69 @@ public class GUIMenuPrincipal extends JFrame {
             }
         });
 
-        crudAutor.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                CRUDAutor crudAutor1 = new CRUDAutor();
-            }
-        });
-
-//        crudObra.addActionListener(new ActionListener() {
-//            @Override
-//            public void actionPerformed(ActionEvent e) {
-//                CRUDObra crudObra1 = new CRUDObra();
-//            }
-//        });
-        crudObraHasAutor.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                CRUDObraHasAutor crudObraHasAutor1 = new CRUDObraHasAutor();
-            }
-        });
-
-        crudStatus.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                CRUDStatus crudStatus1 = new CRUDStatus();
-            }
-        });
         crudTipoObra.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 CRUDTipoObra crudTipoObra1 = new CRUDTipoObra();
             }
         });
+        
+        crudStatus.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                CRUDStatus crudStatus1 = new CRUDStatus();
+            }
+        });
+        
+        crudAutor.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                CRUDAutor crudAutor1 = new CRUDAutor();
+            }
+        });
+        
         crudTipoUsuario.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 CRUDTipoUsuario crudTipoUsuario1 = new CRUDTipoUsuario();
             }
         });
+
+        crudObra.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                CRUDObra crudObra1 = new CRUDObra();
+            }
+        });
+
         crudUsuario.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 CRUDUsuario crudUsuario1 = new CRUDUsuario();
             }
         });
-//        setLocation(p);
+
+        crudObraHasAutor.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                CRUDObraHasAutor crudObraHasAutor1 = new CRUDObraHasAutor();
+            }
+        });
+        
+        crudTipoUsuarioHasModuloSistema.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                CRUDTipoUsuarioHasModuloSistema crudTipoUsuarioHasModuloSistema1 = new CRUDTipoUsuarioHasModuloSistema();
+            }
+        });
+        
+        crudUsuarioExecutaObra.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                CRUDUsuarioExecutaObra crudUsuarioExecutaObra1 = new CRUDUsuarioExecutaObra();
+            }
+        });
+
         setVisible(true);
     } //fecha o contrutor
 
