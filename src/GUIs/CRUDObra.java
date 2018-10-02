@@ -125,7 +125,7 @@ public class CRUDObra extends JDialog {
     }
 
     public CRUDObra() {
-        setTitle("MÓDULO DO SISTEMA");
+        setTitle("OBRA");
         setSize(600, 400);//tamanho da janela
         setLayout(new BorderLayout());//informa qual gerenciador de layout será usado
         setBackground(Color.CYAN);//cor do fundo da janela
@@ -196,6 +196,11 @@ public class CRUDObra extends JDialog {
                     obra = cl.obter(obra.getIdObra());
                     if (obra != null) { //se encontrou na lista
                         textFieldNome.setText(obra.getTituloObra());
+                        textFieldAno.setText(sdf.format(obra.getAnoObra()));
+//                        textFieldTipoObra.setText(obra.getTipoobraidtipoObra());
+                        textFieldQuantidade.setText(String.valueOf(obra.getQuantidadeObra()));
+                        textFieldObservacoes.setText(obra.getObservacoesObra());
+//                        textFieldStatus.setText(obra.getStatusIdStatus());
 
                         atvBotoes(false, true, true, true);
                         habilitarAtributos(true, false, false, false, false, false, false);
@@ -381,6 +386,17 @@ public class CRUDObra extends JDialog {
             @Override
             public void focusLost(FocusEvent e) {
                 textFieldQuantidade.setBackground(Color.white);
+            }
+        });
+        textFieldObservacoes.addFocusListener(new FocusListener() {
+            @Override
+            public void focusGained(FocusEvent e) {
+                textFieldObservacoes.setBackground(Color.GREEN);
+            }
+
+            @Override
+            public void focusLost(FocusEvent e) {
+                textFieldObservacoes.setBackground(Color.white);
             }
         });
         textFieldStatus.addFocusListener(new FocusListener() {

@@ -25,7 +25,7 @@ import javax.persistence.TemporalType;
 
 /**
  *
- * @author a1602896
+ * @author alexa
  */
 @Entity
 @Table(name = "obra")
@@ -40,7 +40,7 @@ public class Obra implements Serializable {
     private String idObra;
     @Basic(optional = false)
     @Column(name = "ano_obra")
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
     private Date anoObra;
     @Basic(optional = false)
     @Column(name = "titulo_obra")

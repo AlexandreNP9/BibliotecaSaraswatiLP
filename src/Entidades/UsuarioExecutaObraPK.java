@@ -12,7 +12,7 @@ import javax.persistence.Embeddable;
 
 /**
  *
- * @author a1602896
+ * @author alexa
  */
 @Embeddable
 public class UsuarioExecutaObraPK implements Serializable {

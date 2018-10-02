@@ -4,6 +4,8 @@ import DAOs.DAOTipoUsuario;
 import DAOs.DAOUsuario;
 import Entidades.TipoUsuario;
 import Entidades.Usuario;
+import static com.sun.glass.ui.Cursor.setVisible;
+import static com.sun.java.accessibility.util.AWTEventMonitor.addWindowListener;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Container;
@@ -16,7 +18,7 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JFrame;
+import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -24,7 +26,7 @@ import javax.swing.JTextField;
 import javax.swing.JToolBar;
 import javax.swing.WindowConstants;
 
-public class CRUDUsuario extends JFrame {
+public class CRUDUsuario extends JDialog {
 
     ImageIcon iconeCreate = new ImageIcon(getClass().getResource("/icones/create.png"));
     ImageIcon iconeRetrieve = new ImageIcon(getClass().getResource("/icones/retrieve.png"));
@@ -43,10 +45,10 @@ public class CRUDUsuario extends JFrame {
 
     JLabel labelId = new JLabel("Id:");
     JTextField textFieldId = new JTextField(0);
-    JLabel labelLogin = new JLabel("Nome de usuário:");
-    JTextField textFieldLogin = new JTextField(40);
+    JLabel labelNome = new JLabel("Nome de usuário:");
+    JTextField textFieldNome = new JTextField(40);
     JLabel labelNomeUsuario = new JLabel("Nome completo:");
-    JTextField textFieldNome = new JTextField(0);
+    JTextField textFieldNomeUsuario = new JTextField(0);
     JLabel labelSenha = new JLabel("Senha:");
     JTextField textFieldSenha = new JTextField(0);
     JLabel labelTipoUsuario = new JLabel("Id tipo usuário");
@@ -80,14 +82,14 @@ public class CRUDUsuario extends JFrame {
         btnCancel.setVisible(!visivel);
     }
 
-    private void habilitarAtributos(boolean id, boolean login, boolean nome, boolean senha, boolean tipo) {
+    private void habilitarAtributos(boolean id, boolean nomeUsuario, boolean nome, boolean senha, boolean tipo) {
         if (id) {
             textFieldId.requestFocus();
             textFieldId.selectAll();
         }
         textFieldId.setEnabled(id);
         textFieldId.setEditable(id);
-        textFieldLogin.setEditable(login);
+        textFieldNomeUsuario.setEditable(nomeUsuario);
         textFieldNome.setEditable(nome);
         textFieldSenha.setEditable(senha);
         textFieldTipoUsuario.setEditable(tipo);
@@ -95,14 +97,20 @@ public class CRUDUsuario extends JFrame {
     }
 
     public void zerarAtributos() {
-        textFieldLogin.setText("");
+        textFieldNomeUsuario.setText("");
+        textFieldNome.setText("");
+        textFieldSenha.setText("");
+        textFieldTipoUsuario.setText("");
+    }
+
+    public void zerarAtributos2() {
         textFieldNome.setText("");
         textFieldSenha.setText("");
         textFieldTipoUsuario.setText("");
     }
 
     public CRUDUsuario() {
-        setTitle("Usuario");
+        setTitle("USUÁRIO");
         setSize(600, 400);//tamanho da janela
         setLayout(new BorderLayout());//informa qual gerenciador de layout será usado
         setBackground(Color.CYAN);//cor do fundo da janela
@@ -133,9 +141,9 @@ public class CRUDUsuario extends JFrame {
         centro.setLayout(new GridLayout(6, 2));
         centro.add(labelId);
         centro.add(textFieldId);
-        centro.add(labelLogin);
-        centro.add(textFieldLogin);
         centro.add(labelNomeUsuario);
+        centro.add(textFieldNomeUsuario);
+        centro.add(labelNome);
         centro.add(textFieldNome);
         centro.add(labelSenha);
         centro.add(textFieldSenha);
@@ -151,9 +159,7 @@ public class CRUDUsuario extends JFrame {
         textFieldId.selectAll();
         textFieldId.setBackground(Color.GREEN);
         labelAviso.setText("Digite uma placa e clic [Pesquisar]");
-        // setLocationRelativeTo(null); // posiciona no centro da tela principal
-        setLocation(300, 200);
-        setVisible(true);//faz a janela ficar visível  
+        setLocationRelativeTo(null);
 
 // Listeners
         btnRetrieve.addActionListener(new ActionListener() {
@@ -167,16 +173,15 @@ public class CRUDUsuario extends JFrame {
                     textFieldId.requestFocus();
                     textFieldId.selectAll();
                 } else {
-                    usuario.setLoginUsuario(textFieldId.getText());
+                    usuario.setIdUsuario(Integer.parseInt(textFieldId.getText()));
                     usuario = cl.obter(Integer.valueOf(textFieldId.getText()));
                     if (usuario != null) { //se encontrou na lista
-                        textFieldLogin.setText(usuario.getLoginUsuario());
+                        textFieldNomeUsuario.setText(usuario.getNomeUsuario());
                         textFieldNome.setText(usuario.getNomeUsuario());
                         textFieldSenha.setText(usuario.getSenhaUsuario());
 
                         TipoUsuario tu = daoTipoUsuario.obter(usuario.getTipoUsuarioIdTipoUsuario().getIdTipoUsuario());
-                        textFieldTipoUsuario.setText(tu.getIdTipoUsuario() + "-"
-                                + tu.getNomeTipoUsuario());
+                        textFieldTipoUsuario.setText(tu.getIdTipoUsuario() + "-" + tu.getNomeTipoUsuario());
 
                         atvBotoes(false, true, true, true);
                         habilitarAtributos(true, false, false, false, false);
@@ -185,7 +190,7 @@ public class CRUDUsuario extends JFrame {
                         usuarioOriginal = usuario;
                     } else {
                         atvBotoes(true, true, false, false);
-                        zerarAtributos();
+                        zerarAtributos2();
                         labelAviso.setText("Não cadastrado - clic [Inserir] ou digite outra id [Pesquisar]");
                     }
                 }
@@ -197,7 +202,7 @@ public class CRUDUsuario extends JFrame {
             public void actionPerformed(ActionEvent ae) {
                 zerarAtributos();
                 habilitarAtributos(false, true, true, true, true);
-                textFieldNome.requestFocus();
+                textFieldNomeUsuario.requestFocus();
                 mostrarBotoes(false);
                 labelAviso.setText("Preencha os campos e clic [Salvar] ou clic [Cancelar]");
                 acao = "insert";
@@ -209,7 +214,7 @@ public class CRUDUsuario extends JFrame {
                 if (acao.equals("insert")) {
                     usuario = new Usuario();
                     usuario.setIdUsuario(Integer.valueOf(textFieldId.getText()));
-                    usuario.setLoginUsuario(textFieldLogin.getText());
+                    usuario.setLoginUsuario(textFieldNomeUsuario.getText());
                     usuario.setNomeUsuario(textFieldNome.getText());
                     usuario.setSenhaUsuario(textFieldSenha.getText());
                     TipoUsuario tu = daoTipoUsuario.obter(Integer.valueOf(textFieldTipoUsuario.getText()));
@@ -217,20 +222,23 @@ public class CRUDUsuario extends JFrame {
 
                     cl.inserir(usuario);
                     habilitarAtributos(true, false, false, false, false);
+                    zerarAtributos();
                     mostrarBotoes(true);
                     atvBotoes(false, true, false, false);
                     labelAviso.setText("Registro inserido...");
                 } else {  //acao = update
                     usuario.setIdUsuario(Integer.valueOf(textFieldId.getText()));
-                    usuario.setLoginUsuario(textFieldLogin.getText());
+                    usuario.setLoginUsuario(textFieldNomeUsuario.getText());
                     usuario.setNomeUsuario(textFieldNome.getText());
                     usuario.setSenhaUsuario(textFieldSenha.getText());
                     TipoUsuario tu = daoTipoUsuario.obter(Integer.valueOf(textFieldTipoUsuario.getText()));
                     usuario.setTipoUsuarioIdTipoUsuario(tu);
+
                     cl.atualizar(usuario);
                     mostrarBotoes(true);
                     habilitarAtributos(true, false, false, false, false);
                     atvBotoes(false, true, false, false);
+                    zerarAtributos();
                     labelAviso.setText("Registro atualizado...");
                 }
             }
@@ -272,6 +280,7 @@ public class CRUDUsuario extends JFrame {
                     zerarAtributos();
                     textFieldId.requestFocus();
                     textFieldId.selectAll();
+                    atvBotoes(false, true, false, false);
                 }
             }
         });
@@ -300,15 +309,15 @@ public class CRUDUsuario extends JFrame {
                 textFieldId.setBackground(Color.white);
             }
         });
-        textFieldLogin.addFocusListener(new FocusListener() {
+        textFieldNomeUsuario.addFocusListener(new FocusListener() {
             @Override
             public void focusGained(FocusEvent e) {
-                textFieldLogin.setBackground(Color.GREEN);
+                textFieldNomeUsuario.setBackground(Color.GREEN);
             }
 
             @Override
             public void focusLost(FocusEvent e) {
-                textFieldLogin.setBackground(Color.white);
+                textFieldNomeUsuario.setBackground(Color.white);
             }
         });
         textFieldNome.addFocusListener(new FocusListener() { //ao receber o foco, fica verde
@@ -350,9 +359,12 @@ public class CRUDUsuario extends JFrame {
             public void windowClosing(WindowEvent e) {
 
                 // Sai do sistema  
-                System.exit(0);
+                dispose();
             }
         });
+        setModal(true);
+
+        setVisible(true);//faz a janela ficar visível  
     }
 
     public static void main(String[] args) {
