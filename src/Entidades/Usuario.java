@@ -21,7 +21,7 @@ import javax.persistence.Table;
 
 /**
  *
- * @author a1602896
+ * @author alexa
  */
 @Entity
 @Table(name = "usuario")
@@ -135,5 +135,5 @@ public class Usuario implements Serializable {
     public String toString() {
         return "Entidades.Usuario[ idUsuario=" + idUsuario + " ]";
     }
-
+    
 }

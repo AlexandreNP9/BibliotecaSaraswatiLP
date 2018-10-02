@@ -19,7 +19,7 @@ import javax.persistence.Table;
 
 /**
  *
- * @author a1602896
+ * @author alexa
  */
 @Entity
 @Table(name = "tipo_obra")
@@ -98,5 +98,5 @@ public class TipoObra implements Serializable {
     public String toString() {
         return "Entidades.TipoObra[ idtipoObra=" + idtipoObra + " ]";
     }
-
+    
 }

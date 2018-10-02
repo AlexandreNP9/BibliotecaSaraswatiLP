@@ -2,6 +2,8 @@ package GUIs;
 
 import DAOs.DAOTipoUsuario;
 import Entidades.TipoUsuario;
+import static com.sun.glass.ui.Cursor.setVisible;
+import static com.sun.java.accessibility.util.AWTEventMonitor.addWindowListener;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Container;
@@ -12,10 +14,9 @@ import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.io.File;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JFrame;
+import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -23,7 +24,7 @@ import javax.swing.JTextField;
 import javax.swing.JToolBar;
 import javax.swing.WindowConstants;
 
-public class CRUDTipoUsuario extends JFrame {
+public class CRUDTipoUsuario extends JDialog {
 
     ImageIcon iconeCreate = new ImageIcon(getClass().getResource("/icones/create.png"));
     ImageIcon iconeRetrieve = new ImageIcon(getClass().getResource("/icones/retrieve.png"));
@@ -39,6 +40,7 @@ public class CRUDTipoUsuario extends JFrame {
     JButton btnSave = new JButton(iconeSave);
     JButton btnCancel = new JButton(iconeCancel);
     JButton btnList = new JButton(iconeListar);
+
     JLabel labelId = new JLabel("Id");
     JTextField textFieldId = new JTextField(0);
     JLabel labelNome = new JLabel("Nome");
@@ -77,16 +79,21 @@ public class CRUDTipoUsuario extends JFrame {
         textFieldId.setEnabled(id);
         textFieldId.setEditable(id);
         textFieldNome.setEditable(nome);
-
     }
 
     public void zerarAtributos() {
+        textFieldId.setText("");
+        textFieldNome.setText("");
+
+    }
+
+    public void zerarAtributos2() {
         textFieldNome.setText("");
 
     }
 
     public CRUDTipoUsuario() {
-        setTitle("TipoUsuario");
+        setTitle("MÓDULO DO SISTEMA");
         setSize(600, 400);//tamanho da janela
         setLayout(new BorderLayout());//informa qual gerenciador de layout será usado
         setBackground(Color.CYAN);//cor do fundo da janela
@@ -129,9 +136,7 @@ public class CRUDTipoUsuario extends JFrame {
         textFieldId.selectAll();
         textFieldId.setBackground(Color.GREEN);
         labelAviso.setText("Digite uma placa e clic [Pesquisar]");
-        // setLocationRelativeTo(null); // posiciona no centro da tela principal
-        setLocation(300, 200);
-        setVisible(true);//faz a janela ficar visível  
+        setLocationRelativeTo(null); // posiciona no centro da tela principal
 
 // Listeners
         btnRetrieve.addActionListener(new ActionListener() {
@@ -157,7 +162,8 @@ public class CRUDTipoUsuario extends JFrame {
                         tipoUsuarioOriginal = tipoUsuario;
                     } else {
                         atvBotoes(true, true, false, false);
-                        zerarAtributos();
+                        zerarAtributos2();
+
                         labelAviso.setText("Não cadastrado - clic [Inserir] ou digite outra id [Pesquisar]");
                     }
                 }
@@ -167,7 +173,7 @@ public class CRUDTipoUsuario extends JFrame {
         btnCreate.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent ae) {
-                zerarAtributos();
+
                 habilitarAtributos(false, true);
                 textFieldNome.requestFocus();
                 mostrarBotoes(false);
@@ -185,6 +191,7 @@ public class CRUDTipoUsuario extends JFrame {
 
                     cl.inserir(tipoUsuario);
                     habilitarAtributos(true, false);
+                    zerarAtributos();
                     mostrarBotoes(true);
                     atvBotoes(false, true, false, false);
                     labelAviso.setText("Registro inserido...");
@@ -196,6 +203,7 @@ public class CRUDTipoUsuario extends JFrame {
                     mostrarBotoes(true);
                     habilitarAtributos(true, false);
                     atvBotoes(false, true, false, false);
+                    zerarAtributos();
                     labelAviso.setText("Registro atualizado...");
                 }
             }
@@ -223,6 +231,7 @@ public class CRUDTipoUsuario extends JFrame {
                 acao = "update";
                 mostrarBotoes(false);
                 habilitarAtributos(false, true);
+                atvBotoes(false, true, false, false);
             }
         });
 //---------------------------------------------------------
@@ -237,6 +246,7 @@ public class CRUDTipoUsuario extends JFrame {
                     zerarAtributos();
                     textFieldId.requestFocus();
                     textFieldId.selectAll();
+                    atvBotoes(false, true, false, false);
                 }
             }
         });
@@ -276,15 +286,17 @@ public class CRUDTipoUsuario extends JFrame {
                 textFieldNome.setBackground(Color.white);
             }
         });
-
         setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE); //antes de sair do sistema, grava os dados da lista em disco
         addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
                 // Sai do sistema  
-                System.exit(0);
+                dispose();
             }
         });
+        setModal(true);
+
+        setVisible(true);//faz a janela ficar visível  
     }
 
     public static void main(String[] args) {

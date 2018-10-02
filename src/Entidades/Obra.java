@@ -25,7 +25,7 @@ import javax.persistence.TemporalType;
 
 /**
  *
- * @author a1602896
+ * @author alexa
  */
 @Entity
 @Table(name = "obra")
@@ -171,5 +171,5 @@ public class Obra implements Serializable {
     public String toString() {
         return "Entidades.Obra[ idObra=" + idObra + " ]";
     }
-
+    
 }

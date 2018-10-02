@@ -106,12 +106,12 @@ public class GUIMenuPrincipal extends JFrame {
             }
         });
 
-        crudObra.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                CRUDObra crudObra1 = new CRUDObra();
-            }
-        });
+//        crudObra.addActionListener(new ActionListener() {
+//            @Override
+//            public void actionPerformed(ActionEvent e) {
+//                CRUDObra crudObra1 = new CRUDObra();
+//            }
+//        });
 
         crudUsuario.addActionListener(new ActionListener() {
             @Override
