@@ -93,7 +93,7 @@ public class CRUDStatus extends JDialog {
     }
 
     public CRUDStatus() {
-        setTitle("MÓDULO DO SISTEMA");
+        setTitle("STATUS");
         setSize(600, 400);//tamanho da janela
         setLayout(new BorderLayout());//informa qual gerenciador de layout será usado
         setBackground(Color.CYAN);//cor do fundo da janela

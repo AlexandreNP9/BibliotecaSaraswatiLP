@@ -93,7 +93,7 @@ public class CRUDTipoObra extends JDialog {
     }
 
     public CRUDTipoObra() {
-        setTitle("MÓDULO DO SISTEMA");
+        setTitle("TIPO DE OBRA");
         setSize(600, 400);//tamanho da janela
         setLayout(new BorderLayout());//informa qual gerenciador de layout será usado
         setBackground(Color.CYAN);//cor do fundo da janela

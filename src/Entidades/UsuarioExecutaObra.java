@@ -21,7 +21,7 @@ import javax.persistence.TemporalType;
 
 /**
  *
- * @author alexa
+ * @author a1602896
  */
 @Entity
 @Table(name = "usuario_executa_obra")
