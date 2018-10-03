@@ -39,12 +39,12 @@ public class Obra implements Serializable {
     @Column(name = "id_obra")
     private String idObra;
     @Basic(optional = false)
+    @Column(name = "titulo_obra")
+    private String tituloObra;
+    @Basic(optional = false)
     @Column(name = "ano_obra")
     @Temporal(TemporalType.TIMESTAMP)
     private Date anoObra;
-    @Basic(optional = false)
-    @Column(name = "titulo_obra")
-    private String tituloObra;
     @Basic(optional = false)
     @Column(name = "quantidade_obra")
     private int quantidadeObra;
@@ -68,10 +68,10 @@ public class Obra implements Serializable {
         this.idObra = idObra;
     }
 
-    public Obra(String idObra, Date anoObra, String tituloObra, int quantidadeObra) {
+    public Obra(String idObra, String tituloObra, Date anoObra, int quantidadeObra) {
         this.idObra = idObra;
-        this.anoObra = anoObra;
         this.tituloObra = tituloObra;
+        this.anoObra = anoObra;
         this.quantidadeObra = quantidadeObra;
     }
 
@@ -83,20 +83,20 @@ public class Obra implements Serializable {
         this.idObra = idObra;
     }
 
-    public Date getAnoObra() {
-        return anoObra;
-    }
-
-    public void setAnoObra(Date anoObra) {
-        this.anoObra = anoObra;
-    }
-
     public String getTituloObra() {
         return tituloObra;
     }
 
     public void setTituloObra(String tituloObra) {
         this.tituloObra = tituloObra;
+    }
+
+    public Date getAnoObra() {
+        return anoObra;
+    }
+
+    public void setAnoObra(Date anoObra) {
+        this.anoObra = anoObra;
     }
 
     public int getQuantidadeObra() {

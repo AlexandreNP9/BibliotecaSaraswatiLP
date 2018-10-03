@@ -4,8 +4,6 @@ import DAOs.DAOTipoUsuario;
 import DAOs.DAOUsuario;
 import Entidades.TipoUsuario;
 import Entidades.Usuario;
-import static com.sun.glass.ui.Cursor.setVisible;
-import static com.sun.java.accessibility.util.AWTEventMonitor.addWindowListener;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Container;
@@ -104,6 +102,7 @@ public class CRUDUsuario extends JDialog {
     }
 
     public void zerarAtributos2() {
+        textFieldNomeUsuario.setText("");
         textFieldNome.setText("");
         textFieldSenha.setText("");
         textFieldTipoUsuario.setText("");
@@ -176,7 +175,7 @@ public class CRUDUsuario extends JDialog {
                     usuario.setIdUsuario(Integer.parseInt(textFieldId.getText()));
                     usuario = cl.obter(Integer.valueOf(textFieldId.getText()));
                     if (usuario != null) { //se encontrou na lista
-                        textFieldNomeUsuario.setText(usuario.getNomeUsuario());
+                        textFieldNomeUsuario.setText(usuario.getLoginUsuario());
                         textFieldNome.setText(usuario.getNomeUsuario());
                         textFieldSenha.setText(usuario.getSenhaUsuario());
 

@@ -2,14 +2,14 @@
 <persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
   <persistence-unit name="UP" transaction-type="RESOURCE_LOCAL">
     <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
-    <class>Entidades.Obra</class>
-    <class>Entidades.TipoUsuario</class>
-    <class>Entidades.ModuloSistema</class>
-    <class>Entidades.Autor</class>
-    <class>Entidades.UsuarioExecutaObra</class>
-    <class>Entidades.TipoObra</class>
-    <class>Entidades.Status</class>
     <class>Entidades.Usuario</class>
+    <class>Entidades.Status</class>
+    <class>Entidades.UsuarioExecutaObra</class>
+    <class>Entidades.TipoUsuario</class>
+    <class>Entidades.TipoObra</class>
+    <class>Entidades.Autor</class>
+    <class>Entidades.Obra</class>
+    <class>Entidades.ModuloSistema</class>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/BibliotecaSaraswati?zeroDateTimeBehavior=convertToNull"/>
       <property name="javax.persistence.jdbc.user" value="root"/>

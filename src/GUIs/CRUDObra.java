@@ -49,16 +49,16 @@ public class CRUDObra extends JDialog {
 
     JLabel labelId = new JLabel("Id");
     JTextField textFieldId = new JTextField(45);
-    JLabel labelAno = new JLabel("Ano de publicação");
-    JTextField textFieldAno = new JTextField(4);
-    JLabel labelTipoObra = new JLabel("Tipo de Obra");
-    JTextField textFieldTipoObra = new JTextField(0);
     JLabel labelNome = new JLabel("Título");
     JTextField textFieldNome = new JTextField(45);
+    JLabel labelAno = new JLabel("Ano de publicação");
+    JTextField textFieldAno = new JTextField(4);
     JLabel labelQuantidade = new JLabel("Quantidade");
     JTextField textFieldQuantidade = new JTextField(0);
     JLabel labelObservacoes = new JLabel("Observações");
     JTextField textFieldObservacoes = new JTextField(45);
+    JLabel labelTipoObra = new JLabel("Tipo de Obra");
+    JTextField textFieldTipoObra = new JTextField(0);
     JLabel labelStatus = new JLabel("Status");
     JTextField textFieldStatus = new JTextField(0);
 
@@ -68,8 +68,11 @@ public class CRUDObra extends JDialog {
     DAOObra cl = new DAOObra();
     Obra obra;
     Obra obraOriginal;
-    
+
     SimpleDateFormat sdf = new SimpleDateFormat("yyyy");
+    
+    DAOTipoObra daoTipoObra = new DAOTipoObra();
+    DAOStatus daoStatus = new DAOStatus();
 
     private void atvBotoes(boolean c, boolean r, boolean u, boolean d) {
         btnCreate.setEnabled(c);
@@ -89,27 +92,28 @@ public class CRUDObra extends JDialog {
         btnCancel.setVisible(!visivel);
     }
 
-    private void habilitarAtributos(boolean id, boolean nome, boolean ano, boolean tipo, boolean quantidade, boolean observacoes, boolean status) {
+    private void habilitarAtributos(boolean id, boolean nome, boolean ano, boolean quantidade, boolean observacoes, boolean tipo, boolean status) {
         if (id) {
             textFieldId.requestFocus();
             textFieldId.selectAll();
         }
         textFieldId.setEnabled(id);
         textFieldId.setEditable(id);
+        textFieldNome.setEditable(nome);
         textFieldAno.setEditable(ano);
-        textFieldTipoObra.setEditable(tipo);
         textFieldQuantidade.setEditable(quantidade);
         textFieldObservacoes.setEditable(observacoes);
+        textFieldTipoObra.setEditable(tipo);
         textFieldStatus.setEditable(status);
-        }
+    }
 
     public void zerarAtributos() {
         textFieldId.setText("");
         textFieldNome.setText("");
         textFieldAno.setText("");
-        textFieldTipoObra.setText("");
         textFieldQuantidade.setText("");
         textFieldObservacoes.setText("");
+        textFieldTipoObra.setText("");
         textFieldStatus.setText("");
 
     }
@@ -117,9 +121,9 @@ public class CRUDObra extends JDialog {
     public void zerarAtributos2() {
         textFieldNome.setText("");
         textFieldAno.setText("");
-        textFieldTipoObra.setText("");
         textFieldQuantidade.setText("");
         textFieldObservacoes.setText("");
+        textFieldTipoObra.setText("");
         textFieldStatus.setText("");
 
     }
@@ -160,12 +164,12 @@ public class CRUDObra extends JDialog {
         centro.add(textFieldNome);
         centro.add(labelAno);
         centro.add(textFieldAno);
-        centro.add(labelTipoObra);
-        centro.add(textFieldTipoObra);
         centro.add(labelQuantidade);
         centro.add(textFieldQuantidade);
         centro.add(labelObservacoes);
         centro.add(textFieldObservacoes);
+        centro.add(labelTipoObra);
+        centro.add(textFieldTipoObra);
         centro.add(labelStatus);
         centro.add(textFieldStatus);
 
@@ -197,11 +201,26 @@ public class CRUDObra extends JDialog {
                     if (obra != null) { //se encontrou na lista
                         textFieldNome.setText(obra.getTituloObra());
                         textFieldAno.setText(sdf.format(obra.getAnoObra()));
-//                        textFieldTipoObra.setText(obra.getTipoobraidtipoObra());
                         textFieldQuantidade.setText(String.valueOf(obra.getQuantidadeObra()));
                         textFieldObservacoes.setText(obra.getObservacoesObra());
-//                        textFieldStatus.setText(obra.getStatusIdStatus());
+                        
+                        TipoObra tipoObra = daoTipoObra.obter(obra.getTipoobraidtipoObra().getIdtipoObra());
+                        textFieldTipoObra.setText(tipoObra.getIdtipoObra() + " - " + tipoObra.getNometipoObra());
+                        
+                        Status status = daoStatus.obter(obra.getStatusIdStatus().getIdStatus());
+                        textFieldStatus.setText(status.getIdStatus() + " - " + status.getNomeStatus());
+                        
 
+//método usado para enviar o tipoObra e o status, mas não sei como obte-los                         
+//                        TipoObra tipoObra = new DAOTipoObra().obter(Integer.valueOf(textFieldTipoObra.getText()));
+//                        obra.setTipoobraidtipoObra(tipoObra);
+//                        Status status = new DAOStatus().obter(Integer.valueOf(textFieldStatus.getText()));
+//                        obra.setStatusIdStatus(status);
+                        
+//não sei como arruamr:
+//                      textFieldTipoObra.setText(obra.getTipoobraidtipoObra());
+//                      textFieldStatus.setText(obra.getStatusIdStatus());
+                        
                         atvBotoes(false, true, true, true);
                         habilitarAtributos(true, false, false, false, false, false, false);
                         labelAviso.setText("Encontrou - clic [Pesquisar], [Alterar] ou [Excluir]");
@@ -240,13 +259,14 @@ public class CRUDObra extends JDialog {
                     } catch (ParseException ex) {
                         Logger.getLogger(CRUDObra.class.getName()).log(Level.SEVERE, null, ex);
                     }
-                    TipoObra tipoObra = new DAOTipoObra().obter(Integer.valueOf(textFieldTipoObra.getText()));
-                    obra.setTipoobraidtipoObra(tipoObra);
                     obra.setQuantidadeObra(Integer.parseInt(textFieldQuantidade.getText()));
                     obra.setObservacoesObra(textFieldObservacoes.getText());
+
+                    TipoObra tipoObra = new DAOTipoObra().obter(Integer.valueOf(textFieldTipoObra.getText()));
+                    obra.setTipoobraidtipoObra(tipoObra);
                     Status status = new DAOStatus().obter(Integer.valueOf(textFieldStatus.getText()));
                     obra.setStatusIdStatus(status);
-                    
+
                     cl.inserir(obra);
                     habilitarAtributos(true, false, false, false, false, false, false);
                     zerarAtributos();
@@ -261,10 +281,11 @@ public class CRUDObra extends JDialog {
                     } catch (ParseException ex) {
                         Logger.getLogger(CRUDObra.class.getName()).log(Level.SEVERE, null, ex);
                     }
-                    TipoObra tipoObra = new DAOTipoObra().obter(Integer.valueOf(textFieldTipoObra.getText()));
-                    obra.setTipoobraidtipoObra(tipoObra);
                     obra.setQuantidadeObra(Integer.parseInt(textFieldQuantidade.getText()));
                     obra.setObservacoesObra(textFieldObservacoes.getText());
+
+                    TipoObra tipoObra = new DAOTipoObra().obter(Integer.valueOf(textFieldTipoObra.getText()));
+                    obra.setTipoobraidtipoObra(tipoObra);
                     Status status = new DAOStatus().obter(Integer.valueOf(textFieldStatus.getText()));
                     obra.setStatusIdStatus(status);
 
@@ -344,28 +365,6 @@ public class CRUDObra extends JDialog {
                 textFieldId.setBackground(Color.white);
             }
         });
-        textFieldAno.addFocusListener(new FocusListener() {
-            @Override
-            public void focusGained(FocusEvent e) {
-                textFieldAno.setBackground(Color.GREEN);
-            }
-
-            @Override
-            public void focusLost(FocusEvent e) {
-                textFieldAno.setBackground(Color.white);
-            }
-        });
-        textFieldTipoObra.addFocusListener(new FocusListener() {
-            @Override
-            public void focusGained(FocusEvent e) {
-                textFieldTipoObra.setBackground(Color.GREEN);
-            }
-
-            @Override
-            public void focusLost(FocusEvent e) {
-                textFieldTipoObra.setBackground(Color.white);
-            }
-        });
         textFieldNome.addFocusListener(new FocusListener() { //ao receber o foco, fica verde
             @Override
             public void focusGained(FocusEvent fe) {
@@ -375,6 +374,17 @@ public class CRUDObra extends JDialog {
             @Override
             public void focusLost(FocusEvent fe) { //ao perder o foco, fica branco
                 textFieldNome.setBackground(Color.white);
+            }
+        });
+        textFieldAno.addFocusListener(new FocusListener() {
+            @Override
+            public void focusGained(FocusEvent e) {
+                textFieldAno.setBackground(Color.GREEN);
+            }
+
+            @Override
+            public void focusLost(FocusEvent e) {
+                textFieldAno.setBackground(Color.white);
             }
         });
         textFieldQuantidade.addFocusListener(new FocusListener() {
@@ -399,6 +409,17 @@ public class CRUDObra extends JDialog {
                 textFieldObservacoes.setBackground(Color.white);
             }
         });
+        textFieldTipoObra.addFocusListener(new FocusListener() {
+            @Override
+            public void focusGained(FocusEvent e) {
+                textFieldTipoObra.setBackground(Color.GREEN);
+            }
+
+            @Override
+            public void focusLost(FocusEvent e) {
+                textFieldTipoObra.setBackground(Color.white);
+            }
+        });
         textFieldStatus.addFocusListener(new FocusListener() {
             @Override
             public void focusGained(FocusEvent e) {
@@ -410,7 +431,7 @@ public class CRUDObra extends JDialog {
                 textFieldStatus.setBackground(Color.white);
             }
         });
-                
+
         setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE); //antes de sair do sistema, grava os dados da lista em disco
         addWindowListener(new WindowAdapter() {
             @Override
