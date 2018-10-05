@@ -209,18 +209,7 @@ public class CRUDObra extends JDialog {
                         
                         Status status = daoStatus.obter(obra.getStatusIdStatus().getIdStatus());
                         textFieldStatus.setText(status.getIdStatus() + " - " + status.getNomeStatus());
-                        
 
-//método usado para enviar o tipoObra e o status, mas não sei como obte-los                         
-//                        TipoObra tipoObra = new DAOTipoObra().obter(Integer.valueOf(textFieldTipoObra.getText()));
-//                        obra.setTipoobraidtipoObra(tipoObra);
-//                        Status status = new DAOStatus().obter(Integer.valueOf(textFieldStatus.getText()));
-//                        obra.setStatusIdStatus(status);
-                        
-//não sei como arruamr:
-//                      textFieldTipoObra.setText(obra.getTipoobraidtipoObra());
-//                      textFieldStatus.setText(obra.getStatusIdStatus());
-                        
                         atvBotoes(false, true, true, true);
                         habilitarAtributos(true, false, false, false, false, false, false);
                         labelAviso.setText("Encontrou - clic [Pesquisar], [Alterar] ou [Excluir]");

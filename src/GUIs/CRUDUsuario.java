@@ -95,6 +95,7 @@ public class CRUDUsuario extends JDialog {
     }
 
     public void zerarAtributos() {
+        textFieldId.setText("");
         textFieldNomeUsuario.setText("");
         textFieldNome.setText("");
         textFieldSenha.setText("");
@@ -180,7 +181,7 @@ public class CRUDUsuario extends JDialog {
                         textFieldSenha.setText(usuario.getSenhaUsuario());
 
                         TipoUsuario tu = daoTipoUsuario.obter(usuario.getTipoUsuarioIdTipoUsuario().getIdTipoUsuario());
-                        textFieldTipoUsuario.setText(tu.getIdTipoUsuario() + "-" + tu.getNomeTipoUsuario());
+                        textFieldTipoUsuario.setText(tu.getIdTipoUsuario() + " - " + tu.getNomeTipoUsuario());
 
                         atvBotoes(false, true, true, true);
                         habilitarAtributos(true, false, false, false, false);
@@ -199,7 +200,7 @@ public class CRUDUsuario extends JDialog {
         btnCreate.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent ae) {
-                zerarAtributos();
+                
                 habilitarAtributos(false, true, true, true, true);
                 textFieldNomeUsuario.requestFocus();
                 mostrarBotoes(false);
@@ -230,6 +231,7 @@ public class CRUDUsuario extends JDialog {
                     usuario.setLoginUsuario(textFieldNomeUsuario.getText());
                     usuario.setNomeUsuario(textFieldNome.getText());
                     usuario.setSenhaUsuario(textFieldSenha.getText());
+                    
                     TipoUsuario tu = daoTipoUsuario.obter(Integer.valueOf(textFieldTipoUsuario.getText()));
                     usuario.setTipoUsuarioIdTipoUsuario(tu);
 
