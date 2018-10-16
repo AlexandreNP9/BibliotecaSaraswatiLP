@@ -10,6 +10,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Container;
 import java.awt.GridLayout;
+import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
@@ -18,6 +19,7 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ImageIcon;
@@ -29,6 +31,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.JToolBar;
 import javax.swing.WindowConstants;
+import myUtil.JanelaPesquisar;
 
 public class CRUDObra extends JDialog {
 
@@ -70,7 +73,7 @@ public class CRUDObra extends JDialog {
     Obra obraOriginal;
 
     SimpleDateFormat sdf = new SimpleDateFormat("yyyy");
-    
+
     DAOTipoObra daoTipoObra = new DAOTipoObra();
     DAOStatus daoStatus = new DAOStatus();
 
@@ -185,9 +188,51 @@ public class CRUDObra extends JDialog {
         setLocationRelativeTo(null); // posiciona no centro da tela principal
 
 // Listeners
-        btnRetrieve.addActionListener(new ActionListener() {
+        textFieldTipoObra.addActionListener(new ActionListener() {
             @Override
-            public void actionPerformed(ActionEvent ae) {
+            public void actionPerformed(ActionEvent e) {
+                if (textFieldTipoObra.getText().equals("")) {
+                    List<String> listaAuxiliar = daoTipoObra.listInOrderNomeStrings("id");
+                    if (listaAuxiliar.size() > 0) {
+                        Point lc = textFieldTipoObra.getLocationOnScreen();
+                        lc.x = lc.x + textFieldTipoObra.getWidth();
+                        String selectedItem = new JanelaPesquisar(listaAuxiliar,
+                                lc.x,
+                                lc.y).getValorRetornado();
+                        if (!selectedItem.equals("")) {
+                            String[] aux = selectedItem.split("-");
+                            textFieldTipoObra.setText(aux[0]);
+                        }
+                    }
+                }
+            }
+        });
+        
+        textFieldStatus.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (textFieldStatus.getText().equals("")) {
+                    List<String> listaAuxiliar = daoStatus.listInOrderNomeStrings("id");
+                    if (listaAuxiliar.size() > 0) {
+                        Point lc = textFieldStatus.getLocationOnScreen();
+                        lc.x = lc.x + textFieldStatus.getWidth();
+                        String selectedItem = new JanelaPesquisar(listaAuxiliar,
+                                lc.x,
+                                lc.y).getValorRetornado();
+                        if (!selectedItem.equals("")) {
+                            String[] aux = selectedItem.split("-");
+                            textFieldStatus.setText(aux[0]);
+                        }
+                    }
+                }
+            }
+        });
+
+        btnRetrieve.addActionListener(
+                new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent ae
+            ) {
                 obra = new Obra();
                 textFieldId.setText(textFieldId.getText().trim());//caso tenham sido digitados espaços
 
@@ -203,10 +248,10 @@ public class CRUDObra extends JDialog {
                         textFieldAno.setText(sdf.format(obra.getAnoObra()));
                         textFieldQuantidade.setText(String.valueOf(obra.getQuantidadeObra()));
                         textFieldObservacoes.setText(obra.getObservacoesObra());
-                        
+
                         TipoObra tipoObra = daoTipoObra.obter(obra.getTipoobraidtipoObra().getIdtipoObra());
                         textFieldTipoObra.setText(tipoObra.getIdtipoObra() + " - " + tipoObra.getNometipoObra());
-                        
+
                         Status status = daoStatus.obter(obra.getStatusIdStatus().getIdStatus());
                         textFieldStatus.setText(status.getIdStatus() + " - " + status.getNomeStatus());
 
@@ -223,11 +268,14 @@ public class CRUDObra extends JDialog {
                     }
                 }
             }
-        });
+        }
+        );
 
-        btnCreate.addActionListener(new ActionListener() {
+        btnCreate.addActionListener(
+                new ActionListener() {
             @Override
-            public void actionPerformed(ActionEvent ae) {
+            public void actionPerformed(ActionEvent ae
+            ) {
 
                 habilitarAtributos(false, true, true, true, true, true, true);
                 textFieldNome.requestFocus();
@@ -235,18 +283,23 @@ public class CRUDObra extends JDialog {
                 labelAviso.setText("Preencha os campos e clic [Salvar] ou clic [Cancelar]");
                 acao = "insert";
             }
-        });
-        btnSave.addActionListener(new ActionListener() {
+        }
+        );
+        btnSave.addActionListener(
+                new ActionListener() {
             @Override
-            public void actionPerformed(ActionEvent ae) {
+            public void actionPerformed(ActionEvent ae
+            ) {
                 if (acao.equals("insert")) {
                     obra = new Obra();
                     obra.setIdObra(textFieldId.getText());
                     obra.setTituloObra(textFieldNome.getText());
                     try {
                         obra.setAnoObra(sdf.parse(textFieldAno.getText()));
+
                     } catch (ParseException ex) {
-                        Logger.getLogger(CRUDObra.class.getName()).log(Level.SEVERE, null, ex);
+                        Logger.getLogger(CRUDObra.class
+                                .getName()).log(Level.SEVERE, null, ex);
                     }
                     obra.setQuantidadeObra(Integer.parseInt(textFieldQuantidade.getText()));
                     obra.setObservacoesObra(textFieldObservacoes.getText());
@@ -267,8 +320,10 @@ public class CRUDObra extends JDialog {
                     obra.setTituloObra(textFieldNome.getText());
                     try {
                         obra.setAnoObra(sdf.parse(textFieldAno.getText()));
+
                     } catch (ParseException ex) {
-                        Logger.getLogger(CRUDObra.class.getName()).log(Level.SEVERE, null, ex);
+                        Logger.getLogger(CRUDObra.class
+                                .getName()).log(Level.SEVERE, null, ex);
                     }
                     obra.setQuantidadeObra(Integer.parseInt(textFieldQuantidade.getText()));
                     obra.setObservacoesObra(textFieldObservacoes.getText());
@@ -286,37 +341,49 @@ public class CRUDObra extends JDialog {
                     labelAviso.setText("Registro atualizado...");
                 }
             }
-        });
-        btnCancel.addActionListener(new ActionListener() {
+        }
+        );
+        btnCancel.addActionListener(
+                new ActionListener() {
             @Override
-            public void actionPerformed(ActionEvent ae) {
+            public void actionPerformed(ActionEvent ae
+            ) {
                 zerarAtributos();
                 atvBotoes(false, true, false, false);
                 habilitarAtributos(true, false, false, false, false, false, false);
                 mostrarBotoes(true);
             }
-        });
-        btnList.addActionListener(new ActionListener() {
+        }
+        );
+        btnList.addActionListener(
+                new ActionListener() {
             @Override
-            public void actionPerformed(ActionEvent ae) {
+            public void actionPerformed(ActionEvent ae
+            ) {
 
                 acao = "list";
                 ListagemObra guiListagem = new ListagemObra(cl.list());
             }
-        });
-        btnUpdate.addActionListener(new ActionListener() {
+        }
+        );
+        btnUpdate.addActionListener(
+                new ActionListener() {
             @Override
-            public void actionPerformed(ActionEvent ae) {
+            public void actionPerformed(ActionEvent ae
+            ) {
                 acao = "update";
                 mostrarBotoes(false);
                 habilitarAtributos(false, true, true, true, true, true, true);
                 atvBotoes(false, true, false, false);
             }
-        });
+        }
+        );
 //---------------------------------------------------------
-        btnDelete.addActionListener(new ActionListener() {
+        btnDelete.addActionListener(
+                new ActionListener() {
             @Override
-            public void actionPerformed(ActionEvent ae) {
+            public void actionPerformed(ActionEvent ae
+            ) {
                 if (JOptionPane.YES_OPTION == JOptionPane.showConfirmDialog(null,
                         "Confirma a exclusão do registro <ID = " + obra.getIdObra() + ">?", "Confirm",
                         JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE)) {
@@ -328,10 +395,12 @@ public class CRUDObra extends JDialog {
                     atvBotoes(false, true, false, false);
                 }
             }
-        });
+        }
+        );
         textFieldId.addFocusListener(new FocusListener() {
             @Override
-            public void focusGained(FocusEvent fe) {
+            public void focusGained(FocusEvent fe
+            ) {
                 textFieldId.setBackground(Color.GREEN);
                 if (acao != "encontrou") {
                     labelAviso.setText("Digite uma Id e clic [Pesquisar]");
@@ -339,99 +408,135 @@ public class CRUDObra extends JDialog {
             }
 
             @Override
-            public void focusLost(FocusEvent fe) {
+            public void focusLost(FocusEvent fe
+            ) {
                 textFieldId.setBackground(Color.white);
             }
-        });
-        textFieldId.addFocusListener(new FocusListener() { //ao receber o foco, fica verde
+        }
+        );
+        textFieldId.addFocusListener(
+                new FocusListener() { //ao receber o foco, fica verde
             @Override
-            public void focusGained(FocusEvent fe) {
+            public void focusGained(FocusEvent fe
+            ) {
                 textFieldId.setBackground(Color.GREEN);
             }
 
             @Override
-            public void focusLost(FocusEvent fe) { //ao perder o foco, fica branco
+            public void focusLost(FocusEvent fe
+            ) { //ao perder o foco, fica branco
                 textFieldId.setBackground(Color.white);
             }
-        });
-        textFieldNome.addFocusListener(new FocusListener() { //ao receber o foco, fica verde
+        }
+        );
+        textFieldNome.addFocusListener(
+                new FocusListener() { //ao receber o foco, fica verde
             @Override
-            public void focusGained(FocusEvent fe) {
+            public void focusGained(FocusEvent fe
+            ) {
                 textFieldNome.setBackground(Color.GREEN);
             }
 
             @Override
-            public void focusLost(FocusEvent fe) { //ao perder o foco, fica branco
+            public void focusLost(FocusEvent fe
+            ) { //ao perder o foco, fica branco
                 textFieldNome.setBackground(Color.white);
             }
-        });
-        textFieldAno.addFocusListener(new FocusListener() {
+        }
+        );
+        textFieldAno.addFocusListener(
+                new FocusListener() {
             @Override
-            public void focusGained(FocusEvent e) {
+            public void focusGained(FocusEvent e
+            ) {
                 textFieldAno.setBackground(Color.GREEN);
             }
 
             @Override
-            public void focusLost(FocusEvent e) {
+            public void focusLost(FocusEvent e
+            ) {
                 textFieldAno.setBackground(Color.white);
             }
-        });
-        textFieldQuantidade.addFocusListener(new FocusListener() {
+        }
+        );
+        textFieldQuantidade.addFocusListener(
+                new FocusListener() {
             @Override
-            public void focusGained(FocusEvent e) {
+            public void focusGained(FocusEvent e
+            ) {
                 textFieldQuantidade.setBackground(Color.GREEN);
             }
 
             @Override
-            public void focusLost(FocusEvent e) {
+            public void focusLost(FocusEvent e
+            ) {
                 textFieldQuantidade.setBackground(Color.white);
             }
-        });
-        textFieldObservacoes.addFocusListener(new FocusListener() {
+        }
+        );
+        textFieldObservacoes.addFocusListener(
+                new FocusListener() {
             @Override
-            public void focusGained(FocusEvent e) {
+            public void focusGained(FocusEvent e
+            ) {
                 textFieldObservacoes.setBackground(Color.GREEN);
             }
 
             @Override
-            public void focusLost(FocusEvent e) {
+            public void focusLost(FocusEvent e
+            ) {
                 textFieldObservacoes.setBackground(Color.white);
             }
-        });
-        textFieldTipoObra.addFocusListener(new FocusListener() {
+        }
+        );
+        textFieldTipoObra.addFocusListener(
+                new FocusListener() {
             @Override
-            public void focusGained(FocusEvent e) {
-                textFieldTipoObra.setBackground(Color.GREEN);
+            public void focusGained(FocusEvent e
+            ) {
+                textFieldTipoObra.setBackground(Color.ORANGE);
             }
 
             @Override
-            public void focusLost(FocusEvent e) {
+            public void focusLost(FocusEvent e
+            ) {
                 textFieldTipoObra.setBackground(Color.white);
             }
-        });
-        textFieldStatus.addFocusListener(new FocusListener() {
+        }
+        );
+        textFieldStatus.addFocusListener(
+                new FocusListener() {
             @Override
-            public void focusGained(FocusEvent e) {
-                textFieldStatus.setBackground(Color.GREEN);
+            public void focusGained(FocusEvent e
+            ) {
+                textFieldStatus.setBackground(Color.ORANGE);
             }
 
             @Override
-            public void focusLost(FocusEvent e) {
+            public void focusLost(FocusEvent e
+            ) {
                 textFieldStatus.setBackground(Color.white);
             }
-        });
+        }
+        );
 
         setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE); //antes de sair do sistema, grava os dados da lista em disco
-        addWindowListener(new WindowAdapter() {
+
+        addWindowListener(
+                new WindowAdapter() {
             @Override
-            public void windowClosing(WindowEvent e) {
+            public void windowClosing(WindowEvent e
+            ) {
                 // Sai do sistema  
                 dispose();
             }
-        });
-        setModal(true);
+        }
+        );
+        setModal(
+                true);
 
-        setVisible(true);//faz a janela ficar visível  
+        setVisible(
+                true);//faz a janela ficar visível  
     }
 
     public static void main(String[] args) {

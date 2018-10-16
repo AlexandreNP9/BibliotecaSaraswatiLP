@@ -8,12 +8,14 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Container;
 import java.awt.GridLayout;
+import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.List;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -23,6 +25,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.JToolBar;
 import javax.swing.WindowConstants;
+import myUtil.JanelaPesquisar;
 
 public class CRUDUsuario extends JDialog {
 
@@ -162,6 +165,25 @@ public class CRUDUsuario extends JDialog {
         setLocationRelativeTo(null);
 
 // Listeners
+        textFieldTipoUsuario.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (textFieldTipoUsuario.getText().equals("")) {
+                    List<String> listaAuxiliar = daoTipoUsuario.listInOrderNomeStrings("id");
+                    if (listaAuxiliar.size() > 0) {
+                        Point lc = textFieldTipoUsuario.getLocationOnScreen();
+                        lc.x = lc.x + textFieldTipoUsuario.getWidth();
+                        String selectedItem = new JanelaPesquisar(listaAuxiliar,
+                                lc.x,
+                                lc.y).getValorRetornado();
+                        if (!selectedItem.equals("")) {
+                            String[] aux = selectedItem.split("-");
+                            textFieldTipoUsuario.setText(aux[0]);
+                        }
+                    }
+                }
+            }
+        });
         btnRetrieve.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent ae) {
@@ -200,7 +222,7 @@ public class CRUDUsuario extends JDialog {
         btnCreate.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent ae) {
-                
+
                 habilitarAtributos(false, true, true, true, true);
                 textFieldNomeUsuario.requestFocus();
                 mostrarBotoes(false);
@@ -231,7 +253,7 @@ public class CRUDUsuario extends JDialog {
                     usuario.setLoginUsuario(textFieldNomeUsuario.getText());
                     usuario.setNomeUsuario(textFieldNome.getText());
                     usuario.setSenhaUsuario(textFieldSenha.getText());
-                    
+
                     TipoUsuario tu = daoTipoUsuario.obter(Integer.valueOf(textFieldTipoUsuario.getText()));
                     usuario.setTipoUsuarioIdTipoUsuario(tu);
 

@@ -32,7 +32,7 @@ public class DAOTipoObra extends DAOGenerico<TipoObra> {
     }
 
     public List<TipoObra> listInOrderId() {
-        return em.createQuery("SELECT e FROM TipoObra e ORDER BY e.idTipoObra").getResultList();
+        return em.createQuery("SELECT e FROM TipoObra e ORDER BY e.idtipoObra").getResultList();
     }
 
     public List<String> listInOrderNomeStrings(String qualOrdem) {

@@ -93,7 +93,7 @@ public class CRUDTipoUsuario extends JDialog {
     }
 
     public CRUDTipoUsuario() {
-        setTitle("MÓDULO DO SISTEMA");
+        setTitle("TIPO DE USUÁRIO");
         setSize(600, 400);//tamanho da janela
         setLayout(new BorderLayout());//informa qual gerenciador de layout será usado
         setBackground(Color.CYAN);//cor do fundo da janela
