@@ -191,38 +191,34 @@ public class CRUDObra extends JDialog {
         textFieldTipoObra.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (textFieldTipoObra.getText().equals("")) {
-                    List<String> listaAuxiliar = daoTipoObra.listInOrderNomeStrings("id");
-                    if (listaAuxiliar.size() > 0) {
-                        Point lc = textFieldTipoObra.getLocationOnScreen();
-                        lc.x = lc.x + textFieldTipoObra.getWidth();
-                        String selectedItem = new JanelaPesquisar(listaAuxiliar,
-                                lc.x,
-                                lc.y).getValorRetornado();
-                        if (!selectedItem.equals("")) {
-                            String[] aux = selectedItem.split("-");
-                            textFieldTipoObra.setText(aux[0]);
-                        }
+                List<String> listaAuxiliar = daoTipoObra.listInOrderNomeStrings("id");
+                if (listaAuxiliar.size() > 0) {
+                    Point lc = textFieldTipoObra.getLocationOnScreen();
+                    lc.x = lc.x + textFieldTipoObra.getWidth();
+                    String selectedItem = new JanelaPesquisar(listaAuxiliar,
+                            lc.x,
+                            lc.y).getValorRetornado();
+                    if (!selectedItem.equals("")) {
+                        String[] aux = selectedItem.split("-");
+                        textFieldTipoObra.setText(aux[0]);
                     }
                 }
             }
         });
-        
+
         textFieldStatus.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (textFieldStatus.getText().equals("")) {
-                    List<String> listaAuxiliar = daoStatus.listInOrderNomeStrings("id");
-                    if (listaAuxiliar.size() > 0) {
-                        Point lc = textFieldStatus.getLocationOnScreen();
-                        lc.x = lc.x + textFieldStatus.getWidth();
-                        String selectedItem = new JanelaPesquisar(listaAuxiliar,
-                                lc.x,
-                                lc.y).getValorRetornado();
-                        if (!selectedItem.equals("")) {
-                            String[] aux = selectedItem.split("-");
-                            textFieldStatus.setText(aux[0]);
-                        }
+                List<String> listaAuxiliar = daoStatus.listInOrderNomeStrings("id");
+                if (listaAuxiliar.size() > 0) {
+                    Point lc = textFieldStatus.getLocationOnScreen();
+                    lc.x = lc.x + textFieldStatus.getWidth();
+                    String selectedItem = new JanelaPesquisar(listaAuxiliar,
+                            lc.x,
+                            lc.y).getValorRetornado();
+                    if (!selectedItem.equals("")) {
+                        String[] aux = selectedItem.split("-");
+                        textFieldStatus.setText(aux[0]);
                     }
                 }
             }
@@ -327,9 +323,14 @@ public class CRUDObra extends JDialog {
                     }
                     obra.setQuantidadeObra(Integer.parseInt(textFieldQuantidade.getText()));
                     obra.setObservacoesObra(textFieldObservacoes.getText());
-
+                    
+                    TipoObra tipoObra1 = daoTipoObra.obter(obra.getTipoobraidtipoObra().getIdtipoObra());
+                    textFieldTipoObra.setText(String.valueOf(tipoObra1.getIdtipoObra()));
                     TipoObra tipoObra = new DAOTipoObra().obter(Integer.valueOf(textFieldTipoObra.getText()));
                     obra.setTipoobraidtipoObra(tipoObra);
+                    
+                    Status status1 = daoStatus.obter(obra.getStatusIdStatus().getIdStatus());
+                    textFieldStatus.setText(String.valueOf(status1.getIdStatus()));
                     Status status = new DAOStatus().obter(Integer.valueOf(textFieldStatus.getText()));
                     obra.setStatusIdStatus(status);
 
