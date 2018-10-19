@@ -168,18 +168,18 @@ public class CRUDUsuario extends JDialog {
         textFieldTipoUsuario.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (textFieldTipoUsuario.getText().equals("")) {
-                    List<String> listaAuxiliar = daoTipoUsuario.listInOrderNomeStrings("id");
-                    if (listaAuxiliar.size() > 0) {
-                        Point lc = textFieldTipoUsuario.getLocationOnScreen();
-                        lc.x = lc.x + textFieldTipoUsuario.getWidth();
-                        String selectedItem = new JanelaPesquisar(listaAuxiliar,
-                                lc.x,
-                                lc.y).getValorRetornado();
-                        if (!selectedItem.equals("")) {
-                            String[] aux = selectedItem.split("-");
-                            textFieldTipoUsuario.setText(aux[0]);
-                        }
+
+                List<String> listaAuxiliar = daoTipoUsuario.listInOrderNomeStrings("id");
+                if (listaAuxiliar.size() > 0) {
+                    Point lc = textFieldTipoUsuario.getLocationOnScreen();
+                    lc.x = lc.x + textFieldTipoUsuario.getWidth();
+                    String selectedItem = new JanelaPesquisar(listaAuxiliar,
+                            lc.x,
+                            lc.y).getValorRetornado();
+                    if (!selectedItem.equals("")) {
+                        String[] aux = selectedItem.split("-");
+                        textFieldTipoUsuario.setText(aux[0]);
+
                     }
                 }
             }
@@ -254,8 +254,8 @@ public class CRUDUsuario extends JDialog {
                     usuario.setNomeUsuario(textFieldNome.getText());
                     usuario.setSenhaUsuario(textFieldSenha.getText());
 
-                    TipoUsuario tu = daoTipoUsuario.obter(Integer.valueOf(textFieldTipoUsuario.getText()));
-                    usuario.setTipoUsuarioIdTipoUsuario(tu);
+                    TipoUsuario tipoUsuario = new TipoUsuario(Integer.valueOf(textFieldTipoUsuario.getText()));
+                    usuario.setTipoUsuarioIdTipoUsuario(tipoUsuario);
 
                     cl.atualizar(usuario);
                     mostrarBotoes(true);
@@ -368,7 +368,7 @@ public class CRUDUsuario extends JDialog {
         textFieldTipoUsuario.addFocusListener(new FocusListener() {
             @Override
             public void focusGained(FocusEvent e) {
-                textFieldTipoUsuario.setBackground(Color.GREEN);
+                textFieldTipoUsuario.setBackground(Color.ORANGE);
             }
 
             @Override

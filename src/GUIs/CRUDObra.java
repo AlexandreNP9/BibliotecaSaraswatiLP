@@ -299,9 +299,11 @@ public class CRUDObra extends JDialog {
                     }
                     obra.setQuantidadeObra(Integer.parseInt(textFieldQuantidade.getText()));
                     obra.setObservacoesObra(textFieldObservacoes.getText());
+                    
 
                     TipoObra tipoObra = new DAOTipoObra().obter(Integer.valueOf(textFieldTipoObra.getText()));
                     obra.setTipoobraidtipoObra(tipoObra);
+                    
                     Status status = new DAOStatus().obter(Integer.valueOf(textFieldStatus.getText()));
                     obra.setStatusIdStatus(status);
 
@@ -323,17 +325,13 @@ public class CRUDObra extends JDialog {
                     }
                     obra.setQuantidadeObra(Integer.parseInt(textFieldQuantidade.getText()));
                     obra.setObservacoesObra(textFieldObservacoes.getText());
-                    
-                    TipoObra tipoObra1 = daoTipoObra.obter(obra.getTipoobraidtipoObra().getIdtipoObra());
-                    textFieldTipoObra.setText(String.valueOf(tipoObra1.getIdtipoObra()));
-                    TipoObra tipoObra = new DAOTipoObra().obter(Integer.valueOf(textFieldTipoObra.getText()));
+
+                    TipoObra tipoObra = new TipoObra(Integer.valueOf(textFieldTipoObra.getText()));
                     obra.setTipoobraidtipoObra(tipoObra);
                     
-                    Status status1 = daoStatus.obter(obra.getStatusIdStatus().getIdStatus());
-                    textFieldStatus.setText(String.valueOf(status1.getIdStatus()));
-                    Status status = new DAOStatus().obter(Integer.valueOf(textFieldStatus.getText()));
+                    Status status = new Status(Integer.valueOf(textFieldStatus.getText()));
                     obra.setStatusIdStatus(status);
-
+                    
                     cl.atualizar(obra);
                     mostrarBotoes(true);
                     habilitarAtributos(true, false, false, false, false, false, false);
