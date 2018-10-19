@@ -199,8 +199,8 @@ public class CRUDObra extends JDialog {
                             lc.x,
                             lc.y).getValorRetornado();
                     if (!selectedItem.equals("")) {
-                        String[] aux = selectedItem.split("-");
-                        textFieldTipoObra.setText(aux[0]);
+
+                        textFieldTipoObra.setText(selectedItem);
                     }
                 }
             }
@@ -217,8 +217,8 @@ public class CRUDObra extends JDialog {
                             lc.x,
                             lc.y).getValorRetornado();
                     if (!selectedItem.equals("")) {
-                        String[] aux = selectedItem.split("-");
-                        textFieldStatus.setText(aux[0]);
+
+                        textFieldStatus.setText(selectedItem);
                     }
                 }
             }
@@ -246,10 +246,10 @@ public class CRUDObra extends JDialog {
                         textFieldObservacoes.setText(obra.getObservacoesObra());
 
                         TipoObra tipoObra = daoTipoObra.obter(obra.getTipoobraidtipoObra().getIdtipoObra());
-                        textFieldTipoObra.setText(tipoObra.getIdtipoObra() + " - " + tipoObra.getNometipoObra());
+                        textFieldTipoObra.setText(tipoObra.getIdtipoObra() + "-" + tipoObra.getNometipoObra());
 
                         Status status = daoStatus.obter(obra.getStatusIdStatus().getIdStatus());
-                        textFieldStatus.setText(status.getIdStatus() + " - " + status.getNomeStatus());
+                        textFieldStatus.setText(status.getIdStatus() + "-" + status.getNomeStatus());
 
                         atvBotoes(false, true, true, true);
                         habilitarAtributos(true, false, false, false, false, false, false);
@@ -299,12 +299,13 @@ public class CRUDObra extends JDialog {
                     }
                     obra.setQuantidadeObra(Integer.parseInt(textFieldQuantidade.getText()));
                     obra.setObservacoesObra(textFieldObservacoes.getText());
-                    
 
-                    TipoObra tipoObra = new DAOTipoObra().obter(Integer.valueOf(textFieldTipoObra.getText()));
+                    String[] auxTO = textFieldTipoObra.getText().split("-");
+                    TipoObra tipoObra = new DAOTipoObra().obter(Integer.valueOf(auxTO[0]));
                     obra.setTipoobraidtipoObra(tipoObra);
-                    
-                    Status status = new DAOStatus().obter(Integer.valueOf(textFieldStatus.getText()));
+
+                    String[] auxS = textFieldStatus.getText().split("-");
+                    Status status = new DAOStatus().obter(Integer.valueOf(auxS[0]));
                     obra.setStatusIdStatus(status);
 
                     cl.inserir(obra);
@@ -326,12 +327,14 @@ public class CRUDObra extends JDialog {
                     obra.setQuantidadeObra(Integer.parseInt(textFieldQuantidade.getText()));
                     obra.setObservacoesObra(textFieldObservacoes.getText());
 
-                    TipoObra tipoObra = new TipoObra(Integer.valueOf(textFieldTipoObra.getText()));
+                    String[] auxTO = textFieldTipoObra.getText().split("-");
+                    TipoObra tipoObra = new DAOTipoObra().obter(Integer.valueOf(auxTO[0]));
                     obra.setTipoobraidtipoObra(tipoObra);
-                    
-                    Status status = new Status(Integer.valueOf(textFieldStatus.getText()));
+
+                    String[] auxS = textFieldStatus.getText().split("-");
+                    Status status = new DAOStatus().obter(Integer.valueOf(auxS[0]));
                     obra.setStatusIdStatus(status);
-                    
+
                     cl.atualizar(obra);
                     mostrarBotoes(true);
                     habilitarAtributos(true, false, false, false, false, false, false);
@@ -520,7 +523,7 @@ public class CRUDObra extends JDialog {
         );
 
         setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE); //antes de sair do sistema, grava os dados da lista em disco
-
+        textFieldStatus.getText();
         addWindowListener(
                 new WindowAdapter() {
             @Override

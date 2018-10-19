@@ -4,6 +4,7 @@ import DAOs.DAOTipoUsuario;
 import DAOs.DAOUsuario;
 import Entidades.TipoUsuario;
 import Entidades.Usuario;
+import static com.sun.org.apache.xalan.internal.lib.ExsltStrings.split;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Container;
@@ -177,8 +178,8 @@ public class CRUDUsuario extends JDialog {
                             lc.x,
                             lc.y).getValorRetornado();
                     if (!selectedItem.equals("")) {
-                        String[] aux = selectedItem.split("-");
-                        textFieldTipoUsuario.setText(aux[0]);
+                        
+                        textFieldTipoUsuario.setText(selectedItem);
 
                     }
                 }
@@ -203,7 +204,7 @@ public class CRUDUsuario extends JDialog {
                         textFieldSenha.setText(usuario.getSenhaUsuario());
 
                         TipoUsuario tu = daoTipoUsuario.obter(usuario.getTipoUsuarioIdTipoUsuario().getIdTipoUsuario());
-                        textFieldTipoUsuario.setText(tu.getIdTipoUsuario() + " - " + tu.getNomeTipoUsuario());
+                        textFieldTipoUsuario.setText(tu.getIdTipoUsuario() + "-" + tu.getNomeTipoUsuario());
 
                         atvBotoes(false, true, true, true);
                         habilitarAtributos(true, false, false, false, false);
@@ -239,8 +240,10 @@ public class CRUDUsuario extends JDialog {
                     usuario.setLoginUsuario(textFieldNomeUsuario.getText());
                     usuario.setNomeUsuario(textFieldNome.getText());
                     usuario.setSenhaUsuario(textFieldSenha.getText());
-                    TipoUsuario tu = daoTipoUsuario.obter(Integer.valueOf(textFieldTipoUsuario.getText()));
-                    usuario.setTipoUsuarioIdTipoUsuario(tu);
+                    
+                    String[] auxTU = textFieldTipoUsuario.getText().split("-");
+                    TipoUsuario tipoUsuario = new DAOTipoUsuario().obter(Integer.valueOf(auxTU[0]));
+                    usuario.setTipoUsuarioIdTipoUsuario(tipoUsuario);
 
                     cl.inserir(usuario);
                     habilitarAtributos(true, false, false, false, false);
@@ -254,7 +257,8 @@ public class CRUDUsuario extends JDialog {
                     usuario.setNomeUsuario(textFieldNome.getText());
                     usuario.setSenhaUsuario(textFieldSenha.getText());
 
-                    TipoUsuario tipoUsuario = new TipoUsuario(Integer.valueOf(textFieldTipoUsuario.getText()));
+                    String[] auxTU = textFieldTipoUsuario.getText().split("-");
+                    TipoUsuario tipoUsuario = new DAOTipoUsuario().obter(Integer.valueOf(auxTU[0]));
                     usuario.setTipoUsuarioIdTipoUsuario(tipoUsuario);
 
                     cl.atualizar(usuario);
