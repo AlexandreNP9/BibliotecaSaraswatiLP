@@ -26,6 +26,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
@@ -65,7 +66,14 @@ public class CRUDObra extends JDialog {
     JLabel labelStatus = new JLabel("Status");
     JTextField textFieldStatus = new JTextField(0);
     
-    JButton autor = new JButton("AUTOR(ES)");
+    JLabel labelAutor = new JLabel("Autor(es)");
+    
+    JLabel lblAcrescentarAutor = new JLabel("Acrescentar");
+    JButton btnAcrescentarAutor = new JButton(iconeSave);
+    JLabel lblRemoverAutor = new JLabel("Remover");
+    JButton btnRemoverAutor = new JButton(iconeDelete);
+    JLabel lblListarAutor = new JLabel("Cadastrado(s)");
+    JLabel lblAutorCadastrado = new JLabel();
 
     JPanel aviso = new JPanel();
     JLabel labelAviso = new JLabel("");
@@ -78,6 +86,8 @@ public class CRUDObra extends JDialog {
 
     DAOTipoObra daoTipoObra = new DAOTipoObra();
     DAOStatus daoStatus = new DAOStatus();
+    
+    JList jList = new JList();
 
     private void atvBotoes(boolean c, boolean r, boolean u, boolean d) {
         btnCreate.setEnabled(c);
@@ -177,8 +187,21 @@ public class CRUDObra extends JDialog {
         centro.add(textFieldTipoObra);
         centro.add(labelStatus);
         centro.add(textFieldStatus);
+        centro.add(labelAutor);
+        
+        JPanel autor = new JPanel();
+        autor.setLayout(new GridLayout(3, 2));
+                    
+//        autor.add(lblListarAutor);
+//        autor.add(lblAutorCadastrado);
+//        autor.add(lblAcrescentarAutor);
+//        autor.add(btnAcrescentarAutor);
+//        autor.add(lblRemoverAutor);
+//        autor.add(btnRemoverAutor);
+        autor.add(btnRemoverAutor);
+        
         centro.add(autor);
-
+    
         aviso.add(labelAviso);
         aviso.setBackground(Color.yellow);
         cp.add(Toolbar1, BorderLayout.NORTH);
@@ -226,7 +249,6 @@ public class CRUDObra extends JDialog {
                 }
             }
         });
-
         btnRetrieve.addActionListener(
                 new ActionListener() {
             @Override
@@ -402,7 +424,7 @@ public class CRUDObra extends JDialog {
             }
         }
         );
-        autor.addActionListener(new ActionListener() {
+        btnAcrescentarAutor.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 CRUDObraHasAutor crudObraHasAutor = new CRUDObraHasAutor();
