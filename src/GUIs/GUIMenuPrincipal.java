@@ -119,13 +119,6 @@ public class GUIMenuPrincipal extends JFrame {
                 CRUDUsuario crudUsuario1 = new CRUDUsuario();
             }
         });
-
-        crudObraHasAutor.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                CRUDObraHasAutor crudObraHasAutor1 = new CRUDObraHasAutor();
-            }
-        });
         
         crudTipoUsuarioHasModuloSistema.addActionListener(new ActionListener() {
             @Override

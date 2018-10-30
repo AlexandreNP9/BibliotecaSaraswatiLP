@@ -64,6 +64,8 @@ public class CRUDObra extends JDialog {
     JTextField textFieldTipoObra = new JTextField(0);
     JLabel labelStatus = new JLabel("Status");
     JTextField textFieldStatus = new JTextField(0);
+    
+    JButton autor = new JButton("AUTOR(ES)");
 
     JPanel aviso = new JPanel();
     JLabel labelAviso = new JLabel("");
@@ -175,6 +177,7 @@ public class CRUDObra extends JDialog {
         centro.add(textFieldTipoObra);
         centro.add(labelStatus);
         centro.add(textFieldStatus);
+        centro.add(autor);
 
         aviso.add(labelAviso);
         aviso.setBackground(Color.yellow);
@@ -399,6 +402,13 @@ public class CRUDObra extends JDialog {
             }
         }
         );
+        autor.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                CRUDObraHasAutor crudObraHasAutor = new CRUDObraHasAutor();
+            }
+        });
+        
         textFieldId.addFocusListener(new FocusListener() {
             @Override
             public void focusGained(FocusEvent fe
