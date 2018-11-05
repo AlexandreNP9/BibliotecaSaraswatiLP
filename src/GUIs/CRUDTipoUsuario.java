@@ -80,13 +80,11 @@ public class CRUDTipoUsuario extends JDialog {
     }
     
     public void zerarAtributos() {
-        textFieldTipoUsuario.setText("");
+        //textFieldTipoUsuario.setText("");
         textFieldModuloSistema.setText("");
     }
     
-    public void zerarAtributos2() {
-        textFieldTipoUsuario.setText("");
-    }
+   
 
     public CRUDTipoUsuario() {
         setTitle("TIPO DE USUÁRIO");
@@ -159,7 +157,7 @@ public class CRUDTipoUsuario extends JDialog {
                         tipoUsuarioOriginal = tipoUsuario;
                     } else {
                         atvBotoes(true, true, false, false);
-                        zerarAtributos2();
+                        zerarAtributos();
 
                         labelAviso.setText("Não cadastrado - clic [Inserir] ou digite outra id [Pesquisar]");
                     }
@@ -192,6 +190,7 @@ public class CRUDTipoUsuario extends JDialog {
                     mostrarBotoes(true);
                     atvBotoes(false, true, false, false);
                     labelAviso.setText("Registro inserido...");
+                    textFieldTipoUsuario.setText("");
                 } else {  //acao = update
                     tipoUsuario.setIdTipoUsuario(Integer.valueOf(textFieldTipoUsuario.getText()));
                     tipoUsuario.setNomeTipoUsuario(textFieldModuloSistema.getText());

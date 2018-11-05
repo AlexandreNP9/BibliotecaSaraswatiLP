@@ -3,7 +3,6 @@ package GUIs;
 import DAOs.DAOModuloSistema;
 import DAOs.DAOTipoUsuario;
 import Entidades.ModuloSistema;
-import Entidades.TipoObra;
 import Entidades.TipoUsuario;
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -17,10 +16,13 @@ import java.awt.event.FocusListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.List;
+import javafx.scene.control.CheckBox;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
@@ -49,6 +51,10 @@ public class CRUDTipoUsuarioHasModuloSistema extends JDialog {
     JTextField textFieldTipoUsuario = new JTextField(0);
     JLabel labelModuloSistema = new JLabel("Módulo do Sistema");
     JTextField textFieldModuloSistema = new JTextField(40);
+
+    JList modulosCadastrados = new JList();
+    JList modulosPorUsuario = new JList();
+    int numeroModulos;
 
     JPanel aviso = new JPanel();
     JLabel labelAviso = new JLabel("");
@@ -130,12 +136,23 @@ public class CRUDTipoUsuarioHasModuloSistema extends JDialog {
         Toolbar1.add(btnList);
         btnSave.setVisible(false);
         btnCancel.setVisible(false);  //atributos
+        
+        for (int i = 0; i < 7 ; i++) {
+            
+        }
+        
         JPanel centro = new JPanel();
-        centro.setLayout(new GridLayout(5, 2));
-        centro.add(labelTipoUsuario);
-        centro.add(textFieldTipoUsuario);
-        centro.add(labelModuloSistema);
-        centro.add(textFieldModuloSistema);
+        centro.setLayout(new GridLayout(1, 2));
+        JPanel centroEsquerda = new JPanel();
+        centroEsquerda.setLayout(new GridLayout(8, 1));
+        JPanel centroDireita = new JPanel();
+        centroDireita.setLayout(new GridLayout(8, 1));
+        centroEsquerda.add(labelTipoUsuario);
+        centroEsquerda.add(textFieldTipoUsuario);
+        centroDireita.add(labelModuloSistema);
+        centroDireita.add(modulos);
+        centro.add(centroEsquerda);
+        centro.add(centroDireita);
 
         aviso.add(labelAviso);
         aviso.setBackground(Color.yellow);
@@ -166,23 +183,6 @@ public class CRUDTipoUsuarioHasModuloSistema extends JDialog {
                 }
             }
         });
-        textFieldModuloSistema.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                List<String> listaAuxiliar = daoModuloSistema.listInOrderNomeStrings("id");
-                if (listaAuxiliar.size() > 0) {
-                    Point lc = textFieldModuloSistema.getLocationOnScreen();
-                    lc.x = lc.x + textFieldModuloSistema.getWidth();
-                    String selectedItem = new JanelaPesquisar(listaAuxiliar,
-                            lc.x,
-                            lc.y).getValorRetornado();
-                    if (!selectedItem.equals("")) {
-
-                        textFieldModuloSistema.setText(selectedItem);
-                    }
-                }
-            }
-        });
         btnRetrieve.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent ae) {
@@ -194,18 +194,18 @@ public class CRUDTipoUsuarioHasModuloSistema extends JDialog {
                     textFieldTipoUsuario.requestFocus();
                     textFieldTipoUsuario.selectAll();
                 } else {
-                    String textFieldTipoUsuarioId = textFieldTipoUsuario.getText().split("-");
+                    String[] textFieldTipoUsuarioId = textFieldTipoUsuario.getText().split("-");
                     
-                    moduloSistema.setIdModuloSistema(Integer.valueOf(textFieldTipoUsuarioId));
+                    moduloSistema.setIdModuloSistema(Integer.valueOf(textFieldTipoUsuarioId[0]));
                     moduloSistema = daoModuloSistema.obter(moduloSistema.getIdModuloSistema());
                     if (moduloSistema != null) { //se encontrou na lista
                         int aux = moduloSistema.getTipoUsuarioList().size();
                         String tipo = "";
                         for (int i = 0; i < aux; i++) {
-                            autores.add();
+                        //    autores.add();
                         }
-                        textFieldModuloSistema.setText(moduloSistema.getTipoUsuarioList());
-                        textFieldModuloSistema.setText(moduloSistema.getNomeModuloSistema());
+//                        textFieldModuloSistema.setText(moduloSistema.getTipoUsuarioList());
+//                        textFieldModuloSistema.setText(moduloSistema.getNomeModuloSistema());
 
                         atvBotoes(true, true, true, true);
                         habilitarAtributos(true, false);
