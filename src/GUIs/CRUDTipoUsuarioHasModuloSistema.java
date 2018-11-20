@@ -13,10 +13,13 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.List;
-import javafx.scene.control.CheckBox;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -25,8 +28,10 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.JToolBar;
+import javax.swing.ListSelectionModel;
 import javax.swing.WindowConstants;
 import myUtil.JanelaPesquisar;
 
@@ -46,28 +51,24 @@ public class CRUDTipoUsuarioHasModuloSistema extends JDialog {
     JButton btnSave = new JButton(iconeSave);
     JButton btnCancel = new JButton(iconeCancel);
     JButton btnList = new JButton(iconeListar);
+    JButton btn = new JButton("Obter itens marcados");
 
     JLabel labelTipoUsuario = new JLabel("Tipo de Usuário");
     JTextField textFieldTipoUsuario = new JTextField(0);
     JLabel labelModuloSistema = new JLabel("Módulo do Sistema");
     JTextField textFieldModuloSistema = new JTextField(40);
 
-    JList modulosCadastrados = new JList();
-    JList modulosPorUsuario = new JList();
-    int numeroModulos;
-
     JPanel aviso = new JPanel();
     JLabel labelAviso = new JLabel("");
     String acao = "";//variavel para facilitar insert e update
     DAOTipoUsuario daoTipoUsuario = new DAOTipoUsuario();
     DAOModuloSistema daoModuloSistema = new DAOModuloSistema();
-        
+
     ModuloSistema moduloSistema;
     ModuloSistema moduloSistemaOriginal;
-    
+
     TipoUsuario tipoUsuario;
     TipoUsuario tipoUsuarioOriginal;
-    
 
     private void atvBotoes(boolean c, boolean r, boolean u, boolean d) {
         btnCreate.setEnabled(c);
@@ -109,6 +110,23 @@ public class CRUDTipoUsuarioHasModuloSistema extends JDialog {
     }
 
     public CRUDTipoUsuarioHasModuloSistema() {
+        JList lista = new JList();
+
+        // Define o renderizador de células  
+        lista.setCellRenderer(new CheckBoxCellRenderer());
+
+        List<ModuloSistema> listaModulo = daoModuloSistema.list();
+
+        Object[] cbArray = new Object[listaModulo.size()];
+        for (int i = 0; i < listaModulo.size(); i++) {
+            cbArray[i] = new JCheckBox(listaModulo.get(i).getNomeModuloSistema());
+        }
+
+        // Atribue os itens à lista    
+        lista.setListData(cbArray);
+        // Define a seleção única para a lista    
+        lista.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+
         setTitle("TIPO USUÁRIO HAS MÓDULO DO SISTEMA");
         setSize(600, 400);//tamanho da janela
         setLayout(new BorderLayout());//informa qual gerenciador de layout será usado
@@ -136,11 +154,7 @@ public class CRUDTipoUsuarioHasModuloSistema extends JDialog {
         Toolbar1.add(btnList);
         btnSave.setVisible(false);
         btnCancel.setVisible(false);  //atributos
-        
-        for (int i = 0; i < 7 ; i++) {
-            
-        }
-        
+
         JPanel centro = new JPanel();
         centro.setLayout(new GridLayout(1, 2));
         JPanel centroEsquerda = new JPanel();
@@ -150,11 +164,14 @@ public class CRUDTipoUsuarioHasModuloSistema extends JDialog {
         centroEsquerda.add(labelTipoUsuario);
         centroEsquerda.add(textFieldTipoUsuario);
         centroDireita.add(labelModuloSistema);
-        centroDireita.add(modulos);
+//        centroDireita.add(modulos);
         centro.add(centroEsquerda);
         centro.add(centroDireita);
 
+        centroDireita.add(new JScrollPane(lista));
+
         aviso.add(labelAviso);
+        aviso.add(btn);
         aviso.setBackground(Color.yellow);
         cp.add(Toolbar1, BorderLayout.NORTH);
         cp.add(centro, BorderLayout.CENTER);
@@ -195,14 +212,14 @@ public class CRUDTipoUsuarioHasModuloSistema extends JDialog {
                     textFieldTipoUsuario.selectAll();
                 } else {
                     String[] textFieldTipoUsuarioId = textFieldTipoUsuario.getText().split("-");
-                    
+
                     moduloSistema.setIdModuloSistema(Integer.valueOf(textFieldTipoUsuarioId[0]));
                     moduloSistema = daoModuloSistema.obter(moduloSistema.getIdModuloSistema());
                     if (moduloSistema != null) { //se encontrou na lista
                         int aux = moduloSistema.getTipoUsuarioList().size();
                         String tipo = "";
                         for (int i = 0; i < aux; i++) {
-                        //    autores.add();
+                            //    autores.add();
                         }
 //                        textFieldModuloSistema.setText(moduloSistema.getTipoUsuarioList());
 //                        textFieldModuloSistema.setText(moduloSistema.getNomeModuloSistema());
@@ -302,6 +319,54 @@ public class CRUDTipoUsuarioHasModuloSistema extends JDialog {
                 }
             }
         });
+        btn.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                String itens = "";
+                /*
+           * Loop feito com FOR, para fazer uma varredura
+           * para obter quais itens estao marcados ou não
+                 */ for (int i = 0; i < lista.getModel().getSize(); i++) {
+                    JCheckBox checkbox = (JCheckBox) lista.getModel().getElementAt(i);
+                    if (checkbox.isSelected()) {
+                        itens += "Item com índice " + i
+                                + " está marcado\n";
+                    } else {
+                        itens += "Item com índice " + i
+                                + " está desmarcado\n";
+                    }
+                }
+                JOptionPane.showMessageDialog(null,
+                        itens);
+            }
+        }
+        );
+        // Aqui nós permitimos que as checkboxes sejam marcadas
+        // ou desmarcadas com a barra de espaço  
+        lista.addKeyListener(new KeyAdapter() {
+            public void keyPressed(KeyEvent e) {
+                if (e.getKeyCode() == KeyEvent.VK_SPACE) {
+                    int index = lista.getSelectedIndex();
+                    if (index != -1) {
+                        JCheckBox checkbox = (JCheckBox) lista.getModel().getElementAt(index);
+                        checkbox.setSelected(!checkbox.isSelected());
+                        repaint();
+                    }
+                }
+            }
+        });
+
+        // Aqui nós permitimos que as checkboxes sejam marcadas
+        // ou desmarcadas com o mouse   
+        lista.addMouseListener(new MouseAdapter() {
+            public void mousePressed(MouseEvent e) {
+                int index = lista.locationToIndex(e.getPoint());
+                if (index != -1) {
+                    JCheckBox checkbox = (JCheckBox) lista.getModel().getElementAt(index);
+                    checkbox.setSelected(!checkbox.isSelected());
+                    repaint();
+                }
+            }
+        });
         textFieldTipoUsuario.addFocusListener(new FocusListener() {
             @Override
             public void focusGained(FocusEvent fe) {
@@ -346,6 +411,7 @@ public class CRUDTipoUsuarioHasModuloSistema extends JDialog {
                 dispose();
             }
         });
+
         setModal(true);
 
         setVisible(true);//faz a janela ficar visível  
