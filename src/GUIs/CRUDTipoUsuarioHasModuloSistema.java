@@ -116,7 +116,7 @@ public class CRUDTipoUsuarioHasModuloSistema extends JDialog {
         lista.setCellRenderer(new CheckBoxCellRenderer());
 
         List<ModuloSistema> listaModulo = daoModuloSistema.list();
-
+        
         Object[] cbArray = new Object[listaModulo.size()];
         for (int i = 0; i < listaModulo.size(); i++) {
             cbArray[i] = new JCheckBox(listaModulo.get(i).getNomeModuloSistema());
@@ -250,11 +250,28 @@ public class CRUDTipoUsuarioHasModuloSistema extends JDialog {
                 acao = "insert";
             }
         });
+        
         btnSave.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent ae) {
                 if (acao.equals("insert")) {
                     moduloSistema = new ModuloSistema();
+
+                    String itens = "";
+                    /*
+           * Loop feito com FOR, para fazer uma varredura
+           * para obter quais itens estao marcados ou não
+                     */ for (int i = 0; i < lista.getModel().getSize(); i++) {
+                        JCheckBox checkbox = (JCheckBox) lista.getModel().getElementAt(i);
+                        if (checkbox.isSelected()) {
+                            String aux = Integer.toString(i);
+                            List<String> lista2 = new List();
+                            moduloSistema.setTipoUsuarioList(lista2);
+                        } else {
+                        }
+                    }
+                    JOptionPane.showMessageDialog(null, itens);
+
                     moduloSistema.setIdModuloSistema(Integer.valueOf(textFieldTipoUsuario.getText()));
                     moduloSistema.setNomeModuloSistema(textFieldModuloSistema.getText());
 
