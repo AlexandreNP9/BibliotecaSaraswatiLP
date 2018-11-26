@@ -116,7 +116,7 @@ public class CRUDTipoUsuarioHasModuloSistema extends JDialog {
         lista.setCellRenderer(new CheckBoxCellRenderer());
 
         List<ModuloSistema> listaModulo = daoModuloSistema.list();
-        
+
         Object[] cbArray = new Object[listaModulo.size()];
         for (int i = 0; i < listaModulo.size(); i++) {
             cbArray[i] = new JCheckBox(listaModulo.get(i).getNomeModuloSistema());
@@ -218,12 +218,19 @@ public class CRUDTipoUsuarioHasModuloSistema extends JDialog {
                     if (moduloSistema != null) { //se encontrou na lista
                         int aux = moduloSistema.getTipoUsuarioList().size();
                         String tipo = "";
-                        for (int i = 0; i < aux; i++) {
-//                                autores.add();
+                        String modulo = "";
+
+                        for (int i = 0; i < lista.getModel().getSize(); i++) {
+                            JCheckBox checkbox = (JCheckBox) lista.getModel().getElementAt(i);
+                            if (moduloSistema[i] == true) {
+                                checkbox.setSelected(true);
+                            } else {
+                                checkbox.setSelected(false);
+                            }
                         }
+
 //                        textFieldModuloSistema.setText(moduloSistema.getTipoUsuarioList());
 //                        textFieldModuloSistema.setText(moduloSistema.getNomeModuloSistema());
-
                         atvBotoes(true, true, true, true);
                         habilitarAtributos(true, false);
                         labelAviso.setText("Encontrou - clic [Pesquisar], [Alterar] ou [Excluir]");
@@ -250,10 +257,11 @@ public class CRUDTipoUsuarioHasModuloSistema extends JDialog {
                 acao = "insert";
             }
         });
-        
+
         btnSave.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent ae) {
+                List<> mods = new List();
                 if (acao.equals("insert")) {
                     moduloSistema = new ModuloSistema();
 
@@ -264,12 +272,12 @@ public class CRUDTipoUsuarioHasModuloSistema extends JDialog {
                      */ for (int i = 0; i < lista.getModel().getSize(); i++) {
                         JCheckBox checkbox = (JCheckBox) lista.getModel().getElementAt(i);
                         if (checkbox.isSelected()) {
-                            String aux = Integer.toString(i);
-//                            List<String> lista2 = new List();
-//                            moduloSistema.setTipoUsuarioList(lista2);
+                            mods[i].set(true);
                         } else {
+                            mods[i].set(false);
                         }
                     }
+                    moduloSistema.setTipoUsuarioList(mods);
                     JOptionPane.showMessageDialog(null, itens);
 
                     moduloSistema.setIdModuloSistema(Integer.valueOf(textFieldTipoUsuario.getText()));
@@ -345,18 +353,14 @@ public class CRUDTipoUsuarioHasModuloSistema extends JDialog {
                  */ for (int i = 0; i < lista.getModel().getSize(); i++) {
                     JCheckBox checkbox = (JCheckBox) lista.getModel().getElementAt(i);
                     if (checkbox.isSelected()) {
-                        itens += "Item com índice " + i
-                                + " está marcado\n";
+                        itens += "Item com índice " + i + " está marcado\n";
                     } else {
-                        itens += "Item com índice " + i
-                                + " está desmarcado\n";
+                        itens += "Item com índice " + i + " está desmarcado\n";
                     }
                 }
-                JOptionPane.showMessageDialog(null,
-                        itens);
+                JOptionPane.showMessageDialog(null, itens);
             }
-        }
-        );
+        });
         // Aqui nós permitimos que as checkboxes sejam marcadas
         // ou desmarcadas com a barra de espaço  
         lista.addKeyListener(new KeyAdapter() {
