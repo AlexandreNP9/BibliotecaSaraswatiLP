@@ -219,7 +219,7 @@ public class CRUDTipoUsuarioHasModuloSistema extends JDialog {
                         int aux = moduloSistema.getTipoUsuarioList().size();
                         String tipo = "";
                         for (int i = 0; i < aux; i++) {
-                            //    autores.add();
+//                                autores.add();
                         }
 //                        textFieldModuloSistema.setText(moduloSistema.getTipoUsuarioList());
 //                        textFieldModuloSistema.setText(moduloSistema.getNomeModuloSistema());
@@ -265,8 +265,8 @@ public class CRUDTipoUsuarioHasModuloSistema extends JDialog {
                         JCheckBox checkbox = (JCheckBox) lista.getModel().getElementAt(i);
                         if (checkbox.isSelected()) {
                             String aux = Integer.toString(i);
-                            List<String> lista2 = new List();
-                            moduloSistema.setTipoUsuarioList(lista2);
+//                            List<String> lista2 = new List();
+//                            moduloSistema.setTipoUsuarioList(lista2);
                         } else {
                         }
                     }
