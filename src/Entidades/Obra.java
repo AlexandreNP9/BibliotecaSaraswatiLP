@@ -14,7 +14,6 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -37,10 +36,10 @@ public class Obra implements Serializable {
     @Id
     @Basic(optional = false)
     @Column(name = "id_obra")
-    private String idObra;
+    private Integer idObra;
     @Basic(optional = false)
-    @Column(name = "titulo_obra")
-    private String tituloObra;
+    @Column(name = "nome_obra")
+    private String nomeObra;
     @Basic(optional = false)
     @Column(name = "ano_obra")
     @Temporal(TemporalType.TIMESTAMP)
@@ -50,45 +49,45 @@ public class Obra implements Serializable {
     private int quantidadeObra;
     @Column(name = "observacoes_obra")
     private String observacoesObra;
-    @ManyToMany(mappedBy = "obraList")
-    private List<Autor> autorList;
     @JoinColumn(name = "status_id_status", referencedColumnName = "id_status")
     @ManyToOne(optional = false)
     private Status statusIdStatus;
     @JoinColumn(name = "tipo_obra_id_tipoObra", referencedColumnName = "id_tipoObra")
     @ManyToOne(optional = false)
     private TipoObra tipoobraidtipoObra;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "obra")
-    private List<UsuarioExecutaObra> usuarioExecutaObraList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "obraIdObra")
+    private List<Emprestimo> emprestimoList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "obraIdObra")
+    private List<AutorPublicaObra> autorPublicaObraList;
 
     public Obra() {
     }
 
-    public Obra(String idObra) {
+    public Obra(Integer idObra) {
         this.idObra = idObra;
     }
 
-    public Obra(String idObra, String tituloObra, Date anoObra, int quantidadeObra) {
+    public Obra(Integer idObra, String nomeObra, Date anoObra, int quantidadeObra) {
         this.idObra = idObra;
-        this.tituloObra = tituloObra;
+        this.nomeObra = nomeObra;
         this.anoObra = anoObra;
         this.quantidadeObra = quantidadeObra;
     }
 
-    public String getIdObra() {
+    public Integer getIdObra() {
         return idObra;
     }
 
-    public void setIdObra(String idObra) {
+    public void setIdObra(Integer idObra) {
         this.idObra = idObra;
     }
 
-    public String getTituloObra() {
-        return tituloObra;
+    public String getNomeObra() {
+        return nomeObra;
     }
 
-    public void setTituloObra(String tituloObra) {
-        this.tituloObra = tituloObra;
+    public void setNomeObra(String nomeObra) {
+        this.nomeObra = nomeObra;
     }
 
     public Date getAnoObra() {
@@ -115,14 +114,6 @@ public class Obra implements Serializable {
         this.observacoesObra = observacoesObra;
     }
 
-    public List<Autor> getAutorList() {
-        return autorList;
-    }
-
-    public void setAutorList(List<Autor> autorList) {
-        this.autorList = autorList;
-    }
-
     public Status getStatusIdStatus() {
         return statusIdStatus;
     }
@@ -139,12 +130,20 @@ public class Obra implements Serializable {
         this.tipoobraidtipoObra = tipoobraidtipoObra;
     }
 
-    public List<UsuarioExecutaObra> getUsuarioExecutaObraList() {
-        return usuarioExecutaObraList;
+    public List<Emprestimo> getEmprestimoList() {
+        return emprestimoList;
     }
 
-    public void setUsuarioExecutaObraList(List<UsuarioExecutaObra> usuarioExecutaObraList) {
-        this.usuarioExecutaObraList = usuarioExecutaObraList;
+    public void setEmprestimoList(List<Emprestimo> emprestimoList) {
+        this.emprestimoList = emprestimoList;
+    }
+
+    public List<AutorPublicaObra> getAutorPublicaObraList() {
+        return autorPublicaObraList;
+    }
+
+    public void setAutorPublicaObraList(List<AutorPublicaObra> autorPublicaObraList) {
+        this.autorPublicaObraList = autorPublicaObraList;
     }
 
     @Override

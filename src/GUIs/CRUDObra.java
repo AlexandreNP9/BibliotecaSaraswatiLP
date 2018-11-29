@@ -262,10 +262,10 @@ public class CRUDObra extends JDialog {
                     textFieldId.requestFocus();
                     textFieldId.selectAll();
                 } else {
-                    obra.setIdObra(textFieldId.getText());
+                    obra.setIdObra(Integer.parseInt(textFieldId.getText()));
                     obra = cl.obter(obra.getIdObra());
                     if (obra != null) { //se encontrou na lista
-                        textFieldNome.setText(obra.getTituloObra());
+                        textFieldNome.setText(obra.getNomeObra());
                         textFieldAno.setText(sdf.format(obra.getAnoObra()));
                         textFieldQuantidade.setText(String.valueOf(obra.getQuantidadeObra()));
                         textFieldObservacoes.setText(obra.getObservacoesObra());
@@ -313,8 +313,8 @@ public class CRUDObra extends JDialog {
             ) {
                 if (acao.equals("insert")) {
                     obra = new Obra();
-                    obra.setIdObra(textFieldId.getText());
-                    obra.setTituloObra(textFieldNome.getText());
+                    obra.setIdObra(Integer.parseInt(textFieldId.getText()));
+                    obra.setNomeObra(textFieldNome.getText());
                     try {
                         obra.setAnoObra(sdf.parse(textFieldAno.getText()));
 
@@ -340,8 +340,8 @@ public class CRUDObra extends JDialog {
                     atvBotoes(false, true, false, false);
                     labelAviso.setText("Registro inserido...");
                 } else {  //acao = update
-                    obra.setIdObra(textFieldId.getText());
-                    obra.setTituloObra(textFieldNome.getText());
+                    obra.setIdObra(Integer.parseInt(textFieldId.getText()));
+                    obra.setNomeObra(textFieldNome.getText());
                     try {
                         obra.setAnoObra(sdf.parse(textFieldAno.getText()));
 

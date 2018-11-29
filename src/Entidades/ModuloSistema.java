@@ -36,7 +36,7 @@ public class ModuloSistema implements Serializable {
     @Basic(optional = false)
     @Column(name = "nome_modulo_sistema")
     private String nomeModuloSistema;
-    @JoinTable(name = "tipo_usuario_has_modulo_sistema", joinColumns = {
+    @JoinTable(name = "modulo_sistema_has_tipo_usuario", joinColumns = {
         @JoinColumn(name = "modulo_sistema_id_modulo_sistema", referencedColumnName = "id_modulo_sistema")}, inverseJoinColumns = {
         @JoinColumn(name = "tipo_usuario_id_tipo_usuario", referencedColumnName = "id_tipo_usuario")})
     @ManyToMany

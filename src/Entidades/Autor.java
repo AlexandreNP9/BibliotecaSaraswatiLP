@@ -9,14 +9,13 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -51,11 +50,8 @@ public class Autor implements Serializable {
     private Date falecimentoAutor;
     @Column(name = "imagem_autor")
     private String imagemAutor;
-    @JoinTable(name = "obra_has_autor", joinColumns = {
-        @JoinColumn(name = "autor_id_autor", referencedColumnName = "id_autor")}, inverseJoinColumns = {
-        @JoinColumn(name = "obra_id_obra", referencedColumnName = "id_obra")})
-    @ManyToMany
-    private List<Obra> obraList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "autorIdAutor")
+    private List<AutorPublicaObra> autorPublicaObraList;
 
     public Autor() {
     }
@@ -119,12 +115,12 @@ public class Autor implements Serializable {
         this.imagemAutor = imagemAutor;
     }
 
-    public List<Obra> getObraList() {
-        return obraList;
+    public List<AutorPublicaObra> getAutorPublicaObraList() {
+        return autorPublicaObraList;
     }
 
-    public void setObraList(List<Obra> obraList) {
-        this.obraList = obraList;
+    public void setAutorPublicaObraList(List<AutorPublicaObra> autorPublicaObraList) {
+        this.autorPublicaObraList = autorPublicaObraList;
     }
 
     @Override

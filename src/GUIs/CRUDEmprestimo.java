@@ -9,6 +9,6 @@ package GUIs;
  *
  * @author a1602896
  */
-public class CRUDUsuarioExecutaObra {
+public class CRUDEmprestimo {
     
 }

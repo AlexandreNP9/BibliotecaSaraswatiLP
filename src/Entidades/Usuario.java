@@ -43,8 +43,8 @@ public class Usuario implements Serializable {
     @Basic(optional = false)
     @Column(name = "senha_usuario")
     private String senhaUsuario;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuario")
-    private List<UsuarioExecutaObra> usuarioExecutaObraList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuarioIdUsuario")
+    private List<Emprestimo> emprestimoList;
     @JoinColumn(name = "tipo_usuario_id_tipo_usuario", referencedColumnName = "id_tipo_usuario")
     @ManyToOne(optional = false)
     private TipoUsuario tipoUsuarioIdTipoUsuario;
@@ -95,12 +95,12 @@ public class Usuario implements Serializable {
         this.senhaUsuario = senhaUsuario;
     }
 
-    public List<UsuarioExecutaObra> getUsuarioExecutaObraList() {
-        return usuarioExecutaObraList;
+    public List<Emprestimo> getEmprestimoList() {
+        return emprestimoList;
     }
 
-    public void setUsuarioExecutaObraList(List<UsuarioExecutaObra> usuarioExecutaObraList) {
-        this.usuarioExecutaObraList = usuarioExecutaObraList;
+    public void setEmprestimoList(List<Emprestimo> emprestimoList) {
+        this.emprestimoList = emprestimoList;
     }
 
     public TipoUsuario getTipoUsuarioIdTipoUsuario() {

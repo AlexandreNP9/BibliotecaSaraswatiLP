@@ -45,7 +45,7 @@ public class DAOObra extends DAOGenerico<Obra> {
 
         List<String> ls = new ArrayList<>();
         for (int i = 0; i < lf.size(); i++) {
-            ls.add(lf.get(i).getIdObra() + "-" + lf.get(i).getTituloObra());
+            ls.add(lf.get(i).getIdObra() + "-" + lf.get(i).getNomeObra());
         }
         return ls;
     }

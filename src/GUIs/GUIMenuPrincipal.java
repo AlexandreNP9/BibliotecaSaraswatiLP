@@ -37,9 +37,9 @@ public class GUIMenuPrincipal extends JFrame {
     private JMenuItem crudObra = new JMenuItem("Obra");
     private JMenuItem crudUsuario = new JMenuItem("Usuário");
     
-    private JMenuItem crudTipoUsuarioHasModuloSistema = new JMenuItem("Tipo Usuario Has Modulo Sistema");
-    private JMenuItem crudObraHasAutor = new JMenuItem("Obra Has Autor");
-    private JMenuItem crudUsuarioExecutaObra = new JMenuItem("Usuario Executa Obra");
+    private JMenuItem crudModuloSistemaHasTipoUsuario = new JMenuItem("Modulo Sistema Has Tipo Usuario");
+    private JMenuItem crudAutorPublicaObra = new JMenuItem("Autor Publica Obra");
+    private JMenuItem crudEmprestimo = new JMenuItem("Empréstimo");
     
     public GUIMenuPrincipal() {
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -67,9 +67,9 @@ public class GUIMenuPrincipal extends JFrame {
         menuCadastros.add(crudTipoUsuario);
         menuCadastros.add(crudObra);
         menuCadastros.add(crudUsuario);
-        menuCadastros.add(crudObraHasAutor);
-        menuCadastros.add(crudTipoUsuarioHasModuloSistema);
-        menuCadastros.add(crudUsuarioExecutaObra);
+        menuCadastros.add(crudAutorPublicaObra);
+        menuCadastros.add(crudModuloSistemaHasTipoUsuario);
+        menuCadastros.add(crudEmprestimo);
         
         crudModulo.addActionListener(new ActionListener() {
             @Override
@@ -120,17 +120,24 @@ public class GUIMenuPrincipal extends JFrame {
             }
         });
         
-        crudTipoUsuarioHasModuloSistema.addActionListener(new ActionListener() {
+        crudModuloSistemaHasTipoUsuario.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                CRUDTipoUsuarioHasModuloSistema crudTipoUsuarioHasModuloSistema1 = new CRUDTipoUsuarioHasModuloSistema();
+                CRUDModuloSistemaHasTipoUsuario crudModuloSistemaHasTipoUsuario1 = new CRUDModuloSistemaHasTipoUsuario();
             }
         });
         
-        crudUsuarioExecutaObra.addActionListener(new ActionListener() {
+        crudAutorPublicaObra.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                CRUDUsuarioExecutaObra crudUsuarioExecutaObra1 = new CRUDUsuarioExecutaObra();
+                CRUDAutorPublicaObra crudAutorPublicaObra1 = new CRUDAutorPublicaObra();
+            }
+        });
+        
+        crudEmprestimo.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                CRUDEmprestimo crudEmprestimo1 = new CRUDEmprestimo();
             }
         });
 
