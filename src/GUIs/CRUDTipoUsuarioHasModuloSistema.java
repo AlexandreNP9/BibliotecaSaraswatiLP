@@ -24,6 +24,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JList;
@@ -31,6 +32,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.JToolBar;
+import javax.swing.ListSelectionModel;
 import javax.swing.WindowConstants;
 import myUtil.JanelaPesquisar;
 
@@ -117,6 +119,25 @@ public class CRUDTipoUsuarioHasModuloSistema extends JDialog {
     }
 
     public CRUDTipoUsuarioHasModuloSistema() {
+        JList lista = new JList();
+
+        // Define o renderizador de células  
+        lista.setCellRenderer(new CheckBoxCellRenderer());
+
+        List<ModuloSistema> listaModulo = daoModuloSistema.list();
+
+        Object[] cbArray = new Object[listaModulo.size()];
+        for (int i = 0; i < listaModulo.size(); i++) {
+            cbArray[i] = new JCheckBox(listaModulo.get(i).getNomeModuloSistema());
+        }
+
+        // Atribue os itens à lista    
+        lista.setListData(cbArray);
+        // Define a seleção única para a lista    
+        lista.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+
+        
+        
         setTitle("TIPO DE USUÁRIO RECEBE MÓDULO DO SISTEMA");
         setSize(600, 400);//tamanho da janela
         setLayout(new BorderLayout());//informa qual gerenciador de layout será usado
@@ -203,8 +224,7 @@ public class CRUDTipoUsuarioHasModuloSistema extends JDialog {
         btnRetrieve.addActionListener(
                 new ActionListener() {
             @Override
-            public void actionPerformed(ActionEvent ae
-            ) {
+            public void actionPerformed(ActionEvent ae) {
                 tipoUsuarioHasModuloSistema = new TipoUsuarioHasModuloSistema();
                 textFieldId.setText(textFieldId.getText().trim());//caso tenham sido digitados espaços
 

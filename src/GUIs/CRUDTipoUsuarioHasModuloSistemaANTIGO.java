@@ -168,7 +168,7 @@ public class CRUDTipoUsuarioHasModuloSistemaANTIGO extends JDialog {
         btnCancel.setVisible(false);  //atributos
 
         JPanel centro = new JPanel();
-        centro.setLayout(new GridLayout(3, 2));
+        centro.setLayout(new GridLayout(4, 2));
         centro.add(labelId);
         centro.add(textFieldId);
         centro.add(labelTipoUsuario);
