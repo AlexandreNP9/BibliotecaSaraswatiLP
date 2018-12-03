@@ -1,17 +1,17 @@
 package DAOs;
 
 import Entidades.ModuloSistema;
-import java.util.ArrayList;
+import Entidades.TipoUsuarioHasModuloSistema;
 import java.util.List;
 
-public class DAOModuloSistemaHasTipoUsuario extends DAOGenerico<ModuloSistema> {
+public class DAOTipoUsuarioHasModuloSistema extends DAOGenerico<TipoUsuarioHasModuloSistema> {
 
-    public DAOModuloSistemaHasTipoUsuario() {
+    public DAOTipoUsuarioHasModuloSistema() {
         super(ModuloSistema.class);
     }
 
     public int autoIdModuloSistemaHasTipoUsuario() {
-        Integer a = (Integer) em.createQuery("SELECT MAX(e.idModuloSistemaHasTipoUsuario) FROM ModuloSistemaHasTipoUsuario e ").getSingleResult();
+        Integer a = (Integer) em.createQuery("SELECT MAX(e.idTipoUsuarioHasModuloSistema) FROM TipoUsuarioHasModuloSistema e ").getSingleResult();
         if (a != null) {
             return a + 1;
         } else {
@@ -23,16 +23,16 @@ public class DAOModuloSistemaHasTipoUsuario extends DAOGenerico<ModuloSistema> {
 //        return em.createQuery("SELECT e FROM ModuloSistemaHasTipoUsuario e WHERE e.nomeModuloSistemaHasTipoUsuario LIKE :nome").setParameter("nome", "%" + nome + "%").getResultList();
 //    }
 
-    public List<ModuloSistema> listById(int id) {
-        return em.createQuery("SELECT e FROM ModuloSistemaHasTipoUsuario e WHERE e.idModuloSistemaHasTipoUsuario = :id").setParameter("id", id).getResultList();
+    public List<TipoUsuarioHasModuloSistema> listById(int id) {
+        return em.createQuery("SELECT e FROM TipoUsuarioHasModuloSistema e WHERE e.idTipoUsuarioHasModuloSistema = :id").setParameter("id", id).getResultList();
     }
 
 //    public List<ModuloSistemaHasTipoUsuario> listInOrderNome() {
 //        return em.createQuery("SELECT e FROM ModuloSistemaHasTipoUsuario e ORDER BY e.nomeModuloSistemaHasTipoUsuario").getResultList();
 //    }
 
-    public List<ModuloSistema> listInOrderId() {
-        return em.createQuery("SELECT e FROM ModuloSistemaHasTipoUsuario e ORDER BY e.idModuloSistemaHasTipoUsuario").getResultList();
+    public List<TipoUsuarioHasModuloSistema> listInOrderId() {
+        return em.createQuery("SELECT e FROM TipoUsuarioHasModuloSistema e ORDER BY e.idTipoUsuarioHasModuloSistema").getResultList();
     }
 
 //    public List<String> listInOrderNomeStrings(String qualOrdem) {

@@ -5,7 +5,7 @@
  */
 package GUIs;
 
-import Entidades.AutorPublicaObra;
+import Entidades.Emprestimo;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Container;
@@ -27,7 +27,7 @@ public class ListagemEmprestimo extends JDialog {
     ScrollPane scroll = new ScrollPane();
     JTextArea ta = new JTextArea();
 
-    public ListagemEmprestimo(List<AutorPublicaObra> texto) {
+    public ListagemEmprestimo(List<Emprestimo> texto) {
         setTitle("Listagem");
         setSize(500, 180);//tamanho da janela
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);//libera ao sair (tira da memória a classe

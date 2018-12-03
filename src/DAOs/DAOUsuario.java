@@ -45,7 +45,7 @@ public class DAOUsuario extends DAOGenerico<Usuario> {
 
         List<String> ls = new ArrayList<>();
         for (int i = 0; i < lf.size(); i++) {
-            ls.add(lf.get(i).getLoginUsuario() + "-" + lf.get(i).getNomeUsuario());
+            ls.add(lf.get(i).getIdUsuario()+ "-" + lf.get(i).getLoginUsuario());
         }
         return ls;
     }

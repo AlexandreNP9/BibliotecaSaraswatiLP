@@ -2,6 +2,7 @@ package GUIs;
 
 import DAOs.DAOModuloSistema;
 import DAOs.DAOTipoUsuario;
+import DAOs.DAOTipoUsuarioHasModuloSistema;
 import Entidades.ModuloSistema;
 import Entidades.TipoUsuario;
 import Entidades.TipoUsuarioHasModuloSistema;
@@ -29,7 +30,6 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.JToolBar;
 import javax.swing.ListSelectionModel;
@@ -64,6 +64,9 @@ public class CRUDTipoUsuarioHasModuloSistema extends JDialog {
     JPanel aviso = new JPanel();
     JLabel labelAviso = new JLabel("");
     String acao = "";//variavel para facilitar insert e update
+    
+    DAOTipoUsuarioHasModuloSistema cl = new DAOTipoUsuarioHasModuloSistema();
+    
     DAOTipoUsuario daoTipoUsuario = new DAOTipoUsuario();
     DAOModuloSistema daoModuloSistema = new DAOModuloSistema();
 
@@ -94,13 +97,13 @@ public class CRUDTipoUsuarioHasModuloSistema extends JDialog {
         btnCancel.setVisible(!visivel);
     }
 
-    private void habilitarAtributos(boolean idTipoUsuarioHasModuloSistema, boolean idTipoUsuario, boolean idModuloSistema) {
-        if (idTipoUsuarioHasModuloSistema) {
+    private void habilitarAtributos(boolean id, boolean idTipoUsuario, boolean idModuloSistema) {
+        if (id) {
             textFieldId.requestFocus();
             textFieldId.selectAll();
         }
-        textFieldId.setEnabled(idTipoUsuarioHasModuloSistema);
-        textFieldId.setEditable(idTipoUsuarioHasModuloSistema);
+        textFieldId.setEnabled(id);
+        textFieldId.setEditable(id);
         textFieldTipoUsuario.setEditable(idTipoUsuario);
         textFieldModuloSistema.setEditable(idModuloSistema);
     }
@@ -217,23 +220,23 @@ public class CRUDTipoUsuarioHasModuloSistema extends JDialog {
                     if (tipoUsuarioHasModuloSistema != null) { //se encontrou na lista
                         TipoUsuario tipoUsuario = daoTipoUsuario.obter(tipoUsuarioHasModuloSistema.getTipoUsuarioIdTipoUsuario().getIdTipoUsuario());
                         
-                        int aux = moduloSistema.getTipoUsuarioList().size();
-                        String tipo = "";
-                        String modulo = "";
-
-                        for (int i = 0; i < lista.getModel().getSize(); i++) {
-                            JCheckBox checkbox = (JCheckBox) lista.getModel().getElementAt(i);
-                            if (moduloSistema[i] == true) {
-                                checkbox.setSelected(true);
-                            } else {
-                                checkbox.setSelected(false);
-                            }
-                        }
-
+//                        int aux = moduloSistema.getIdModuloSistema().size();
+//                        String tipo = "";
+//                        String modulo = "";
+//
+//                        for (int i = 0; i < lista.getModel().getSize(); i++) {
+//                            JCheckBox checkbox = (JCheckBox) lista.getModel().getElementAt(i);
+//                            if (moduloSistema[i] == true) {
+//                                checkbox.setSelected(true);
+//                            } else {
+//                                checkbox.setSelected(false);
+//                            }
+//                        }
+//
 //                        textFieldModuloSistema.setText(moduloSistema.getTipoUsuarioList());
 //                        textFieldModuloSistema.setText(moduloSistema.getNomeModuloSistema());
                         atvBotoes(true, true, true, true);
-                        habilitarAtributos(true, false);
+                        habilitarAtributos(true, false, false);
                         labelAviso.setText("Encontrou - clic [Pesquisar], [Alterar] ou [Excluir]");
                         acao = "encontrou";
                         moduloSistemaOriginal = moduloSistema;
@@ -251,7 +254,7 @@ public class CRUDTipoUsuarioHasModuloSistema extends JDialog {
             @Override
             public void actionPerformed(ActionEvent ae) {
 
-                habilitarAtributos(false, true);
+                habilitarAtributos(false, true, true);
                 textFieldModuloSistema.requestFocus();
                 mostrarBotoes(false);
                 labelAviso.setText("Preencha os campos e clic [Salvar] ou clic [Cancelar]");
@@ -259,56 +262,56 @@ public class CRUDTipoUsuarioHasModuloSistema extends JDialog {
             }
         });
 
-        btnSave.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent ae) {
-                List<> mods = new List();
-                if (acao.equals("insert")) {
-                    moduloSistema = new ModuloSistema();
-
-                    String itens = "";
-                    /*
-           * Loop feito com FOR, para fazer uma varredura
-           * para obter quais itens estao marcados ou não
-                     */ for (int i = 0; i < lista.getModel().getSize(); i++) {
-                        JCheckBox checkbox = (JCheckBox) lista.getModel().getElementAt(i);
-                        if (checkbox.isSelected()) {
-                            mods[i].set(true);
-                        } else {
-                            mods[i].set(false);
-                        }
-                    }
-                    moduloSistema.setTipoUsuarioList(mods);
-                    JOptionPane.showMessageDialog(null, itens);
-
-                    moduloSistema.setIdModuloSistema(Integer.valueOf(textFieldTipoUsuario.getText()));
-                    moduloSistema.setNomeModuloSistema(textFieldModuloSistema.getText());
-
-                    daoModuloSistema.inserir(moduloSistema);
-                    habilitarAtributos(true, false);
-                    zerarAtributos();
-                    mostrarBotoes(true);
-                    atvBotoes(false, true, false, false);
-                    labelAviso.setText("Registro inserido...");
-                } else {  //acao = update
-                    moduloSistema.setIdModuloSistema(Integer.valueOf(textFieldTipoUsuario.getText()));
-                    moduloSistema.setNomeModuloSistema(textFieldModuloSistema.getText());
-
-                    daoModuloSistema.atualizar(moduloSistema);
-                    mostrarBotoes(true);
-                    habilitarAtributos(true, false);
-                    atvBotoes(false, true, false, false);
-                    zerarAtributos();
-                    labelAviso.setText("Registro atualizado...");
-                }
-            }
-        });
+//        btnSave.addActionListener(new ActionListener() {
+//            @Override
+//            public void actionPerformed(ActionEvent ae) {
+//                List<> mods = new List();
+//                if (acao.equals("insert")) {
+//                    moduloSistema = new ModuloSistema();
+//
+//                    String itens = "";
+//                    /*
+//           * Loop feito com FOR, para fazer uma varredura
+//           * para obter quais itens estao marcados ou não
+//                     */ for (int i = 0; i < lista.getModel().getSize(); i++) {
+//                        JCheckBox checkbox = (JCheckBox) lista.getModel().getElementAt(i);
+//                        if (checkbox.isSelected()) {
+//                            mods[i].set(true);
+//                        } else {
+//                            mods[i].set(false);
+//                        }
+//                    }
+//                    moduloSistema.setTipoUsuarioList(mods);
+//                    JOptionPane.showMessageDialog(null, itens);
+//
+//                    moduloSistema.setIdModuloSistema(Integer.valueOf(textFieldTipoUsuario.getText()));
+//                    moduloSistema.setNomeModuloSistema(textFieldModuloSistema.getText());
+//
+//                    daoModuloSistema.inserir(moduloSistema);
+//                    habilitarAtributos(true, false, false);
+//                    zerarAtributos();
+//                    mostrarBotoes(true);
+//                    atvBotoes(false, true, false, false);
+//                    labelAviso.setText("Registro inserido...");
+//                } else {  //acao = update
+//                    moduloSistema.setIdModuloSistema(Integer.valueOf(textFieldTipoUsuario.getText()));
+//                    moduloSistema.setNomeModuloSistema(textFieldModuloSistema.getText());
+//
+//                    daoModuloSistema.atualizar(moduloSistema);
+//                    mostrarBotoes(true);
+//                    habilitarAtributos(true, false, false);
+//                    atvBotoes(false, true, false, false);
+//                    zerarAtributos();
+//                    labelAviso.setText("Registro atualizado...");
+//                }
+//            }
+//        });
         btnCancel.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent ae) {
                 zerarAtributos();
                 atvBotoes(false, true, false, false);
-                habilitarAtributos(true, false);
+                habilitarAtributos(true, false, false);
                 mostrarBotoes(true);
             }
         });
@@ -325,7 +328,7 @@ public class CRUDTipoUsuarioHasModuloSistema extends JDialog {
             public void actionPerformed(ActionEvent ae) {
                 acao = "update";
                 mostrarBotoes(false);
-                habilitarAtributos(false, true);
+                habilitarAtributos(false, true, true);
                 atvBotoes(false, true, false, false);
             }
         });
@@ -440,6 +443,6 @@ public class CRUDTipoUsuarioHasModuloSistema extends JDialog {
     }
 
     public static void main(String[] args) {
-        new CRUDTipoUsuarioRecebeModuloSistema();
+        new CRUDTipoUsuarioHasModuloSistema();
     }
 }

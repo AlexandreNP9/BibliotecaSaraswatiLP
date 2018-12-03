@@ -158,9 +158,6 @@ public class CRUDEmprestimo extends JDialog {
         centro.add(labelData);
         centro.add(textFieldData);
 
-        JPanel usuario = new JPanel();
-        usuario.setLayout(new GridLayout(4, 2));
-
         aviso.add(labelAviso);
         aviso.setBackground(Color.yellow);
         cp.add(Toolbar1, BorderLayout.NORTH);
@@ -270,8 +267,8 @@ public class CRUDEmprestimo extends JDialog {
                     emprestimo = new Emprestimo();
                     emprestimo.setIdEmprestimo(Integer.parseInt(textFieldId.getText()));
 
-                    String[] auxTO = textFieldUsuario.getText().split("-");
-                    Usuario usuario = new DAOUsuario().obter(Integer.valueOf(auxTO[0]));
+                    String[] auxU = textFieldUsuario.getText().split("-");
+                    Usuario usuario = new DAOUsuario().obter(Integer.valueOf(auxU[0]));
                     emprestimo.setUsuarioIdUsuario(usuario);
 
                     String[] auxS = textFieldObra.getText().split("-");
@@ -292,8 +289,8 @@ public class CRUDEmprestimo extends JDialog {
                 } else {  //acao = update
                     emprestimo.setIdEmprestimo(Integer.parseInt(textFieldId.getText()));
 
-                    String[] auxTO = textFieldUsuario.getText().split("-");
-                    Usuario usuario = new DAOUsuario().obter(Integer.valueOf(auxTO[0]));
+                    String[] auxU = textFieldUsuario.getText().split("-");
+                    Usuario usuario = new DAOUsuario().obter(Integer.valueOf(auxU[0]));
                     emprestimo.setUsuarioIdUsuario(usuario);
 
                     String[] auxS = textFieldObra.getText().split("-");
