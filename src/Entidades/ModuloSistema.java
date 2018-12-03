@@ -8,14 +8,13 @@ package Entidades;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
@@ -36,11 +35,8 @@ public class ModuloSistema implements Serializable {
     @Basic(optional = false)
     @Column(name = "nome_modulo_sistema")
     private String nomeModuloSistema;
-    @JoinTable(name = "modulo_sistema_has_tipo_usuario", joinColumns = {
-        @JoinColumn(name = "modulo_sistema_id_modulo_sistema", referencedColumnName = "id_modulo_sistema")}, inverseJoinColumns = {
-        @JoinColumn(name = "tipo_usuario_id_tipo_usuario", referencedColumnName = "id_tipo_usuario")})
-    @ManyToMany
-    private List<TipoUsuario> tipoUsuarioList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "moduloSistemaIdModuloSistema")
+    private List<TipoUsuarioHasModuloSistema> tipoUsuarioHasModuloSistemaList;
 
     public ModuloSistema() {
     }
@@ -70,12 +66,12 @@ public class ModuloSistema implements Serializable {
         this.nomeModuloSistema = nomeModuloSistema;
     }
 
-    public List<TipoUsuario> getTipoUsuarioList() {
-        return tipoUsuarioList;
+    public List<TipoUsuarioHasModuloSistema> getTipoUsuarioHasModuloSistemaList() {
+        return tipoUsuarioHasModuloSistemaList;
     }
 
-    public void setTipoUsuarioList(List<TipoUsuario> tipoUsuarioList) {
-        this.tipoUsuarioList = tipoUsuarioList;
+    public void setTipoUsuarioHasModuloSistemaList(List<TipoUsuarioHasModuloSistema> tipoUsuarioHasModuloSistemaList) {
+        this.tipoUsuarioHasModuloSistemaList = tipoUsuarioHasModuloSistemaList;
     }
 
     @Override

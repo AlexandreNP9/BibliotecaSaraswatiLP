@@ -123,7 +123,7 @@ public class GUIMenuPrincipal extends JFrame {
         crudModuloSistemaHasTipoUsuario.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                CRUDModuloSistemaHasTipoUsuario crudModuloSistemaHasTipoUsuario1 = new CRUDModuloSistemaHasTipoUsuario();
+                CRUDTipoUsuarioHasModuloSistema crudModuloSistemaHasTipoUsuario1 = new CRUDTipoUsuarioHasModuloSistema();
             }
         });
         

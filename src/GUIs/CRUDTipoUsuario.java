@@ -2,8 +2,6 @@ package GUIs;
 
 import DAOs.DAOTipoUsuario;
 import Entidades.TipoUsuario;
-import static com.sun.glass.ui.Cursor.setVisible;
-import static com.sun.java.accessibility.util.AWTEventMonitor.addWindowListener;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Container;
@@ -41,10 +39,10 @@ public class CRUDTipoUsuario extends JDialog {
     JButton btnCancel = new JButton(iconeCancel);
     JButton btnList = new JButton(iconeListar);
 
-    JLabel labelIdTipoUsuario = new JLabel("Id");
-    JTextField textFieldIdTipoUsuario = new JTextField(0);
-    JLabel labelNomeTipoUsuario = new JLabel("Nome");
-    JTextField textFieldNomeTipoUsuario = new JTextField(40);
+    JLabel labelId = new JLabel("Id");
+    JTextField textFieldId = new JTextField(0);
+    JLabel labelNome = new JLabel("Nome");
+    JTextField textFieldNome = new JTextField(40);
 
     JPanel aviso = new JPanel();
     JLabel labelAviso = new JLabel("");
@@ -73,21 +71,27 @@ public class CRUDTipoUsuario extends JDialog {
 
     private void habilitarAtributos(boolean id, boolean nome) {
         if (id) {
-            textFieldIdTipoUsuario.requestFocus();
-            textFieldIdTipoUsuario.selectAll();
+            textFieldId.requestFocus();
+            textFieldId.selectAll();
         }
-        textFieldIdTipoUsuario.setEnabled(id);
+        textFieldId.setEnabled(id);
+        textFieldId.setEditable(id);
+        textFieldNome.setEditable(nome);
     }
-    
+
     public void zerarAtributos() {
-        //textFieldIdTipoUsuario.setText("");
-        textFieldIdTipoUsuario.setText("");
+        textFieldId.setText("");
+        textFieldNome.setText("");
+
     }
-    
-   
+
+    public void zerarAtributos2() {
+        textFieldNome.setText("");
+
+    }
 
     public CRUDTipoUsuario() {
-        setTitle("TIPO DE USUÁRIO");
+        setTitle("STATUS");
         setSize(600, 400);//tamanho da janela
         setLayout(new BorderLayout());//informa qual gerenciador de layout será usado
         setBackground(Color.CYAN);//cor do fundo da janela
@@ -103,8 +107,8 @@ public class CRUDTipoUsuario extends JDialog {
         btnSave.setToolTipText("Salvar");
         btnCancel.setToolTipText("Cancelar");
         JToolBar Toolbar1 = new JToolBar();
-        Toolbar1.add(labelIdTipoUsuario);
-        Toolbar1.add(textFieldIdTipoUsuario);
+        Toolbar1.add(labelId);
+        Toolbar1.add(textFieldId);
         Toolbar1.add(btnRetrieve);
         Toolbar1.add(btnCreate);
         Toolbar1.add(btnUpdate);
@@ -116,39 +120,38 @@ public class CRUDTipoUsuario extends JDialog {
         btnCancel.setVisible(false);  //atributos
         JPanel centro = new JPanel();
         centro.setLayout(new GridLayout(3, 2));
-        centro.add(labelIdTipoUsuario);
-        centro.add(textFieldIdTipoUsuario);
-        centro.add(labelNomeTipoUsuario);
-        centro.add(textFieldNomeTipoUsuario);
+        centro.add(labelId);
+        centro.add(textFieldId);
+        centro.add(labelNome);
+        centro.add(textFieldNome);
 
         aviso.add(labelAviso);
         aviso.setBackground(Color.yellow);
         cp.add(Toolbar1, BorderLayout.NORTH);
         cp.add(centro, BorderLayout.CENTER);
         cp.add(aviso, BorderLayout.SOUTH);
-        textFieldIdTipoUsuario.requestFocus();
-        textFieldIdTipoUsuario.selectAll();
-        textFieldIdTipoUsuario.setBackground(Color.GREEN);
+        textFieldId.requestFocus();
+        textFieldId.selectAll();
+        textFieldId.setBackground(Color.GREEN);
         labelAviso.setText("Digite uma placa e clic [Pesquisar]");
         setLocationRelativeTo(null); // posiciona no centro da tela principal
 
 // Listeners
-        
         btnRetrieve.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent ae) {
                 tipoUsuario = new TipoUsuario();
-                textFieldIdTipoUsuario.setText(textFieldIdTipoUsuario.getText().trim());//caso tenham sido digitados espaços
+                textFieldId.setText(textFieldId.getText().trim());//caso tenham sido digitados espaços
 
-                if (textFieldIdTipoUsuario.getText().equals("")) {
+                if (textFieldId.getText().equals("")) {
                     JOptionPane.showMessageDialog(null, "Deve ser informado um valor para esse campo");
-                    textFieldIdTipoUsuario.requestFocus();
-                    textFieldIdTipoUsuario.selectAll();
+                    textFieldId.requestFocus();
+                    textFieldId.selectAll();
                 } else {
-                    tipoUsuario.setIdTipoUsuario(Integer.valueOf(textFieldIdTipoUsuario.getText()));
+                    tipoUsuario.setIdTipoUsuario(Integer.valueOf(textFieldId.getText()));
                     tipoUsuario = cl.obter(tipoUsuario.getIdTipoUsuario());
                     if (tipoUsuario != null) { //se encontrou na lista
-                        textFieldIdTipoUsuario.setText(tipoUsuario.getNomeTipoUsuario());
+                        textFieldNome.setText(tipoUsuario.getNomeTipoUsuario());
 
                         atvBotoes(false, true, true, true);
                         habilitarAtributos(true, false);
@@ -157,7 +160,7 @@ public class CRUDTipoUsuario extends JDialog {
                         tipoUsuarioOriginal = tipoUsuario;
                     } else {
                         atvBotoes(true, true, false, false);
-                        zerarAtributos();
+                        zerarAtributos2();
 
                         labelAviso.setText("Não cadastrado - clic [Inserir] ou digite outra id [Pesquisar]");
                     }
@@ -170,7 +173,7 @@ public class CRUDTipoUsuario extends JDialog {
             public void actionPerformed(ActionEvent ae) {
 
                 habilitarAtributos(false, true);
-                textFieldIdTipoUsuario.requestFocus();
+                textFieldNome.requestFocus();
                 mostrarBotoes(false);
                 labelAviso.setText("Preencha os campos e clic [Salvar] ou clic [Cancelar]");
                 acao = "insert";
@@ -181,8 +184,8 @@ public class CRUDTipoUsuario extends JDialog {
             public void actionPerformed(ActionEvent ae) {
                 if (acao.equals("insert")) {
                     tipoUsuario = new TipoUsuario();
-                    tipoUsuario.setIdTipoUsuario(Integer.valueOf(textFieldIdTipoUsuario.getText()));
-                    tipoUsuario.setNomeTipoUsuario(textFieldIdTipoUsuario.getText());
+                    tipoUsuario.setIdTipoUsuario(Integer.valueOf(textFieldId.getText()));
+                    tipoUsuario.setNomeTipoUsuario(textFieldNome.getText());
 
                     cl.inserir(tipoUsuario);
                     habilitarAtributos(true, false);
@@ -190,10 +193,9 @@ public class CRUDTipoUsuario extends JDialog {
                     mostrarBotoes(true);
                     atvBotoes(false, true, false, false);
                     labelAviso.setText("Registro inserido...");
-                    textFieldIdTipoUsuario.setText("");
                 } else {  //acao = update
-                    tipoUsuario.setIdTipoUsuario(Integer.valueOf(textFieldIdTipoUsuario.getText()));
-                    tipoUsuario.setNomeTipoUsuario(textFieldIdTipoUsuario.getText());
+                    tipoUsuario.setIdTipoUsuario(Integer.valueOf(textFieldId.getText()));
+                    tipoUsuario.setNomeTipoUsuario(textFieldNome.getText());
 
                     cl.atualizar(tipoUsuario);
                     mostrarBotoes(true);
@@ -240,16 +242,16 @@ public class CRUDTipoUsuario extends JDialog {
                     labelAviso.setText("Registro excluído...");
                     cl.remover(tipoUsuario);
                     zerarAtributos();
-                    textFieldIdTipoUsuario.requestFocus();
-                    textFieldIdTipoUsuario.selectAll();
+                    textFieldId.requestFocus();
+                    textFieldId.selectAll();
                     atvBotoes(false, true, false, false);
                 }
             }
         });
-        textFieldIdTipoUsuario.addFocusListener(new FocusListener() {
+        textFieldId.addFocusListener(new FocusListener() {
             @Override
             public void focusGained(FocusEvent fe) {
-                textFieldIdTipoUsuario.setBackground(Color.GREEN);
+                textFieldId.setBackground(Color.GREEN);
                 if (acao != "encontrou") {
                     labelAviso.setText("Digite uma Id e clic [Pesquisar]");
                 }
@@ -257,29 +259,29 @@ public class CRUDTipoUsuario extends JDialog {
 
             @Override
             public void focusLost(FocusEvent fe) {
-                textFieldIdTipoUsuario.setBackground(Color.white);
+                textFieldId.setBackground(Color.white);
             }
         });
-        textFieldIdTipoUsuario.addFocusListener(new FocusListener() { //ao receber o foco, fica verde
+        textFieldId.addFocusListener(new FocusListener() { //ao receber o foco, fica verde
             @Override
             public void focusGained(FocusEvent fe) {
-                textFieldIdTipoUsuario.setBackground(Color.GREEN);
+                textFieldId.setBackground(Color.GREEN);
             }
 
             @Override
             public void focusLost(FocusEvent fe) { //ao perder o foco, fica branco
-                textFieldIdTipoUsuario.setBackground(Color.white);
+                textFieldId.setBackground(Color.white);
             }
         });
-        textFieldIdTipoUsuario.addFocusListener(new FocusListener() { //ao receber o foco, fica verde
+        textFieldNome.addFocusListener(new FocusListener() { //ao receber o foco, fica verde
             @Override
             public void focusGained(FocusEvent fe) {
-                textFieldIdTipoUsuario.setBackground(Color.GREEN);
+                textFieldNome.setBackground(Color.GREEN);
             }
 
             @Override
             public void focusLost(FocusEvent fe) { //ao perder o foco, fica branco
-                textFieldIdTipoUsuario.setBackground(Color.white);
+                textFieldNome.setBackground(Color.white);
             }
         });
         setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE); //antes de sair do sistema, grava os dados da lista em disco

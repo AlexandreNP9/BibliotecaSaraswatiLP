@@ -66,15 +66,6 @@ public class CRUDObra extends JDialog {
     JLabel labelStatus = new JLabel("Status");
     JTextField textFieldStatus = new JTextField(0);
     
-    JLabel labelAutor = new JLabel("Autor(es)");
-    
-    JLabel lblAcrescentarAutor = new JLabel("Acrescentar");
-    JButton btnAcrescentarAutor = new JButton(iconeSave);
-    JLabel lblRemoverAutor = new JLabel("Remover");
-    JButton btnRemoverAutor = new JButton(iconeDelete);
-    JLabel lblListarAutor = new JLabel("Cadastrado(s)");
-    JLabel lblAutorCadastrado = new JLabel();
-
     JPanel aviso = new JPanel();
     JLabel labelAviso = new JLabel("");
     String acao = "";//variavel para facilitar insert e update
@@ -172,7 +163,7 @@ public class CRUDObra extends JDialog {
         btnSave.setVisible(false);
         btnCancel.setVisible(false);  //atributos
         JPanel centro = new JPanel();
-        centro.setLayout(new GridLayout(8, 2));
+        centro.setLayout(new GridLayout(7, 2));
         centro.add(labelId);
         centro.add(textFieldId);
         centro.add(labelNome);
@@ -187,21 +178,10 @@ public class CRUDObra extends JDialog {
         centro.add(textFieldTipoObra);
         centro.add(labelStatus);
         centro.add(textFieldStatus);
-        centro.add(labelAutor);
-        
+    
         JPanel autor = new JPanel();
         autor.setLayout(new GridLayout(3, 2));
                     
-//        autor.add(lblListarAutor);
-//        autor.add(lblAutorCadastrado);
-//        autor.add(lblAcrescentarAutor);
-//        autor.add(btnAcrescentarAutor);
-//        autor.add(lblRemoverAutor);
-//        autor.add(btnRemoverAutor);
-        autor.add(btnRemoverAutor);
-        
-        centro.add(autor);
-    
         aviso.add(labelAviso);
         aviso.setBackground(Color.yellow);
         cp.add(Toolbar1, BorderLayout.NORTH);
@@ -424,13 +404,6 @@ public class CRUDObra extends JDialog {
             }
         }
         );
-        btnAcrescentarAutor.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                CRUDObraHasAutor crudObraHasAutor = new CRUDObraHasAutor();
-            }
-        });
-        
         textFieldId.addFocusListener(new FocusListener() {
             @Override
             public void focusGained(FocusEvent fe
