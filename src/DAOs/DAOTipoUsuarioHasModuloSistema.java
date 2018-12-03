@@ -1,13 +1,12 @@
 package DAOs;
 
-import Entidades.ModuloSistema;
 import Entidades.TipoUsuarioHasModuloSistema;
 import java.util.List;
 
 public class DAOTipoUsuarioHasModuloSistema extends DAOGenerico<TipoUsuarioHasModuloSistema> {
 
     public DAOTipoUsuarioHasModuloSistema() {
-        super(ModuloSistema.class);
+        super(TipoUsuarioHasModuloSistema.class);
     }
 
     public int autoIdModuloSistemaHasTipoUsuario() {

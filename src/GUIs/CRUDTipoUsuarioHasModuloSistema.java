@@ -15,16 +15,15 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JCheckBox;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JList;
@@ -32,7 +31,6 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.JToolBar;
-import javax.swing.ListSelectionModel;
 import javax.swing.WindowConstants;
 import myUtil.JanelaPesquisar;
 
@@ -52,32 +50,29 @@ public class CRUDTipoUsuarioHasModuloSistema extends JDialog {
     JButton btnSave = new JButton(iconeSave);
     JButton btnCancel = new JButton(iconeCancel);
     JButton btnList = new JButton(iconeListar);
-    JButton btn = new JButton("Obter itens marcados");
 
     JLabel labelId = new JLabel("Id");
-    JTextField textFieldId = new JTextField();
-    JLabel labelTipoUsuario = new JLabel("Tipo de Usuário");
+    JTextField textFieldId = new JTextField(45);
+    JLabel labelTipoUsuario = new JLabel("TipoUsuario");
     JTextField textFieldTipoUsuario = new JTextField(0);
-    JLabel labelModuloSistema = new JLabel("Módulo do Sistema");
-    JTextField textFieldModuloSistema = new JTextField(40);
+    JLabel labelModuloSistema = new JLabel("ModuloSistema");
+    JTextField textFieldModuloSistema = new JTextField(0);
+    JLabel labelData = new JLabel("Data (dd/MM/yyyy)");
+    JTextField textFieldData = new JTextField(0);
 
     JPanel aviso = new JPanel();
     JLabel labelAviso = new JLabel("");
     String acao = "";//variavel para facilitar insert e update
-    
     DAOTipoUsuarioHasModuloSistema cl = new DAOTipoUsuarioHasModuloSistema();
-    
-    DAOTipoUsuario daoTipoUsuario = new DAOTipoUsuario();
-    DAOModuloSistema daoModuloSistema = new DAOModuloSistema();
-
     TipoUsuarioHasModuloSistema tipoUsuarioHasModuloSistema;
     TipoUsuarioHasModuloSistema tipoUsuarioHasModuloSistemaOriginal;
     
-    ModuloSistema moduloSistema;
-    ModuloSistema moduloSistemaOriginal;
+    SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 
-    TipoUsuario tipoUsuario;
-    TipoUsuario tipoUsuarioOriginal;
+    DAOTipoUsuario daoTipoUsuario = new DAOTipoUsuario();
+    DAOModuloSistema daoModuloSistema = new DAOModuloSistema();
+
+    JList jList = new JList();
 
     private void atvBotoes(boolean c, boolean r, boolean u, boolean d) {
         btnCreate.setEnabled(c);
@@ -97,16 +92,16 @@ public class CRUDTipoUsuarioHasModuloSistema extends JDialog {
         btnCancel.setVisible(!visivel);
     }
 
-    private void habilitarAtributos(boolean id, boolean idTipoUsuario, boolean idModuloSistema) {
+    private void habilitarAtributos(boolean id, boolean tipoTipoUsuario, boolean moduloSistema) {
         if (id) {
             textFieldId.requestFocus();
             textFieldId.selectAll();
         }
         textFieldId.setEnabled(id);
         textFieldId.setEditable(id);
-        textFieldTipoUsuario.setEditable(idTipoUsuario);
-        textFieldModuloSistema.setEditable(idModuloSistema);
-    }
+        textFieldTipoUsuario.setEditable(tipoTipoUsuario);
+        textFieldModuloSistema.setEditable(moduloSistema);
+}
 
     public void zerarAtributos() {
         textFieldId.setText("");
@@ -122,24 +117,7 @@ public class CRUDTipoUsuarioHasModuloSistema extends JDialog {
     }
 
     public CRUDTipoUsuarioHasModuloSistema() {
-        JList lista = new JList();
-
-        // Define o renderizador de células  
-        lista.setCellRenderer(new CheckBoxCellRenderer());
-
-        List<ModuloSistema> listaModulo = daoModuloSistema.list();
-
-        Object[] cbArray = new Object[listaModulo.size()];
-        for (int i = 0; i < listaModulo.size(); i++) {
-            cbArray[i] = new JCheckBox(listaModulo.get(i).getNomeModuloSistema());
-        }
-
-        // Atribue os itens à lista    
-        lista.setListData(cbArray);
-        // Define a seleção única para a lista    
-        lista.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-
-        setTitle("TIPO USUÁRIO HAS MÓDULO DO SISTEMA");
+        setTitle("TIPO DE USUÁRIO RECEBE MÓDULO DO SISTEMA");
         setSize(600, 400);//tamanho da janela
         setLayout(new BorderLayout());//informa qual gerenciador de layout será usado
         setBackground(Color.CYAN);//cor do fundo da janela
@@ -155,8 +133,8 @@ public class CRUDTipoUsuarioHasModuloSistema extends JDialog {
         btnSave.setToolTipText("Salvar");
         btnCancel.setToolTipText("Cancelar");
         JToolBar Toolbar1 = new JToolBar();
-        Toolbar1.add(labelTipoUsuario);
-        Toolbar1.add(textFieldTipoUsuario);
+        Toolbar1.add(labelId);
+        Toolbar1.add(textFieldId);
         Toolbar1.add(btnRetrieve);
         Toolbar1.add(btnCreate);
         Toolbar1.add(btnUpdate);
@@ -166,23 +144,23 @@ public class CRUDTipoUsuarioHasModuloSistema extends JDialog {
         Toolbar1.add(btnList);
         btnSave.setVisible(false);
         btnCancel.setVisible(false);  //atributos
-
         JPanel centro = new JPanel();
         centro.setLayout(new GridLayout(3, 2));
         centro.add(labelId);
         centro.add(textFieldId);
         centro.add(labelTipoUsuario);
+        centro.add(textFieldTipoUsuario);
         centro.add(labelModuloSistema);
+        centro.add(textFieldModuloSistema);
         
         aviso.add(labelAviso);
-        aviso.add(btn);
         aviso.setBackground(Color.yellow);
         cp.add(Toolbar1, BorderLayout.NORTH);
         cp.add(centro, BorderLayout.CENTER);
         cp.add(aviso, BorderLayout.SOUTH);
-        textFieldTipoUsuario.requestFocus();
-        textFieldTipoUsuario.selectAll();
-        textFieldTipoUsuario.setBackground(Color.ORANGE);
+        textFieldId.requestFocus();
+        textFieldId.selectAll();
+        textFieldId.setBackground(Color.GREEN);
         labelAviso.setText("Digite uma placa e clic [Pesquisar]");
         setLocationRelativeTo(null); // posiciona no centro da tela principal
 
@@ -204,9 +182,29 @@ public class CRUDTipoUsuarioHasModuloSistema extends JDialog {
                 }
             }
         });
-        btnRetrieve.addActionListener(new ActionListener() {
+
+        textFieldModuloSistema.addActionListener(new ActionListener() {
             @Override
-            public void actionPerformed(ActionEvent ae) {
+            public void actionPerformed(ActionEvent e) {
+                List<String> listaAuxiliar = daoModuloSistema.listInOrderNomeStrings("id");
+                if (listaAuxiliar.size() > 0) {
+                    Point lc = textFieldModuloSistema.getLocationOnScreen();
+                    lc.x = lc.x + textFieldModuloSistema.getWidth();
+                    String selectedItem = new JanelaPesquisar(listaAuxiliar,
+                            lc.x,
+                            lc.y).getValorRetornado();
+                    if (!selectedItem.equals("")) {
+
+                        textFieldModuloSistema.setText(selectedItem);
+                    }
+                }
+            }
+        });
+        btnRetrieve.addActionListener(
+                new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent ae
+            ) {
                 tipoUsuarioHasModuloSistema = new TipoUsuarioHasModuloSistema();
                 textFieldId.setText(textFieldId.getText().trim());//caso tenham sido digitados espaços
 
@@ -218,228 +216,233 @@ public class CRUDTipoUsuarioHasModuloSistema extends JDialog {
                     tipoUsuarioHasModuloSistema.setIdTipoUsuarioHasModuloSistema(Integer.parseInt(textFieldId.getText()));
                     tipoUsuarioHasModuloSistema = cl.obter(tipoUsuarioHasModuloSistema.getIdTipoUsuarioHasModuloSistema());
                     if (tipoUsuarioHasModuloSistema != null) { //se encontrou na lista
-                        TipoUsuario tipoUsuario = daoTipoUsuario.obter(tipoUsuarioHasModuloSistema.getTipoUsuarioIdTipoUsuario().getIdTipoUsuario());
-                        
-//                        int aux = moduloSistema.getIdModuloSistema().size();
-//                        String tipo = "";
-//                        String modulo = "";
-//
-//                        for (int i = 0; i < lista.getModel().getSize(); i++) {
-//                            JCheckBox checkbox = (JCheckBox) lista.getModel().getElementAt(i);
-//                            if (moduloSistema[i] == true) {
-//                                checkbox.setSelected(true);
-//                            } else {
-//                                checkbox.setSelected(false);
-//                            }
-//                        }
-//
-//                        textFieldModuloSistema.setText(moduloSistema.getTipoUsuarioList());
-//                        textFieldModuloSistema.setText(moduloSistema.getNomeModuloSistema());
-                        atvBotoes(true, true, true, true);
+
+                        TipoUsuario tipoTipoUsuario = daoTipoUsuario.obter(tipoUsuarioHasModuloSistema.getTipoUsuarioIdTipoUsuario().getIdTipoUsuario());
+                        textFieldTipoUsuario.setText(tipoTipoUsuario.getIdTipoUsuario() + "-" + tipoTipoUsuario.getNomeTipoUsuario());
+
+                        ModuloSistema moduloSistema = daoModuloSistema.obter(tipoUsuarioHasModuloSistema.getModuloSistemaIdModuloSistema().getIdModuloSistema());
+                        textFieldModuloSistema.setText(moduloSistema.getIdModuloSistema() + "-" + moduloSistema.getNomeModuloSistema());
+                       
+                        atvBotoes(false, true, true, true);
                         habilitarAtributos(true, false, false);
                         labelAviso.setText("Encontrou - clic [Pesquisar], [Alterar] ou [Excluir]");
                         acao = "encontrou";
-                        moduloSistemaOriginal = moduloSistema;
+                        tipoUsuarioHasModuloSistemaOriginal = tipoUsuarioHasModuloSistema;
                     } else {
-                        atvBotoes(false, true, false, false);
+                        atvBotoes(true, true, false, false);
                         zerarAtributos2();
 
                         labelAviso.setText("Não cadastrado - clic [Inserir] ou digite outra id [Pesquisar]");
                     }
                 }
             }
-        });
+        }
+        );
 
-        btnCreate.addActionListener(new ActionListener() {
+        btnCreate.addActionListener(
+                new ActionListener() {
             @Override
-            public void actionPerformed(ActionEvent ae) {
+            public void actionPerformed(ActionEvent ae
+            ) {
 
                 habilitarAtributos(false, true, true);
-                textFieldModuloSistema.requestFocus();
+                textFieldTipoUsuario.requestFocus();
                 mostrarBotoes(false);
                 labelAviso.setText("Preencha os campos e clic [Salvar] ou clic [Cancelar]");
                 acao = "insert";
             }
-        });
-
-//        btnSave.addActionListener(new ActionListener() {
-//            @Override
-//            public void actionPerformed(ActionEvent ae) {
-//                List<> mods = new List();
-//                if (acao.equals("insert")) {
-//                    moduloSistema = new ModuloSistema();
-//
-//                    String itens = "";
-//                    /*
-//           * Loop feito com FOR, para fazer uma varredura
-//           * para obter quais itens estao marcados ou não
-//                     */ for (int i = 0; i < lista.getModel().getSize(); i++) {
-//                        JCheckBox checkbox = (JCheckBox) lista.getModel().getElementAt(i);
-//                        if (checkbox.isSelected()) {
-//                            mods[i].set(true);
-//                        } else {
-//                            mods[i].set(false);
-//                        }
-//                    }
-//                    moduloSistema.setTipoUsuarioList(mods);
-//                    JOptionPane.showMessageDialog(null, itens);
-//
-//                    moduloSistema.setIdModuloSistema(Integer.valueOf(textFieldTipoUsuario.getText()));
-//                    moduloSistema.setNomeModuloSistema(textFieldModuloSistema.getText());
-//
-//                    daoModuloSistema.inserir(moduloSistema);
-//                    habilitarAtributos(true, false, false);
-//                    zerarAtributos();
-//                    mostrarBotoes(true);
-//                    atvBotoes(false, true, false, false);
-//                    labelAviso.setText("Registro inserido...");
-//                } else {  //acao = update
-//                    moduloSistema.setIdModuloSistema(Integer.valueOf(textFieldTipoUsuario.getText()));
-//                    moduloSistema.setNomeModuloSistema(textFieldModuloSistema.getText());
-//
-//                    daoModuloSistema.atualizar(moduloSistema);
-//                    mostrarBotoes(true);
-//                    habilitarAtributos(true, false, false);
-//                    atvBotoes(false, true, false, false);
-//                    zerarAtributos();
-//                    labelAviso.setText("Registro atualizado...");
-//                }
-//            }
-//        });
-        btnCancel.addActionListener(new ActionListener() {
+        }
+        );
+        btnSave.addActionListener(new ActionListener() {
             @Override
-            public void actionPerformed(ActionEvent ae) {
+            public void actionPerformed(ActionEvent ae
+            ) {
+                if (acao.equals("insert")) {
+                    tipoUsuarioHasModuloSistema = new TipoUsuarioHasModuloSistema();
+                    tipoUsuarioHasModuloSistema.setIdTipoUsuarioHasModuloSistema(Integer.parseInt(textFieldId.getText()));
+
+                    String[] auxU = textFieldTipoUsuario.getText().split("-");
+                    TipoUsuario tipoTipoUsuario = new DAOTipoUsuario().obter(Integer.valueOf(auxU[0]));
+                    tipoUsuarioHasModuloSistema.setTipoUsuarioIdTipoUsuario(tipoTipoUsuario);
+
+                    String[] auxS = textFieldModuloSistema.getText().split("-");
+                    ModuloSistema moduloSistema = new DAOModuloSistema().obter(Integer.valueOf(auxS[0]));
+                    tipoUsuarioHasModuloSistema.setModuloSistemaIdModuloSistema(moduloSistema);
+                    
+                    cl.inserir(tipoUsuarioHasModuloSistema);
+                    habilitarAtributos(true, false, false);
+                    zerarAtributos();
+                    mostrarBotoes(true);
+                    atvBotoes(false, true, false, false);
+                    labelAviso.setText("Registro inserido...");
+                } else {  //acao = update
+                    tipoUsuarioHasModuloSistema.setIdTipoUsuarioHasModuloSistema(Integer.parseInt(textFieldId.getText()));
+
+                    String[] auxU = textFieldTipoUsuario.getText().split("-");
+                    TipoUsuario tipoTipoUsuario = new DAOTipoUsuario().obter(Integer.valueOf(auxU[0]));
+                    tipoUsuarioHasModuloSistema.setTipoUsuarioIdTipoUsuario(tipoTipoUsuario);
+
+                    String[] auxS = textFieldModuloSistema.getText().split("-");
+                    ModuloSistema moduloSistema = new DAOModuloSistema().obter(Integer.valueOf(auxS[0]));
+                    tipoUsuarioHasModuloSistema.setModuloSistemaIdModuloSistema(moduloSistema);
+                    
+                    cl.atualizar(tipoUsuarioHasModuloSistema);
+                    mostrarBotoes(true);
+                    habilitarAtributos(true, false, false);
+                    atvBotoes(false, true, false, false);
+                    zerarAtributos();
+                    labelAviso.setText("Registro atualizado...");
+                }
+            }
+        }
+        );
+        btnCancel.addActionListener(
+                new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent ae
+            ) {
                 zerarAtributos();
                 atvBotoes(false, true, false, false);
                 habilitarAtributos(true, false, false);
                 mostrarBotoes(true);
             }
-        });
-        btnList.addActionListener(new ActionListener() {
+        }
+        );
+        btnList.addActionListener(
+                new ActionListener() {
             @Override
-            public void actionPerformed(ActionEvent ae) {
+            public void actionPerformed(ActionEvent ae
+            ) {
 
                 acao = "list";
-                ListagemModuloSistema guiListagem = new ListagemModuloSistema(daoModuloSistema.list());
+                ListagemTipoUsuarioHasModuloSistema guiListagem = new ListagemTipoUsuarioHasModuloSistema(cl.list());
             }
-        });
-        btnUpdate.addActionListener(new ActionListener() {
+        }
+        );
+        btnUpdate.addActionListener(
+                new ActionListener() {
             @Override
-            public void actionPerformed(ActionEvent ae) {
+            public void actionPerformed(ActionEvent ae
+            ) {
                 acao = "update";
                 mostrarBotoes(false);
                 habilitarAtributos(false, true, true);
                 atvBotoes(false, true, false, false);
             }
-        });
+        }
+        );
 //---------------------------------------------------------
-        btnDelete.addActionListener(new ActionListener() {
+        btnDelete.addActionListener(
+                new ActionListener() {
             @Override
-            public void actionPerformed(ActionEvent ae) {
+            public void actionPerformed(ActionEvent ae
+            ) {
                 if (JOptionPane.YES_OPTION == JOptionPane.showConfirmDialog(null,
-                        "Confirma a exclusão do registro <ID = " + moduloSistema.getIdModuloSistema() + ">?", "Confirm",
+                        "Confirma a exclusão do registro <ID = " + tipoUsuarioHasModuloSistema.getIdTipoUsuarioHasModuloSistema()+ ">?", "Confirm",
                         JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE)) {
                     labelAviso.setText("Registro excluído...");
-                    daoModuloSistema.remover(moduloSistema);
+                    cl.remover(tipoUsuarioHasModuloSistema);
                     zerarAtributos();
-                    textFieldTipoUsuario.requestFocus();
-                    textFieldTipoUsuario.selectAll();
+                    textFieldId.requestFocus();
+                    textFieldId.selectAll();
                     atvBotoes(false, true, false, false);
                 }
             }
-        });
-        btn.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                String itens = "";
-                /*
-           * Loop feito com FOR, para fazer uma varredura
-           * para obter quais itens estao marcados ou não
-                 */ for (int i = 0; i < lista.getModel().getSize(); i++) {
-                    JCheckBox checkbox = (JCheckBox) lista.getModel().getElementAt(i);
-                    if (checkbox.isSelected()) {
-                        itens += "Item com índice " + i + " está marcado\n";
-                    } else {
-                        itens += "Item com índice " + i + " está desmarcado\n";
-                    }
-                }
-                JOptionPane.showMessageDialog(null, itens);
-            }
-        });
-        // Aqui nós permitimos que as checkboxes sejam marcadas
-        // ou desmarcadas com a barra de espaço  
-        lista.addKeyListener(new KeyAdapter() {
-            public void keyPressed(KeyEvent e) {
-                if (e.getKeyCode() == KeyEvent.VK_SPACE) {
-                    int index = lista.getSelectedIndex();
-                    if (index != -1) {
-                        JCheckBox checkbox = (JCheckBox) lista.getModel().getElementAt(index);
-                        checkbox.setSelected(!checkbox.isSelected());
-                        repaint();
-                    }
-                }
-            }
-        });
-
-        // Aqui nós permitimos que as checkboxes sejam marcadas
-        // ou desmarcadas com o mouse   
-        lista.addMouseListener(new MouseAdapter() {
-            public void mousePressed(MouseEvent e) {
-                int index = lista.locationToIndex(e.getPoint());
-                if (index != -1) {
-                    JCheckBox checkbox = (JCheckBox) lista.getModel().getElementAt(index);
-                    checkbox.setSelected(!checkbox.isSelected());
-                    repaint();
-                }
-            }
-        });
-        textFieldTipoUsuario.addFocusListener(new FocusListener() {
+        }
+        );
+        textFieldId.addFocusListener(new FocusListener() {
             @Override
-            public void focusGained(FocusEvent fe) {
-                textFieldTipoUsuario.setBackground(Color.ORANGE);
+            public void focusGained(FocusEvent fe
+            ) {
+                textFieldId.setBackground(Color.GREEN);
                 if (acao != "encontrou") {
                     labelAviso.setText("Digite uma Id e clic [Pesquisar]");
                 }
             }
 
             @Override
-            public void focusLost(FocusEvent fe) {
-                textFieldTipoUsuario.setBackground(Color.white);
+            public void focusLost(FocusEvent fe
+            ) {
+                textFieldId.setBackground(Color.white);
             }
-        });
-        textFieldTipoUsuario.addFocusListener(new FocusListener() { //ao receber o foco, fica verde
+        }
+        );
+        textFieldId.addFocusListener(
+                new FocusListener() { //ao receber o foco, fica verde
             @Override
-            public void focusGained(FocusEvent fe) {
+            public void focusGained(FocusEvent fe
+            ) {
+                textFieldId.setBackground(Color.GREEN);
+            }
+
+            @Override
+            public void focusLost(FocusEvent fe
+            ) { //ao perder o foco, fica branco
+                textFieldId.setBackground(Color.white);
+            }
+        }
+        );
+        textFieldTipoUsuario.addFocusListener(
+                new FocusListener() {
+            @Override
+            public void focusGained(FocusEvent e
+            ) {
                 textFieldTipoUsuario.setBackground(Color.ORANGE);
             }
 
             @Override
-            public void focusLost(FocusEvent fe) { //ao perder o foco, fica branco
+            public void focusLost(FocusEvent e
+            ) {
                 textFieldTipoUsuario.setBackground(Color.white);
             }
-        });
-        textFieldModuloSistema.addFocusListener(new FocusListener() { //ao receber o foco, fica verde
+        }
+        );
+        textFieldModuloSistema.addFocusListener(
+                new FocusListener() {
             @Override
-            public void focusGained(FocusEvent fe) {
+            public void focusGained(FocusEvent e
+            ) {
                 textFieldModuloSistema.setBackground(Color.ORANGE);
             }
 
             @Override
-            public void focusLost(FocusEvent fe) { //ao perder o foco, fica branco
+            public void focusLost(FocusEvent e
+            ) {
                 textFieldModuloSistema.setBackground(Color.white);
             }
-        });
-        setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE); //antes de sair do sistema, grava os dados da lista em disco
-        addWindowListener(new WindowAdapter() {
+        }
+        );
+        textFieldData.addFocusListener(new FocusListener() {
             @Override
-            public void windowClosing(WindowEvent e) {
+            public void focusGained(FocusEvent e) {
+                textFieldData.setBackground(Color.GREEN);
+            }
+
+            @Override
+            public void focusLost(FocusEvent e) {
+                textFieldData.setBackground(Color.white);
+            }
+        });
+
+        
+
+        setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE); //antes de sair do sistema, grava os dados da lista em disco
+        textFieldModuloSistema.getText();
+        addWindowListener(
+                new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e
+            ) {
                 // Sai do sistema  
                 dispose();
             }
-        });
+        }
+        );
+        setModal(
+                true);
 
-        setModal(true);
-
-        setVisible(true);//faz a janela ficar visível  
+        setVisible(
+                true);//faz a janela ficar visível  
     }
 
     public static void main(String[] args) {
